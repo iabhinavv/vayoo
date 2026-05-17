@@ -1,0 +1,735 @@
+import React, { useState } from 'react';
+import { 
+  Leaf, 
+  Wind, 
+  Activity, 
+  Car, 
+  Monitor, 
+  Home as HomeIcon,
+  Mail,
+  Phone,
+  ArrowRight,
+  ShieldCheck,
+  Zap,
+  Menu,
+  X,
+  Instagram,
+  Linkedin,
+  TrendingUp,
+  Target,
+  PieChart
+} from 'lucide-react';
+
+// --- ASSETS CONFIGURATION ---
+// IMPORTANT: To use your own images, replace these URLs with your local file paths.
+// Example: c10: './vayoo car air purifier insta.jpg'
+const ASSETS = {
+  logo: 'YOUR_LOGO_FILE_PATH.png', // <-- Add your logo file path here
+  c10: 'https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&q=80&w=800',
+  d10: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80&w=800',
+  r10: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=800',
+  heroGroup: 'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&q=80&w=1200',
+  founderPraful: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=600',
+  founderAbhinav: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=600'
+};
+
+// --- DATA ---
+const PRODUCTS = [
+  {
+    id: 'c10',
+    name: 'Vayoo C-10',
+    tagline: 'Portable Car Air Purifier',
+    price: '1,800',
+    coverage: '50-70 sq.ft.',
+    features: ['Aesthetic RGB Mood Lights', 'Vertical Wind Circulation', 'HEPA H-13 Filter', 'Low Noise'],
+    icon: Car,
+    image: ASSETS.c10,
+    glow: 'shadow-[0_0_40px_rgba(217,70,239,0.4)]'
+  },
+  {
+    id: 'd10',
+    name: 'Vayoo D-10',
+    tagline: 'Compact Desk Air Purifier',
+    price: '3,000',
+    coverage: '80-125 sq.ft.',
+    features: ['RGB Lights', 'Low-Noise Operation', 'HEPA H-13 Filter', 'Perfect for Workstations'],
+    icon: Monitor,
+    image: ASSETS.d10,
+    glow: 'shadow-[0_0_40px_rgba(56,189,248,0.4)]'
+  },
+  {
+    id: 'r10',
+    name: 'Vayoo R-10',
+    tagline: 'Premium Room Air Purifier',
+    price: '6,500',
+    coverage: '350-400 sq.ft.',
+    features: ['3-Modes', 'AQI-Meter Display', 'Low-Noise', 'HEPA H-13 Filter'],
+    icon: HomeIcon,
+    image: ASSETS.r10,
+    glow: 'shadow-[0_0_40px_rgba(168,85,247,0.4)]'
+  }
+];
+
+// --- COMPONENTS ---
+
+// A fallback image component to prevent broken images if URLs fail
+const SafeImage = ({ src, alt, className }) => {
+  const [imgSrc, setImgSrc] = useState(src);
+  return (
+    <img 
+      src={imgSrc} 
+      alt={alt} 
+      className={className}
+      onError={() => setImgSrc('https://images.unsplash.com/photo-1618090584126-129cd1f3f5bd?auto=format&fit=crop&q=80&w=800')} 
+    />
+  );
+};
+
+const Navbar = ({ currentPage, setCurrentPage }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const navLinks = [
+    { id: 'home', label: 'Home' },
+    { id: 'products', label: 'Products' },
+    { id: 'about', label: 'About Us' },
+    { id: 'contact', label: 'Contact' },
+  ];
+
+  return (
+    <nav className="sticky top-0 z-50 bg-[#0B0314]/90 backdrop-blur-md border-b border-purple-900/50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo Section */}
+          <div 
+            className="flex items-center cursor-pointer group" 
+            onClick={() => setCurrentPage('home')}
+          >
+            {/* Replace the text logo below with your image */}
+            <SafeImage 
+              src={ASSETS.logo} 
+              alt="Vayoo Logo" 
+              className="h-8 md:h-10 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]" 
+            />
+          </div>
+          
+          {/* Desktop Menu */}
+          <div className="hidden md:block">
+            <div className="ml-10 flex items-baseline space-x-8">
+              {navLinks.map((link) => (
+                <button
+                  key={link.id}
+                  onClick={() => setCurrentPage(link.id)}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
+                    currentPage === link.id
+                      ? 'text-white bg-purple-900/50'
+                      : 'text-gray-300 hover:text-white hover:bg-purple-800/30'
+                  }`}
+                >
+                  {link.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-gray-300 hover:text-white focus:outline-none"
+            >
+              {isOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="md:hidden bg-[#0F051C] border-b border-purple-900/50 pb-4 pt-2 px-4 space-y-2">
+          {navLinks.map((link) => (
+            <button
+              key={link.id}
+              onClick={() => {
+                setCurrentPage(link.id);
+                setIsOpen(false);
+              }}
+              className={`block w-full text-left px-4 py-3 rounded-md text-base font-medium ${
+                currentPage === link.id
+                  ? 'text-white bg-purple-900/50'
+                  : 'text-gray-300 hover:text-white hover:bg-purple-800/30'
+              }`}
+            >
+              {link.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </nav>
+  );
+};
+
+const Footer = ({ setCurrentPage }) => (
+  <footer className="bg-[#05010A] border-t border-purple-900/30 pt-16 pb-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+        <div>
+          <div className="flex items-center mb-6 cursor-pointer group" onClick={() => setCurrentPage('home')}>
+             {/* Replace the text logo below with your image */}
+             <SafeImage 
+               src={ASSETS.logo} 
+               alt="Vayoo Logo" 
+               className="h-8 object-contain" 
+             />
+          </div>
+          <p className="text-gray-400 mb-6 leading-relaxed">
+            Making pure air accessible for everyone by providing users Air Purifying Appliances for all use cases at the most affordable price-point.
+          </p>
+          <div className="flex space-x-4">
+            <a href="#" className="text-gray-400 hover:text-fuchsia-400 transition-colors"><Instagram className="w-6 h-6" /></a>
+            <a href="#" className="text-gray-400 hover:text-fuchsia-400 transition-colors"><Linkedin className="w-6 h-6" /></a>
+          </div>
+        </div>
+        
+        <div>
+          <h3 className="text-white text-lg font-semibold mb-4">Quick Links</h3>
+          <ul className="space-y-3">
+            <li><button onClick={() => setCurrentPage('products')} className="text-gray-400 hover:text-fuchsia-400 transition-colors">Our Products</button></li>
+            <li><button onClick={() => setCurrentPage('about')} className="text-gray-400 hover:text-fuchsia-400 transition-colors">Our Mission</button></li>
+            <li><button onClick={() => setCurrentPage('forinvestor')} className="text-gray-400 hover:text-fuchsia-400 transition-colors">Investor Relations</button></li>
+            <li><button onClick={() => setCurrentPage('contact')} className="text-gray-400 hover:text-fuchsia-400 transition-colors">Support</button></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 className="text-white text-lg font-semibold mb-4">Contact Us</h3>
+          <ul className="space-y-4">
+            <li className="flex items-start">
+              <Mail className="w-5 h-5 text-fuchsia-500 mr-3 mt-1" />
+              <span className="text-gray-400">abhinav@vayoo.store</span>
+            </li>
+            <li className="flex items-start">
+              <Phone className="w-5 h-5 text-fuchsia-500 mr-3 mt-1" />
+              <span className="text-gray-400">+91 7009979996</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div className="border-t border-purple-900/30 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <p className="text-gray-500 text-sm mb-4 md:mb-0">
+          © {new Date().getFullYear()} Vayoo Store. All rights reserved.
+        </p>
+        <div className="flex space-x-6 text-sm text-gray-500">
+          <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+          <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+);
+
+// --- PAGES ---
+
+const Home = ({ setCurrentPage }) => {
+  return (
+    <div className="animate-in fade-in duration-700">
+      {/* Hero Section */}
+      <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-[#0A0214]">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-fuchsia-600/20 rounded-full mix-blend-screen filter blur-[100px] animate-pulse"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-[30rem] h-[30rem] bg-indigo-600/20 rounded-full mix-blend-screen filter blur-[120px]"></div>
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+        </div>
+
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-12">
+          <div className="inline-flex items-center px-4 py-2 rounded-full border border-fuchsia-500/30 bg-fuchsia-500/10 text-fuchsia-300 text-sm font-medium mb-8">
+            <span className="flex h-2 w-2 rounded-full bg-fuchsia-500 mr-2 animate-ping"></span>
+            Revolutionizing Air Quality in India
+          </div>
+          <h1 className="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-6 leading-tight">
+            Purify the Most <br className="hidden md:block"/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-purple-400 to-indigo-400">
+              Essential Need - Air.
+            </span>
+          </h1>
+          <p className="mt-6 text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Every breath you take should be the cleanest and healthiest for your body and mind. 
+            Experience medical-grade HEPA H-13 filtration at the most affordable prices.
+          </p>
+          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+            <button 
+              onClick={() => setCurrentPage('products')}
+              className="px-8 py-4 bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white rounded-lg font-semibold text-lg hover:from-fuchsia-500 hover:to-purple-500 transition-all shadow-[0_0_20px_rgba(192,38,211,0.4)] flex items-center justify-center group"
+            >
+              Explore Products
+              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </button>
+            <button 
+              onClick={() => setCurrentPage('about')}
+              className="px-8 py-4 bg-white/5 border border-white/10 text-white rounded-lg font-semibold text-lg hover:bg-white/10 transition-all backdrop-blur-sm"
+            >
+              Our Mission
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* The Problem Section */}
+      <section className="py-24 bg-[#05010A] relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">The Catastrophe of Air Pollution</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+              Air pollution's effect cannot be understated. It impacts life expectancy, increases vulnerability to lung and heart diseases, and affects overall cognitive function.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { title: 'Household & Vehicular', desc: 'Diesel vehicles are a major source of black carbon. Open waste burning adds dioxins and heavy metals.', icon: Car },
+              { title: 'Agricultural & Deforestation', desc: 'Crop burning, pesticides, and fertilizers. Loss of forests reduces Earth\'s natural purification.', icon: Leaf },
+              { title: 'Industrial & Construction', desc: 'Factories, power plants, and poor waste disposal lead to asbestos and chemical pollution.', icon: Activity }
+            ].map((item, idx) => (
+              <div key={idx} className="bg-[#0F051C] border border-purple-900/30 p-8 rounded-2xl hover:border-fuchsia-500/50 transition-colors group">
+                <div className="w-14 h-14 bg-purple-900/40 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <item.icon className="w-7 h-7 text-fuchsia-400" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
+                <p className="text-gray-400 leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features / USP Section */}
+      <section className="py-24 bg-gradient-to-b from-[#0B0314] to-[#0F051C]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row items-center gap-16">
+            <div className="lg:w-1/2">
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Why Choose Vayoo?</h2>
+              <p className="text-gray-400 text-lg mb-8 leading-relaxed">
+                Current solutions offered by big MNCs are expensive and cater mostly to the upper class. We are changing that by bringing premium quality to everyone.
+              </p>
+              
+              <div className="space-y-6">
+                {[
+                  { title: 'HEPA H13 Filter', desc: 'Medical-grade filter capable of capturing 99.95% of airborne particles as small as 0.3 microns.', icon: ShieldCheck },
+                  { title: 'PM2.5 Clearance', desc: 'Clears up to 99.8% of PM2.5 pollutants effectively protecting your lungs.', icon: Wind },
+                  { title: 'Unmatched Pricing', desc: 'Starting from ₹1,800. Quality air shouldn\'t be a luxury.', icon: Zap }
+                ].map((feature, idx) => (
+                  <div key={idx} className="flex">
+                    <div className="flex-shrink-0 mt-1">
+                      <div className="w-10 h-10 rounded-full bg-fuchsia-500/20 flex items-center justify-center border border-fuchsia-500/30">
+                        <feature.icon className="w-5 h-5 text-fuchsia-400" />
+                      </div>
+                    </div>
+                    <div className="ml-4">
+                      <h4 className="text-lg font-bold text-white">{feature.title}</h4>
+                      <p className="mt-1 text-gray-400">{feature.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div className="lg:w-1/2 relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-fuchsia-600/20 to-indigo-600/20 rounded-full filter blur-[80px]"></div>
+              <SafeImage 
+                src={ASSETS.heroGroup} 
+                alt="Vayoo Air Purifiers Collection" 
+                className="relative z-10 rounded-3xl border border-purple-900/50 shadow-2xl w-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+const Products = () => {
+  return (
+    <div className="min-h-screen bg-[#0A0214] pt-12 pb-24 animate-in fade-in duration-700">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16 pt-10">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Our Air Purifiers</h1>
+          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            Purify the air around you anywhere. Our range ensures you breathe the purest air, whether driving, working, or sleeping.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          {PRODUCTS.map((product) => (
+            <div key={product.id} className="bg-[#0F051C] border border-purple-900/40 rounded-3xl overflow-hidden flex flex-col group hover:border-fuchsia-500/50 transition-all duration-300 shadow-xl">
+              {/* Image Container */}
+              <div className="relative h-72 bg-gradient-to-br from-[#1A0B2E] to-[#0A0214] flex items-center justify-center overflow-hidden">
+                <div className={`absolute w-3/4 h-3/4 bg-fuchsia-500/10 rounded-full filter blur-2xl ${product.glow}`}></div>
+                <SafeImage 
+                  src={product.image} 
+                  alt={product.name} 
+                  className="relative z-10 w-full h-full object-cover opacity-90 mix-blend-screen group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-4 left-4 z-20 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1 rounded-full flex items-center">
+                  <product.icon className="w-4 h-4 text-fuchsia-400 mr-2" />
+                  <span className="text-xs text-gray-200 font-medium">{product.coverage}</span>
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="p-8 flex flex-col flex-grow">
+                <div className="flex justify-between items-start mb-2">
+                  <div>
+                    <h3 className="text-2xl font-bold text-white">{product.name}</h3>
+                    <p className="text-fuchsia-400 font-medium">{product.tagline}</p>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-xs text-gray-500 block">Price</span>
+                    <span className="text-2xl font-bold text-white">₹{product.price}</span>
+                  </div>
+                </div>
+
+                <div className="mt-6 flex-grow">
+                  <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Key Features</h4>
+                  <ul className="space-y-2">
+                    {product.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-center text-gray-300 text-sm">
+                        <div className="w-1.5 h-1.5 rounded-full bg-fuchsia-500 mr-3"></div>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="mt-8 pt-6 border-t border-purple-900/30">
+                  <button 
+                    disabled 
+                    className="w-full py-4 rounded-xl font-bold tracking-wide border-2 border-purple-800 text-purple-300 opacity-60 cursor-not-allowed flex items-center justify-center uppercase"
+                  >
+                    Available Soon
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const About = () => {
+  return (
+    <div className="min-h-screen bg-[#0A0214] py-20 animate-in fade-in duration-700">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
+        
+        <div className="text-center mb-20">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">The Vayoo Story</h1>
+          <p className="text-xl text-gray-400 leading-relaxed">
+            The best time to make a change was yesterday, the second best time is Now!
+          </p>
+        </div>
+
+        <div className="space-y-16">
+          {/* Mission & Vision */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="bg-[#0F051C] p-8 rounded-2xl border border-purple-900/30">
+              <h3 className="text-2xl font-bold text-fuchsia-400 mb-4">Our Mission</h3>
+              <p className="text-gray-300 leading-relaxed">
+                To become India's Number One Clean-Tech Appliances brand and help India become more clean and fresh.
+              </p>
+            </div>
+            <div className="bg-[#0F051C] p-8 rounded-2xl border border-purple-900/30">
+              <h3 className="text-2xl font-bold text-cyan-400 mb-4">Our Vision</h3>
+              <p className="text-gray-300 leading-relaxed">
+                To enable India the birth-right of Pure Air to breathe, creating a better tomorrow for the future generation.
+              </p>
+            </div>
+          </div>
+
+          {/* Problem & Solution */}
+          <div className="relative p-10 bg-gradient-to-br from-purple-900/20 to-[#0F051C] rounded-3xl border border-fuchsia-500/20 overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-fuchsia-600/10 rounded-full filter blur-3xl"></div>
+            
+            <h2 className="text-3xl font-bold text-white mb-6">What are we solving & for Whom?</h2>
+            <p className="text-lg text-gray-300 mb-6 leading-relaxed">
+              We are solving the crisis of unbreathable air in metro cities of India. For the mass majority of Youth, Elderly and Children, who can't afford expensive purifiers, but deserve fresh air just as much as anyone.
+            </p>
+
+            <h2 className="text-3xl font-bold text-white mt-10 mb-6">Why Now & Why Us?</h2>
+            <p className="text-lg text-gray-300 mb-6 leading-relaxed">
+              Now more than ever we need fresh air especially for vulnerable groups. We are the perfect team for building this. Coming from cities where AQI was never a concern, the founding team faced this issue first when for work they had to shift to Delhi NCR. 
+            </p>
+
+            <h2 className="text-3xl font-bold text-white mt-10 mb-6">Our USP</h2>
+            <p className="text-lg text-gray-300 leading-relaxed">
+              Being the brand that is there for the masses, affordable for the masses and no compromise on quality, because not just you, but everyone deserves to "Breathe Better".
+            </p>
+          </div>
+
+          {/* Founders */}
+          <div>
+            <h2 className="text-3xl font-bold text-center text-white mb-10">Meet the Team</h2>
+            <p className="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
+              Our team comprises of our combined experiences in D2C businesses, Marketing, Finance and Startups. Other than our founders, we have a team of young enthusiasts running day-to-day operations.
+            </p>
+            
+            <div className="flex flex-col md:flex-row gap-10 justify-center">
+              {/* Praful */}
+              <div className="w-full md:w-[320px] group">
+                <div className="relative overflow-hidden rounded-3xl border-2 border-purple-900/50 shadow-2xl group-hover:border-fuchsia-500/50 transition-colors">
+                  <SafeImage 
+                    src={ASSETS.founderPraful} 
+                    alt="Praful Chauhan" 
+                    className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#0A0214] via-[#0A0214]/80 to-transparent p-6 pt-20">
+                    <h3 className="text-xl font-bold text-white mb-1">Praful Chauhan</h3>
+                    <p className="text-fuchsia-400 text-sm mb-3">Co-Founder</p>
+                    <a href="#" className="inline-block text-gray-400 hover:text-[#0077b5] transition-colors"><Linkedin className="w-5 h-5"/></a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Abhinav */}
+              <div className="w-full md:w-[320px] group">
+                <div className="relative overflow-hidden rounded-3xl border-2 border-purple-900/50 shadow-2xl group-hover:border-fuchsia-500/50 transition-colors">
+                  <SafeImage 
+                    src={ASSETS.founderAbhinav} 
+                    alt="Abhinav Verma" 
+                    className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#0A0214] via-[#0A0214]/80 to-transparent p-6 pt-20">
+                    <h3 className="text-xl font-bold text-white mb-1">Abhinav Verma</h3>
+                    <p className="text-fuchsia-400 text-sm mb-3">Co-Founder</p>
+                    <a href="#" className="inline-block text-gray-400 hover:text-[#0077b5] transition-colors"><Linkedin className="w-5 h-5"/></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Contact = () => {
+  return (
+    <div className="min-h-screen bg-[#0A0214] py-20 animate-in fade-in duration-700">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
+        
+        <div className="text-center mb-16">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">Get in Touch</h1>
+          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            Have questions about our products, need support, or want to partner with us? We'd love to hear from you.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+          
+          {/* Contact Information Cards */}
+          <div className="lg:col-span-1 space-y-6">
+            <div className="bg-[#0F051C] p-8 rounded-3xl border border-purple-900/50 shadow-2xl hover:border-fuchsia-500/30 transition-colors">
+              <div className="w-12 h-12 bg-fuchsia-500/20 rounded-xl flex items-center justify-center mb-6">
+                <Mail className="w-6 h-6 text-fuchsia-400" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Email Us</h3>
+              <p className="text-gray-400 mb-4 text-sm">Our team will get back to you within 24 hours.</p>
+              <a href="mailto:abhinav@vayoo.store" className="text-fuchsia-400 hover:text-fuchsia-300 font-medium break-all">abhinav@vayoo.store</a>
+            </div>
+
+            <div className="bg-[#0F051C] p-8 rounded-3xl border border-purple-900/50 shadow-2xl hover:border-fuchsia-500/30 transition-colors">
+              <div className="w-12 h-12 bg-fuchsia-500/20 rounded-xl flex items-center justify-center mb-6">
+                <Phone className="w-6 h-6 text-fuchsia-400" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Call Us</h3>
+              <p className="text-gray-400 mb-4 text-sm">Mon-Fri from 9am to 6pm IST.</p>
+              <a href="tel:+917009979996" className="text-fuchsia-400 hover:text-fuchsia-300 font-medium">+91 7009979996</a>
+            </div>
+          </div>
+
+          {/* Contact Form */}
+          <div className="lg:col-span-2 bg-[#0F051C] p-8 md:p-10 rounded-3xl border border-purple-900/50 shadow-2xl">
+            <h2 className="text-2xl font-bold text-white mb-8">Send us a message</h2>
+            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-400 mb-2">First Name</label>
+                  <input 
+                    type="text" 
+                    className="w-full bg-[#150826] border border-purple-900/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 transition-all"
+                    placeholder="John"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-400 mb-2">Last Name</label>
+                  <input 
+                    type="text" 
+                    className="w-full bg-[#150826] border border-purple-900/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 transition-all"
+                    placeholder="Doe"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-400 mb-2">Email Address</label>
+                <input 
+                  type="email" 
+                  className="w-full bg-[#150826] border border-purple-900/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 transition-all"
+                  placeholder="john@example.com"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-400 mb-2">Reason for Inquiry</label>
+                <select className="w-full bg-[#150826] border border-purple-900/50 rounded-lg px-4 py-3 text-gray-300 focus:outline-none focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 transition-all appearance-none">
+                  <option>General Support</option>
+                  <option>Product Information</option>
+                  <option>Bulk Order/Partnership</option>
+                  <option>Press/Media</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-400 mb-2">Message</label>
+                <textarea 
+                  rows="4"
+                  className="w-full bg-[#150826] border border-purple-900/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 transition-all"
+                  placeholder="How can we help you today?"
+                ></textarea>
+              </div>
+              <button 
+                type="submit"
+                className="w-full py-4 bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white rounded-lg font-bold text-lg hover:from-fuchsia-500 hover:to-purple-500 transition-all shadow-[0_0_20px_rgba(192,38,211,0.3)]"
+              >
+                Send Message
+              </button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+// Hidden Investor Page
+const ForInvestor = () => {
+  return (
+    <div className="min-h-screen bg-[#0A0214] py-20 animate-in fade-in duration-700">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
+        
+        {/* Header */}
+        <div className="text-center mb-20 relative">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-fuchsia-600/20 rounded-full blur-[100px] -z-10"></div>
+          <div className="inline-flex items-center px-4 py-2 rounded-full border border-fuchsia-500/30 bg-fuchsia-500/10 text-fuchsia-300 text-sm font-medium mb-6">
+            Confidential Investor Relations
+          </div>
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">Be a Part of the <span className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-indigo-400">Revolution</span></h1>
+          <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
+            Help India breathe better air. Vayoo is raising a Seed round to put our vision into execution and scale rapidly in an underserved market.
+          </p>
+        </div>
+
+        {/* The Ask */}
+        <div className="bg-gradient-to-br from-[#1A0B2E] to-[#0A0214] p-10 rounded-3xl border border-fuchsia-500/30 mb-16 relative overflow-hidden shadow-2xl">
+           <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-fuchsia-500/20 rounded-full blur-3xl"></div>
+           <h3 className="text-sm uppercase tracking-widest text-fuchsia-400 font-semibold mb-4">Investment Ask</h3>
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+             <div>
+               <div className="flex items-baseline gap-2 mb-2">
+                 <span className="text-5xl md:text-6xl font-extrabold text-white">₹50 Lac</span>
+               </div>
+               <p className="text-gray-300 text-xl mb-6">Seed Round for 10% equity</p>
+               <a 
+                 href="mailto:abhinav@vayoo.store" 
+                 className="inline-flex px-8 py-4 bg-white text-black rounded-lg font-bold text-lg hover:bg-gray-200 transition-colors"
+               >
+                 Contact Founders
+               </a>
+             </div>
+             <div className="bg-black/40 border border-white/10 p-6 rounded-2xl backdrop-blur-sm relative z-10">
+               <h4 className="text-white font-bold mb-4 flex items-center"><Target className="w-5 h-5 mr-2 text-fuchsia-400" /> Goal For Next 2 Years</h4>
+               <p className="text-gray-300">
+                 Achieve revenue of ₹20 Crore while being EBITA positive from the First Quarter through aggressive D2C strategies and E-commerce dominance.
+               </p>
+             </div>
+           </div>
+        </div>
+
+        {/* Market Size Section */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-white mb-8 text-center">Market Size & Growth</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-[#0F051C] p-8 rounded-2xl border border-purple-900/30 text-center hover:border-fuchsia-500/50 transition-colors">
+              <div className="w-14 h-14 bg-fuchsia-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-fuchsia-500/20">
+                <PieChart className="w-7 h-7 text-fuchsia-400" />
+              </div>
+              <h3 className="text-3xl font-bold text-white mb-2">₹2900 Cr</h3>
+              <p className="text-fuchsia-400 font-medium mb-2">TAM</p>
+              <p className="text-gray-500 text-sm">Total Addressable Market (Industrial & Domestic)</p>
+            </div>
+            
+            <div className="bg-[#0F051C] p-8 rounded-2xl border border-purple-900/30 text-center hover:border-purple-500/50 transition-colors">
+              <div className="w-14 h-14 bg-purple-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-purple-500/20">
+                <PieChart className="w-7 h-7 text-purple-400" />
+              </div>
+              <h3 className="text-3xl font-bold text-white mb-2">₹1800 Cr</h3>
+              <p className="text-purple-400 font-medium mb-2">SAM</p>
+              <p className="text-gray-500 text-sm">Serviceable Addressable Market</p>
+            </div>
+
+            <div className="bg-[#0F051C] p-8 rounded-2xl border border-purple-900/30 text-center hover:border-indigo-500/50 transition-colors">
+              <div className="w-14 h-14 bg-indigo-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-indigo-500/20">
+                <TrendingUp className="w-7 h-7 text-indigo-400" />
+              </div>
+              <h3 className="text-3xl font-bold text-white mb-2">₹907 Cr</h3>
+              <p className="text-indigo-400 font-medium mb-2">SOM</p>
+              <p className="text-gray-500 text-sm">Serviceable Obtainable Market (Calculated via ecom analytics)</p>
+            </div>
+          </div>
+          <div className="text-center mt-8">
+            <div className="inline-block px-8 py-3 bg-[#150826] rounded-full border border-purple-900/50">
+              <p className="text-gray-300 text-sm md:text-base">
+                Estimated Industry CAGR of <span className="text-fuchsia-400 font-bold">28.51%</span> by 2030
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+export default function App() {
+  const [currentPage, setCurrentPage] = useState('home');
+
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'home':
+        return <Home setCurrentPage={setCurrentPage} />;
+      case 'products':
+        return <Products />;
+      case 'about':
+        return <About />;
+      case 'contact':
+        return <Contact />;
+      case 'forinvestor':
+        return <ForInvestor />;
+      default:
+        return <Home setCurrentPage={setCurrentPage} />;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-[#0A0214] font-sans selection:bg-fuchsia-500/30 selection:text-fuchsia-200">
+      <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      
+      <main className="flex-grow">
+        {renderPage()}
+      </main>
+
+      <Footer setCurrentPage={setCurrentPage} />
+    </div>
+  );
+}
