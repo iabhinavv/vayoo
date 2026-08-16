@@ -1,645 +1,1842 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vayoo | Breathe Better</title>
-    
-    <!-- Tailwind CSS via CDN for instant styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07011C">
+<title>Vayoo — Breathe Better | HEPA H13 air purifiers for car, desk and room</title>
+<meta name="description" content="Vayoo makes medical-grade HEPA H13 air purifiers for the car, the desk and the room — from ₹1,800. Clean air is a birth-right, not a luxury.">
+<meta property="og:title" content="Vayoo — Breathe Better">
+<meta property="og:description" content="Medical-grade HEPA H13 air purification for every space you live in. From ₹1,800.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/c10.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231E0163'/%3E%3Cpath d='M16 25c0-6 3-9 8-10-1 6-3 9-8 10z' fill='%237DCB29'/%3E%3Cpath d='M16 25c0-6-2.5-8.5-7-9.5.8 5.5 2.5 8.5 7 9.5z' fill='%2335A03C'/%3E%3C/svg%3E">
 
-    <style>
-        /* Custom Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-            animation: fadeIn 0.6s ease-out forwards;
-        }
-        /* Hide scrollbar for cleaner look */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0A0214; }
-        ::-webkit-scrollbar-thumb { background: #4c1d95; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #d946ef; }
-    </style>
+<style>
+/* ==========================================================================
+   VAYOO DESIGN SYSTEM
+   Palette sampled directly from the brand creatives and logo:
+   indigo #1E0163 · violet #49096A · magenta #8E1478 · leaf #7DCB29 / #35A03C
+   ========================================================================== */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body,h1,h2,h3,h4,p,ul,ol,figure,fieldset{margin:0}
+ul,ol{padding:0;list-style:none}
+button,input,select,textarea{font:inherit;color:inherit}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+
+:root{
+  /* brand constants — identical in both themes */
+  --indigo:#1E0163;
+  --violet:#49096A;
+  --magenta:#8E1478;
+  --magenta-hi:#C42FA6;
+  --orchid:#E15AD0;
+  --leaf:#7DCB29;
+  --leaf-deep:#35A03C;
+  --grad-brand:linear-gradient(135deg,#1E0163 0%,#6C0F71 55%,#C42FA6 100%);
+  --grad-cta:linear-gradient(100deg,#8E1478 0%,#C42FA6 60%,#E15AD0 100%);
+  --grad-leaf:linear-gradient(120deg,#35A03C,#7DCB29);
+
+  /* geometry */
+  --r-sm:12px; --r:18px; --r-lg:26px; --r-xl:34px;
+  --pad:clamp(18px,4vw,26px);
+  --shell:1220px;
+  --ease:cubic-bezier(.22,1,.36,1);
+
+  /* type */
+  --sans:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,'Helvetica Neue',Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+
+  /* AQI band colours (CPCB) */
+  --aqi-good:#7DCB29; --aqi-ok:#B9D62A; --aqi-mid:#F2B12C;
+  --aqi-poor:#F0762B; --aqi-vpoor:#E5484D; --aqi-sev:#A32330;
+}
+
+html[data-theme="dark"]{
+  --bg:#07011C;
+  --bg-soft:#0C0230;
+  --surface:rgba(255,255,255,.045);
+  --surface-2:rgba(255,255,255,.075);
+  --surface-solid:#120336;
+  --line:rgba(255,255,255,.10);
+  --line-hi:rgba(255,255,255,.20);
+  --tx:#F5F0FF;
+  --tx-2:#BCACDD;
+  --tx-3:#8B7BB0;
+  --glow:.55;
+  --shadow:0 30px 70px -30px rgba(0,0,0,.85);
+  --logo-dark:none; --logo-light:block;
+  /* accent for TEXT — --orchid is bright enough here, but not on a light page */
+  --accent-tx:#E15AD0;
+}
+html[data-theme="light"]{
+  --bg:#FBF9FF;
+  --bg-soft:#F3EDFC;
+  --surface:#FFFFFF;
+  --surface-2:#F6F1FE;
+  --surface-solid:#FFFFFF;
+  --line:rgba(30,1,99,.13);
+  --line-hi:rgba(30,1,99,.28);
+  --tx:#150233;
+  --tx-2:#4E3C6E;
+  --tx-3:#6F5F8C;
+  --glow:.18;
+  --shadow:0 26px 60px -34px rgba(30,1,99,.45);
+  --logo-dark:block; --logo-light:none;
+  --accent-tx:#A6167F;  /* 6.6:1 on the light background; --orchid is only 3.1:1 */
+}
+
+body{
+  font-family:var(--sans);
+  background:var(--bg);
+  color:var(--tx);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+}
+
+/* Page ambience — soft brand glow + fine grid, fixed behind everything.
+   Painted with plain radial gradients rather than blurred elements: a blur
+   filter on a viewport-sized fixed layer is expensive on low-end devices and
+   forces the whole page onto a composited layer. */
+.ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:var(--glow);
+  background:
+    radial-gradient(46vw 46vw at 6% 0%,rgba(108,15,113,.85),transparent 62%),
+    radial-gradient(40vw 40vw at 98% 30%,rgba(30,1,99,.9),transparent 62%),
+    radial-gradient(38vw 38vw at 48% 108%,rgba(196,47,166,.5),transparent 64%)}
+.ambient .grid{position:absolute;inset:0;opacity:.42;
+  background-image:linear-gradient(currentColor .5px,transparent .5px),linear-gradient(90deg,currentColor .5px,transparent .5px);
+  background-size:64px 64px;color:var(--line)}
+
+/* ---------- primitives ---------- */
+.wrap{width:100%;max-width:var(--shell);margin:0 auto;padding:0 var(--pad);position:relative;z-index:1}
+.sec{padding:clamp(56px,8vw,110px) 0}
+.sec-tight{padding:clamp(36px,5vw,64px) 0}
+
+h1,h2,h3,h4{line-height:1.1;letter-spacing:-.025em;font-weight:650}
+h1{font-size:clamp(2.3rem,6.2vw,4.3rem)}
+h2{font-size:clamp(1.8rem,4vw,2.9rem)}
+h3{font-size:clamp(1.12rem,2vw,1.4rem);letter-spacing:-.015em}
+h4{font-size:1rem;letter-spacing:-.005em}
+.lede{color:var(--tx-2);font-size:clamp(1.02rem,1.5vw,1.18rem);max-width:60ch}
+.small{font-size:.9rem}
+.xs{font-size:.79rem;line-height:1.5}
+.muted{color:var(--tx-2)}
+.dim{color:var(--tx-3)}
+.tnum{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+.center{text-align:center}
+.mono{font-family:var(--mono)}
+
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:.72rem;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--tx-2)}
+.eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--grad-leaf);
+  box-shadow:0 0 12px rgba(125,203,41,.8);flex:none}
+
+.sec-h{max-width:66ch;margin-bottom:clamp(28px,4vw,48px)}
+.sec-h h2{margin:14px 0 12px}
+.sec-h.mid{margin-left:auto;margin-right:auto;text-align:center}
+.sec-h.mid .lede{margin:0 auto}
+
+.pill{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:100px;
+  border:1px solid var(--line);background:var(--surface);font-size:.78rem;font-weight:500;color:var(--tx-2)}
+.pill b{color:var(--tx);font-weight:600}
+.pill .dot{width:6px;height:6px;border-radius:50%;background:var(--leaf);flex:none;
+  box-shadow:0 0 0 3px rgba(125,203,41,.18)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:clamp(20px,3vw,30px);position:relative;overflow:hidden;
+  transition:border-color .35s var(--ease),transform .35s var(--ease),background .35s var(--ease)}
+html[data-theme="light"] .card{box-shadow:0 2px 3px rgba(30,1,99,.03)}
+.card.hov:hover{border-color:var(--line-hi);transform:translateY(-3px)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;
+  border-radius:100px;border:1px solid transparent;font-weight:600;font-size:.94rem;
+  padding:13px 24px;transition:all .28s var(--ease);white-space:nowrap;text-align:center;
+  letter-spacing:-.005em}
+.btn:focus-visible{outline:2px solid var(--orchid);outline-offset:3px}
+.btn svg{width:17px;height:17px;flex:none}
+.btn-p{background:var(--grad-cta);color:#fff;box-shadow:0 10px 28px -10px rgba(196,47,166,.75)}
+.btn-p:hover{filter:brightness(1.1);box-shadow:0 14px 34px -10px rgba(196,47,166,.9);transform:translateY(-1px)}
+.btn-s{background:var(--surface-2);border-color:var(--line-hi);color:var(--tx)}
+.btn-s:hover{background:var(--surface);border-color:var(--tx-3)}
+.btn-g{background:transparent;border-color:var(--line);color:var(--tx-2)}
+.btn-g:hover{color:var(--tx);border-color:var(--line-hi)}
+.btn-leaf{background:var(--grad-leaf);color:#05210A;box-shadow:0 10px 26px -12px rgba(125,203,41,.8)}
+.btn-leaf:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn-sm{padding:9px 17px;font-size:.85rem}
+.btn-lg{padding:16px 30px;font-size:1rem}
+.btn-block{width:100%}
+.btn[disabled],.btn.off{opacity:.5;cursor:not-allowed;transform:none!important;filter:none!important}
+.btn .arw{transition:transform .3s var(--ease)}
+.btn:hover .arw{transform:translateX(3px)}
+
+.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.grid{display:grid;gap:clamp(14px,2vw,20px)}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:960px){.g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.g2,.g3,.g4{grid-template-columns:1fr}}
+
+.tag{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:100px;
+  font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.tag-acc{background:rgba(196,47,166,.16);color:var(--accent-tx);border:1px solid rgba(196,47,166,.32)}
+.tag-leaf{background:rgba(125,203,41,.15);color:var(--leaf);border:1px solid rgba(125,203,41,.3)}
+html[data-theme="light"] .tag-leaf{color:#2C7C1E}
+.tag-mute{background:var(--surface-2);color:var(--tx-2);border:1px solid var(--line)}
+
+.hr{height:1px;background:var(--line);border:0;margin:0}
+
+/* checkmark bullet lists */
+.checks{display:grid;gap:11px}
+.checks li{display:flex;gap:11px;align-items:flex-start;font-size:.94rem;color:var(--tx-2)}
+.checks li b{color:var(--tx);font-weight:600}
+.checks .ic{flex:none;width:19px;height:19px;border-radius:50%;background:rgba(125,203,41,.16);
+  display:grid;place-items:center;margin-top:3px}
+.checks .ic svg{width:11px;height:11px;stroke:var(--leaf);stroke-width:3;fill:none}
+html[data-theme="light"] .checks .ic svg{stroke:#2C7C1E}
+
+/* ---------- announcement ---------- */
+.ann{position:relative;z-index:60;background:var(--grad-brand);color:#fff;font-size:.8rem;
+  text-align:center;padding:9px 44px 9px 20px;letter-spacing:.005em}
+.ann b{font-weight:600}
+.ann button{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;
+  border:0;color:rgba(255,255,255,.7);cursor:pointer;font-size:1.1rem;line-height:1;padding:6px}
+.ann button:hover{color:#fff}
+
+/* ---------- header ---------- */
+header.site{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 78%,transparent);
+  backdrop-filter:saturate(150%) blur(18px);-webkit-backdrop-filter:saturate(150%) blur(18px);
+  border-bottom:1px solid transparent;transition:border-color .3s,background .3s}
+header.site.stuck{border-bottom-color:var(--line)}
+.hdr{display:flex;align-items:center;gap:14px;height:70px}
+.brand{display:flex;align-items:center;flex:none;padding:6px 0}
+.brand img{height:30px;width:auto}
+.brand .lw{display:var(--logo-light)} .brand .ld{display:var(--logo-dark)}
+.mainnav{display:flex;align-items:center;gap:2px;margin-left:14px}
+.mainnav a{padding:9px 14px;border-radius:100px;font-size:.9rem;font-weight:500;color:var(--tx-2);
+  transition:all .25s var(--ease);position:relative}
+.mainnav a:hover{color:var(--tx);background:var(--surface)}
+.mainnav a.on{color:var(--tx);background:var(--surface-2)}
+.sp{flex:1}
+.hdr-acts{display:flex;align-items:center;gap:8px;flex:none}
+.icon-btn{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;cursor:pointer;
+  background:var(--surface);border:1px solid var(--line);color:var(--tx-2);transition:all .25s var(--ease)}
+.icon-btn:hover{color:var(--tx);border-color:var(--line-hi)}
+.icon-btn svg{width:17px;height:17px}
+.cmp-btn{position:relative;display:none}
+.cmp-btn.show{display:grid}
+.cmp-btn .n{position:absolute;top:-3px;right:-3px;min-width:18px;height:18px;border-radius:9px;
+  background:var(--grad-cta);color:#fff;font-size:.66rem;font-weight:700;display:grid;place-items:center;padding:0 5px}
+.menu-btn{display:none}
+@media(max-width:1000px){
+  .mainnav{display:none}
+  .menu-btn{display:grid}
+  .hdr-acts .hide-sm{display:none}
+}
+
+/* mobile drawer nav */
+.mnav{position:fixed;inset:0;z-index:70;background:var(--bg);display:flex;flex-direction:column;
+  padding:20px var(--pad) 40px;transform:translateX(100%);transition:transform .38s var(--ease);overflow-y:auto}
+.mnav.open{transform:none}
+@media(min-width:1001px){.mnav{display:none}}
+.mnav-top{display:flex;align-items:center;justify-content:space-between;height:50px;margin-bottom:22px}
+.mnav a{display:flex;align-items:center;justify-content:space-between;padding:17px 4px;
+  border-bottom:1px solid var(--line);font-size:1.22rem;font-weight:600;letter-spacing:-.02em}
+.mnav a span{color:var(--tx-3);font-size:.8rem;font-weight:400;letter-spacing:0}
+/* .mnav a is more specific than .btn, so restate what the button needs */
+.mnav .btn{margin-top:26px;justify-content:center;padding:16px 30px;border-bottom:0;font-size:1rem}
+
+/* ---------- footer ---------- */
+footer.site{margin-top:auto;border-top:1px solid var(--line);background:var(--bg-soft);
+  padding:clamp(46px,6vw,72px) 0 28px;position:relative;z-index:1}
+.fgrid{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:clamp(24px,4vw,44px);margin-bottom:44px}
+@media(max-width:900px){.fgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.fgrid{grid-template-columns:1fr}}
+footer h4{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--tx-3);margin-bottom:16px;font-weight:600}
+.stack{display:grid;gap:11px}
+.stack a{color:var(--tx-2);font-size:.92rem;transition:color .2s;width:fit-content}
+.stack a:hover{color:var(--accent-tx)}
+.socials{display:flex;gap:10px;margin-top:20px}
+.socials a{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;
+  border:1px solid var(--line);background:var(--surface);color:var(--tx-2);transition:all .25s var(--ease)}
+.socials a:hover{color:#fff;background:var(--grad-cta);border-color:transparent;transform:translateY(-2px)}
+.socials svg{width:17px;height:17px}
+.legal{border-top:1px solid var(--line);padding-top:22px;display:flex;justify-content:space-between;
+  gap:18px;flex-wrap:wrap;color:var(--tx-3);font-size:.8rem}
+.legal .row{gap:20px}
+.legal a:hover{color:var(--tx-2)}
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+.hero{padding:clamp(40px,6vw,74px) 0 clamp(50px,7vw,90px);position:relative}
+.hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:clamp(30px,4vw,56px);align-items:center}
+@media(max-width:940px){.hero-grid{grid-template-columns:1fr;gap:44px}}
+.hero h1{margin:20px 0 20px;font-size:clamp(2.3rem,4.9vw,3.75rem)}
+.hero h1 .gr{background:var(--grad-cta);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lede{font-size:clamp(1.04rem,1.6vw,1.2rem)}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+.hero-facts{display:flex;gap:0;margin-top:38px;border-top:1px solid var(--line);padding-top:22px;flex-wrap:wrap}
+.hero-facts div{padding-right:26px;margin-right:26px;border-right:1px solid var(--line)}
+.hero-facts div:last-child{border:0;margin:0;padding:0}
+.hero-facts b{display:block;font-size:1.42rem;font-weight:650;letter-spacing:-.03em}
+.hero-facts span{font-size:.76rem;color:var(--tx-3);letter-spacing:.04em}
+@media(max-width:620px){
+  /* a flex row leaves orphaned dividers when the stats wrap — grid instead */
+  .hero-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .hero-facts div{padding:0;margin:0;border:0}
+  .hero-facts b{font-size:1.16rem}
+  .hero-facts span{font-size:.66rem;line-height:1.35;display:block}
+  .hero-cta{flex-direction:column;align-items:stretch}
+}
+
+/* AQI instrument panel */
+.aqi-panel{position:relative;border-radius:var(--r-xl);padding:clamp(22px,3vw,32px);
+  background:linear-gradient(165deg,rgba(30,1,99,.9),rgba(108,15,113,.62));
+  border:1px solid var(--line-hi);box-shadow:var(--shadow);overflow:hidden;color:#F5F0FF}
+html[data-theme="light"] .aqi-panel{background:linear-gradient(165deg,#1E0163,#6C0F71)}
+.aqi-panel::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 80% at 80% 0%,rgba(225,90,208,.28),transparent 60%)}
+.aqi-head{display:flex;justify-content:space-between;align-items:center;gap:12px;position:relative;z-index:2;margin-bottom:8px}
+.aqi-head .lbl{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(245,240,255,.65);white-space:nowrap}
+.seg{display:inline-flex;padding:3px;border-radius:100px;background:rgba(0,0,0,.34);border:1px solid rgba(255,255,255,.14)}
+.seg button{border:0;background:none;cursor:pointer;padding:7px 15px;border-radius:100px;font-size:.78rem;
+  font-weight:600;color:rgba(245,240,255,.62);transition:all .3s var(--ease);white-space:nowrap}
+@media(max-width:560px){
+  .aqi-head{flex-wrap:wrap}
+  .seg{width:100%}
+  .seg button{flex:1}
+}
+.seg button.on{background:rgba(255,255,255,.14);color:#fff}
+.gauge-wrap{position:relative;display:grid;place-items:center;padding:6px 0 2px;z-index:2}
+.gauge{width:min(300px,72vw);height:auto}
+.gauge-val{position:absolute;top:52%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
+.gauge-val .v{font-size:clamp(2.6rem,7vw,3.5rem);font-weight:650;letter-spacing:-.05em;line-height:1;display:block}
+.gauge-val .u{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,255,.55)}
+.gauge-band{display:inline-flex;align-items:center;gap:7px;margin-top:9px;padding:4px 12px;border-radius:100px;
+  font-size:.74rem;font-weight:600;background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.14)}
+.gauge-band i{width:8px;height:8px;border-radius:50%;background:currentColor;flex:none}
+.aqi-foot{position:relative;z-index:2;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.13)}
+.aqi-foot p{font-size:.86rem;color:rgba(245,240,255,.8);min-height:2.9em}
+.aqi-note{font-size:.68rem;color:rgba(245,240,255,.45);margin-top:10px;line-height:1.5}
+.aqi-hero-img{position:absolute;right:-6%;bottom:-6%;width:44%;max-width:220px;opacity:.9;
+  filter:drop-shadow(0 30px 40px rgba(0,0,0,.5));pointer-events:none;mix-blend-mode:screen}
+
+/* airflow streamlines */
+.flowlines{position:absolute;inset:0;z-index:1;opacity:.5}
+.flowlines path{fill:none;stroke:rgba(225,90,208,.55);stroke-width:1;stroke-dasharray:5 190;
+  animation:flow 7s linear infinite}
+.flowlines path:nth-child(2n){stroke:rgba(125,203,41,.5);animation-duration:9s}
+.flowlines path:nth-child(3n){animation-duration:11s;stroke:rgba(255,255,255,.35)}
+.flowlines path:nth-child(2){animation-delay:-2s}.flowlines path:nth-child(3){animation-delay:-4s}
+.flowlines path:nth-child(4){animation-delay:-1s}.flowlines path:nth-child(5){animation-delay:-5s}
+.flowlines path:nth-child(6){animation-delay:-3s}
+@keyframes flow{to{stroke-dashoffset:-390}}
+
+/* ==========================================================================
+   PRODUCT CARDS  (the range)
+   ========================================================================== */
+.pcard{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--r-lg);overflow:hidden;transition:all .38s var(--ease);position:relative}
+.pcard:hover{border-color:var(--line-hi);transform:translateY(-4px);box-shadow:var(--shadow)}
+.pcard-art{position:relative;aspect-ratio:4/3.9;overflow:hidden;
+  background:radial-gradient(circle at 50% 62%,var(--pc,#8E1478) 0%,#33065C 58%,#1E0163 100%)}
+.pcard-art a{position:absolute;inset:0;display:block}
+/* object-fit rather than a percentage height: percentage heights do not resolve
+   reliably against a box sized by aspect-ratio. */
+.pcard-art img{width:100%;height:100%;object-fit:contain;padding:20px 18px 42px;
+  transition:transform .55s var(--ease);filter:drop-shadow(0 22px 26px rgba(0,0,0,.45))}
+.pcard:hover .pcard-art img{transform:scale(1.055) translateY(-4px)}
+.pcard-art .badge{position:absolute;bottom:12px;left:12px;z-index:3;display:inline-flex;align-items:center;gap:6px;
+  padding:5px 11px;border-radius:100px;background:rgba(6,1,20,.55);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.17);font-size:.72rem;font-weight:600;color:#F5F0FF}
+.pcard-art .badge svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
+.pcard-art .cmp{position:absolute;top:11px;right:11px;z-index:3;display:inline-flex;align-items:center;gap:6px;
+  padding:6px 11px;border-radius:100px;background:rgba(6,1,20,.5);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.17);font-size:.72rem;font-weight:600;color:#F5F0FF;cursor:pointer;
+  transition:all .25s var(--ease)}
+.pcard-art .cmp:hover{background:rgba(6,1,20,.8)}
+.pcard-art .cmp.on{background:var(--grad-leaf);color:#05210A;border-color:transparent}
+.pcard-body{padding:clamp(18px,2.4vw,24px);display:flex;flex-direction:column;flex:1;gap:14px}
+.pcard-title{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.pcard-title h3{margin-bottom:3px}
+.pcard-title .role{font-size:.84rem;color:var(--tx-2)}
+.pcard-price{text-align:right;flex:none}
+.pcard-price .v{font-size:1.32rem;font-weight:650;letter-spacing:-.03em;display:block}
+.pcard-price .u{font-size:.68rem;color:var(--tx-3);letter-spacing:.06em;text-transform:uppercase}
+.pcard-feats{display:grid;gap:8px;flex:1}
+.pcard-feats li{display:flex;gap:9px;align-items:center;font-size:.86rem;color:var(--tx-2)}
+.pcard-feats li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--pc,#C42FA6);flex:none}
+.pcard-cta{display:flex;gap:9px;padding-top:4px}
+.pcard-cta .btn{flex:1}
+
+/* ==========================================================================
+   PDP
+   ========================================================================== */
+.crumbs{font-size:.8rem;color:var(--tx-3);padding:22px 0 4px}
+.crumbs a:hover{color:var(--accent-tx)}
+.crumbs span{opacity:.5;margin:0 7px}
+.pdp{display:grid;grid-template-columns:1.02fr .98fr;gap:clamp(26px,4vw,52px);align-items:start;padding:16px 0 0}
+@media(max-width:900px){.pdp{grid-template-columns:1fr}}
+.gal{position:sticky;top:92px}
+@media(max-width:900px){.gal{position:static}}
+.gal-main{aspect-ratio:1/1.02;border-radius:var(--r-xl);overflow:hidden;
+  background:radial-gradient(circle at 50% 58%,var(--pc,#8E1478) 0%,#33065C 58%,#1E0163 100%);
+  border:1px solid var(--line);position:relative}
+.gal-main img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:34px 30px;
+  filter:drop-shadow(0 30px 40px rgba(0,0,0,.5))}
+.gal-main img.full{object-fit:cover;padding:0;filter:none}
+.thumbs{display:flex;gap:10px;margin-top:12px}
+.thumbs button{width:70px;height:70px;border-radius:14px;overflow:hidden;cursor:pointer;padding:0;
+  border:1.5px solid var(--line);background:radial-gradient(circle at 50% 60%,#8E1478,#1E0163);
+  transition:border-color .25s var(--ease)}
+.thumbs button.on{border-color:var(--orchid)}
+.thumbs img{width:100%;height:100%;object-fit:contain;padding:6px}
+.thumbs img.full{object-fit:cover;padding:0}
+.buy{display:grid;gap:20px;align-content:start}
+.buy h1{font-size:clamp(1.9rem,4vw,2.7rem)}
+.price-row{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.price-row .v{font-size:2.2rem;font-weight:650;letter-spacing:-.04em}
+.spec-strip{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);
+  border-radius:var(--r);overflow:hidden;background:var(--surface)}
+.spec-strip div{padding:15px 14px;border-right:1px solid var(--line)}
+.spec-strip div:last-child{border:0}
+.spec-strip b{display:block;font-size:1.02rem;font-weight:600;letter-spacing:-.02em}
+.spec-strip span{font-size:.7rem;color:var(--tx-3);letter-spacing:.08em;text-transform:uppercase}
+@media(max-width:420px){.spec-strip{grid-template-columns:1fr}.spec-strip div{border-right:0;border-bottom:1px solid var(--line)}}
+
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:clamp(40px,6vw,70px) 0 0;
+  overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{background:none;border:0;cursor:pointer;padding:14px 16px;font-size:.92rem;font-weight:550;
+  color:var(--tx-3);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all .25s}
+.tabs button:hover{color:var(--tx-2)}
+.tabs button.on{color:var(--tx);border-bottom-color:var(--orchid)}
+.tabpane{padding:30px 0 10px}
+.dl{display:grid;grid-template-columns:auto 1fr;gap:0}
+.dl>div{display:contents}
+.dl dt,.dl dd{padding:13px 0;border-bottom:1px solid var(--line);margin:0}
+.dl dt{color:var(--tx-3);font-size:.86rem;padding-right:30px;white-space:nowrap}
+.dl dd{font-size:.93rem;text-align:right}
+
+/* ---------- filters ---------- */
+.filters{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:16px 20px;
+  border:1px solid var(--line);border-radius:var(--r);background:var(--surface);margin-bottom:26px}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{padding:8px 15px;border-radius:100px;border:1px solid var(--line);background:transparent;
+  cursor:pointer;font-size:.85rem;font-weight:500;color:var(--tx-2);transition:all .25s var(--ease)}
+.chip:hover{border-color:var(--line-hi);color:var(--tx)}
+.chip.on{background:var(--grad-cta);border-color:transparent;color:#fff}
+select.sel{padding:9px 14px;border-radius:100px;border:1px solid var(--line);background:var(--surface-2);
+  color:var(--tx);cursor:pointer;font-size:.85rem}
+.flabel{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--tx-3);font-weight:600}
+
+/* ---------- compare table ---------- */
+.tbl-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface)}
+table.cmp{width:100%;border-collapse:collapse;min-width:640px}
+table.cmp th,table.cmp td{padding:15px 18px;text-align:left;border-bottom:1px solid var(--line);
+  font-size:.91rem;vertical-align:middle}
+table.cmp thead th{position:sticky;top:0;background:var(--surface-solid);z-index:2}
+table.cmp tbody th{color:var(--tx-3);font-weight:500;font-size:.84rem;width:1%;white-space:nowrap}
+table.cmp tr:last-child td,table.cmp tr:last-child th{border-bottom:0}
+table.cmp .ph{display:flex;align-items:center;gap:12px}
+table.cmp .ph img{width:44px;height:56px;object-fit:contain;border-radius:10px;
+  background:radial-gradient(circle at 50% 60%,var(--pc,#8E1478),#1E0163);padding:3px;flex:none}
+table.cmp .ph b{display:block;font-size:.98rem}
+table.cmp .ph span{font-size:.75rem;color:var(--tx-3)}
+
+/* ---------- sizing tool ---------- */
+.tool{border:1px solid var(--line);border-radius:var(--r-xl);background:var(--surface);overflow:hidden}
+.tool-head{padding:clamp(22px,3vw,32px);border-bottom:1px solid var(--line)}
+.tool-body{padding:clamp(22px,3vw,32px);display:grid;gap:26px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:11px}
+.opt{padding:17px 16px;border-radius:var(--r);border:1.5px solid var(--line);background:transparent;
+  cursor:pointer;text-align:left;transition:all .28s var(--ease)}
+.opt:hover{border-color:var(--line-hi)}
+.opt.on{border-color:var(--orchid);background:rgba(196,47,166,.09)}
+.opt b{display:block;font-size:.98rem;font-weight:600;margin-bottom:3px}
+.opt span{font-size:.8rem;color:var(--tx-3);line-height:1.45;display:block}
+.rangebox{display:grid;gap:12px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:100px;
+  background:linear-gradient(90deg,var(--orchid) var(--p,50%),var(--surface-2) var(--p,50%));cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;
+  background:#fff;border:4px solid var(--magenta-hi);cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.35)}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;
+  border:4px solid var(--magenta-hi);cursor:pointer}
+.result{border-radius:var(--r-lg);padding:clamp(20px,3vw,28px);border:1px solid var(--line-hi);
+  background:linear-gradient(150deg,rgba(30,1,99,.5),rgba(142,20,120,.28));display:grid;gap:16px}
+html[data-theme="light"] .result{background:linear-gradient(150deg,#F3EDFC,#FCEEF9)}
+.result-top{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.result-top img{width:78px;height:100px;object-fit:contain;border-radius:14px;flex:none;
+  background:radial-gradient(circle at 50% 60%,var(--pc,#8E1478),#1E0163);padding:5px}
+
+/* ---------- forms ---------- */
+.form{display:grid;gap:17px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:560px){.f2{grid-template-columns:1fr}}
+.field{display:grid;gap:7px}
+.field label{font-size:.78rem;font-weight:600;color:var(--tx-2);letter-spacing:.02em}
+.field label .req{color:var(--accent-tx)}
+.field input,.field select,.field textarea{width:100%;padding:13px 15px;border-radius:var(--r-sm);
+  border:1px solid var(--line);background:var(--surface-2);color:var(--tx);transition:all .25s;font-size:.93rem}
+.field textarea{resize:vertical;min-height:110px;line-height:1.55}
+.field input::placeholder,.field textarea::placeholder{color:var(--tx-3)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:0;border-color:var(--orchid);
+  box-shadow:0 0 0 3px rgba(225,90,208,.16)}
+.field .hint{font-size:.75rem;color:var(--tx-3)}
+.field.bad input,.field.bad textarea,.field.bad select{border-color:var(--aqi-vpoor)}
+.err{font-size:.75rem;color:var(--aqi-vpoor);display:none}
+.field.bad .err{display:block}
+
+/* ---------- misc blocks ---------- */
+.stat{padding:clamp(20px,3vw,28px);border-radius:var(--r-lg);border:1px solid var(--line);background:var(--surface)}
+.stat .v{font-size:clamp(1.9rem,4vw,2.6rem);font-weight:650;letter-spacing:-.04em;line-height:1.05;
+  background:var(--grad-cta);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat .k{font-size:.82rem;font-weight:600;color:var(--tx);margin:8px 0 5px}
+.stat .d{font-size:.8rem;color:var(--tx-3);line-height:1.5}
+
+.ico{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;margin-bottom:16px;
+  background:rgba(196,47,166,.13);border:1px solid rgba(196,47,166,.22)}
+.ico svg{width:20px;height:20px;stroke:var(--accent-tx);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.ico.leaf{background:rgba(125,203,41,.13);border-color:rgba(125,203,41,.25)}
+.ico.leaf svg{stroke:var(--leaf)}
+html[data-theme="light"] .ico.leaf svg{stroke:#2C7C1E}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,4vw,60px);align-items:center}
+@media(max-width:860px){.split{grid-template-columns:1fr}}
+
+.quote{border-left:3px solid;border-image:var(--grad-leaf) 1;padding-left:22px;font-size:clamp(1.1rem,2.2vw,1.45rem);
+  font-weight:500;letter-spacing:-.02em;line-height:1.4}
+
+.founder{display:grid;gap:16px}
+.founder-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.avatar{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;flex:none;
+  background:var(--grad-brand);color:#fff;font-weight:650;font-size:1.15rem;letter-spacing:-.02em}
+.li-link{color:var(--tx-3);transition:color .25s}
+.li-link:hover{color:#0A66C2}
+.li-link svg{width:22px;height:22px}
+
+.cta-band{border-radius:var(--r-xl);padding:clamp(30px,5vw,58px);text-align:center;position:relative;
+  overflow:hidden;background:var(--grad-brand);color:#fff;border:1px solid rgba(255,255,255,.14)}
+.cta-band::after{content:"";position:absolute;inset:0;
+  background:radial-gradient(70% 90% at 50% 120%,rgba(225,90,208,.5),transparent 60%)}
+.cta-band>*{position:relative;z-index:2}
+.cta-band .lede{color:rgba(255,255,255,.82);margin:14px auto 0}
+
+/* filtration diagram */
+.filterviz{width:100%;height:auto;max-width:720px;margin:0 auto}
+.filterviz .lyr{opacity:0;animation:pop .6s var(--ease) forwards}
+.filterviz .lyr:nth-child(1){animation-delay:.05s}
+.filterviz .lyr:nth-child(2){animation-delay:.2s}
+.filterviz .lyr:nth-child(3){animation-delay:.35s}
+.filterviz .lyr:nth-child(4){animation-delay:.5s}
+@keyframes pop{to{opacity:1}}
+.filterviz text{font-family:var(--sans)}
+
+/* toasts */
+.toasts{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:90;display:grid;gap:9px;
+  pointer-events:none;width:max-content;max-width:92vw}
+.toast{background:var(--surface-solid);border:1px solid var(--line-hi);border-radius:100px;
+  padding:11px 20px;font-size:.87rem;box-shadow:var(--shadow);display:flex;align-items:center;gap:9px;
+  animation:tin .35s var(--ease)}
+.toast svg{width:15px;height:15px;stroke:var(--leaf);fill:none;stroke-width:2.6}
+@keyframes tin{from{opacity:0;transform:translateY(12px)}}
+
+/* scroll reveal */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.rv.in{opacity:1;transform:none}
+
+/* fade page transition */
+#view{animation:vin .45s var(--ease)}
+@keyframes vin{from{opacity:0;transform:translateY(8px)}}
+
+::selection{background:rgba(196,47,166,.35)}
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--violet);border-radius:8px;border:3px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:var(--magenta-hi)}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;
+    transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .rv{opacity:1;transform:none}
+}
+.skip{position:absolute;left:-9999px;top:0;z-index:200;padding:12px 20px;background:var(--surface-solid);
+  border:1px solid var(--line-hi);border-radius:0 0 12px 0}
+.skip:focus{left:0}
+</style>
 </head>
-<body class="bg-[#0A0214] font-sans selection:bg-fuchsia-500/30 selection:text-fuchsia-200 text-white min-h-screen flex flex-col">
+<body>
 
-    <!-- NAVBAR -->
-    <nav class="sticky top-0 z-50 bg-[#0B0314]/90 backdrop-blur-md border-b border-purple-900/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <!-- Logo -->
-                <div class="flex items-center cursor-pointer group" onclick="navigateTo('home')">
-                    <img src="assets/logo.png" alt="Vayoo Logo" class="h-16 w-auto group-hover:opacity-80 transition-opacity">
-                </div>
-                
-                <!-- Desktop Menu -->
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-8">
-                        <button onclick="navigateTo('home')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium transition-all text-white bg-purple-900/50" data-target="home">Home</button>
-                        <button onclick="navigateTo('products')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium transition-all text-gray-300 hover:text-white hover:bg-purple-800/30" data-target="products">Products</button>
-                        <button onclick="navigateTo('about')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium transition-all text-gray-300 hover:text-white hover:bg-purple-800/30" data-target="about">About Us</button>
-                        <button onclick="navigateTo('contact')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium transition-all text-gray-300 hover:text-white hover:bg-purple-800/30" data-target="contact">Contact</button>
-                    </div>
-                </div>
+<a class="skip" href="#view">Skip to content</a>
 
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden">
-                    <button onclick="toggleMobileMenu()" class="text-gray-300 hover:text-white focus:outline-none">
-                        <i id="mobile-icon" class="fa-solid fa-bars text-2xl"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
+<div class="ambient" aria-hidden="true"><div class="grid"></div></div>
 
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-[#0F051C] border-b border-purple-900/50 pb-4 pt-2 px-4 space-y-2">
-            <button onclick="navigateTo('home')" class="mobile-nav-btn block w-full text-left px-4 py-3 rounded-md text-base font-medium text-white bg-purple-900/50" data-target="home">Home</button>
-            <button onclick="navigateTo('products')" class="mobile-nav-btn block w-full text-left px-4 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-800/30" data-target="products">Products</button>
-            <button onclick="navigateTo('about')" class="mobile-nav-btn block w-full text-left px-4 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-800/30" data-target="about">About Us</button>
-            <button onclick="navigateTo('contact')" class="mobile-nav-btn block w-full text-left px-4 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-purple-800/30" data-target="contact">Contact</button>
-        </div>
+<div class="ann" id="ann">
+  <b>Launching soon across India.</b> Join the list and we will tell you the day pre-orders open.
+  <button onclick="document.getElementById('ann').remove()" aria-label="Dismiss">&times;</button>
+</div>
+
+<header class="site" id="hdr">
+  <div class="wrap hdr">
+    <a class="brand" href="#/" aria-label="Vayoo home">
+      <img class="lw" src="assets/derived/logo-white.png" alt="Vayoo">
+      <img class="ld" src="assets/derived/logo-black.png" alt="Vayoo">
+    </a>
+    <nav class="mainnav" id="mainnav" aria-label="Primary">
+      <a href="#/products" data-r="products">Air purifiers</a>
+      <a href="#/sizing" data-r="sizing">Find your fit</a>
+      <a href="#/technology" data-r="technology">Technology</a>
+      <a href="#/about" data-r="about">About</a>
+      <a href="#/contact" data-r="contact">Contact</a>
     </nav>
+    <span class="sp"></span>
+    <div class="hdr-acts">
+      <button class="icon-btn" id="themeBtn" aria-label="Switch colour theme" title="Switch theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"/></svg>
+      </button>
+      <button class="icon-btn cmp-btn" id="cmpBtn" aria-label="Open comparison" title="Compare">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 18V9M10 18V5M16 18v-6M22 18h-20"/></svg>
+        <span class="n" id="cmpN">0</span>
+      </button>
+      <a class="btn btn-p btn-sm hide-sm" href="#/notify">Notify me</a>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
 
-    <!-- MAIN CONTENT AREA -->
-    <main class="flex-grow">
-        
-        <!-- HOME PAGE -->
-        <div id="home" class="page-section animate-fade-in block">
-            <!-- Hero Section -->
-            <section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-[#0A0214]">
-                <div class="absolute inset-0 z-0">
-                    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-fuchsia-600/20 rounded-full mix-blend-screen filter blur-[100px] animate-pulse"></div>
-                    <div class="absolute bottom-1/4 right-1/4 w-[30rem] h-[30rem] bg-indigo-600/20 rounded-full mix-blend-screen filter blur-[120px]"></div>
-                    <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]"></div>
-                </div>
+<nav class="mnav" id="mnav" aria-label="Mobile" aria-hidden="true">
+  <div class="wrap mnav-top" style="padding:0">
+    <a class="brand" href="#/">
+      <img class="lw" src="assets/derived/logo-white.png" alt="Vayoo">
+      <img class="ld" src="assets/derived/logo-black.png" alt="Vayoo">
+    </a>
+    <button class="icon-btn" id="mnavClose" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <a href="#/products">Air purifiers <span>3 models</span></a>
+  <a href="#/sizing">Find your fit <span>60 seconds</span></a>
+  <a href="#/compare">Compare <span>side by side</span></a>
+  <a href="#/technology">Technology <span>HEPA H13</span></a>
+  <a href="#/about">About <span>mission &amp; team</span></a>
+  <a href="#/contact">Contact <span>talk to us</span></a>
+  <a class="btn btn-p btn-lg" href="#/notify">Notify me at launch</a>
+</nav>
 
-                <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-12">
-                    <div class="inline-flex items-center px-4 py-2 rounded-full border border-fuchsia-500/30 bg-fuchsia-500/10 text-fuchsia-300 text-sm font-medium mb-8">
-                        <span class="flex h-2 w-2 rounded-full bg-fuchsia-500 mr-2 animate-ping"></span>
-                        Revolutionizing Air Quality in India
-                    </div>
-                    <h1 class="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-6 leading-tight">
-                        Purify the Most <br class="hidden md:block"/>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-purple-400 to-indigo-400">
-                            Essential Need - Air.
-                        </span>
-                    </h1>
-                    <p class="mt-6 text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-                        Every breath you take should be the cleanest and healthiest for your body and mind. 
-                        Experience medical-grade HEPA H-13 filtration at the most affordable prices.
-                    </p>
-                    <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-                        <button onclick="navigateTo('products')" class="px-8 py-4 bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white rounded-lg font-semibold text-lg hover:from-fuchsia-500 hover:to-purple-500 transition-all shadow-[0_0_20px_rgba(192,38,211,0.4)] flex items-center justify-center group">
-                            Explore Products
-                            <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-                        </button>
-                        <button onclick="navigateTo('about')" class="px-8 py-4 bg-white/5 border border-white/10 text-white rounded-lg font-semibold text-lg hover:bg-white/10 transition-all backdrop-blur-sm">
-                            Our Mission
-                        </button>
-                    </div>
-                </div>
-            </section>
+<main id="view"></main>
 
-            <!-- The Problem Section -->
-            <section class="py-24 bg-[#05010A] relative">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="text-center mb-16">
-                        <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">The Catastrophe of Air Pollution</h2>
-                        <p class="text-gray-400 max-w-2xl mx-auto text-lg">
-                            Air pollution's effect cannot be understated. It impacts life expectancy, increases vulnerability to lung and heart diseases, and affects overall cognitive function.
-                        </p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div class="bg-[#0F051C] border border-purple-900/30 p-8 rounded-2xl hover:border-fuchsia-500/50 transition-colors group">
-                            <div class="w-14 h-14 bg-purple-900/40 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                                <i class="fa-solid fa-car text-fuchsia-400 text-2xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-white mb-3">Household & Vehicular</h3>
-                            <p class="text-gray-400 leading-relaxed">Diesel vehicles are a major source of black carbon. Open waste burning adds dioxins and heavy metals.</p>
-                        </div>
-                        <div class="bg-[#0F051C] border border-purple-900/30 p-8 rounded-2xl hover:border-fuchsia-500/50 transition-colors group">
-                            <div class="w-14 h-14 bg-purple-900/40 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                                <i class="fa-solid fa-leaf text-fuchsia-400 text-2xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-white mb-3">Agricultural & Deforestation</h3>
-                            <p class="text-gray-400 leading-relaxed">Crop burning, pesticides, and fertilizers. Loss of forests reduces Earth's natural purification.</p>
-                        </div>
-                        <div class="bg-[#0F051C] border border-purple-900/30 p-8 rounded-2xl hover:border-fuchsia-500/50 transition-colors group">
-                            <div class="w-14 h-14 bg-purple-900/40 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                                <i class="fa-solid fa-industry text-fuchsia-400 text-2xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-white mb-3">Industrial & Construction</h3>
-                            <p class="text-gray-400 leading-relaxed">Factories, power plants, and poor waste disposal lead to asbestos and chemical pollution.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Features / USP Section -->
-            <section class="py-24 bg-gradient-to-b from-[#0B0314] to-[#0F051C]">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex flex-col lg:flex-row items-center gap-16">
-                        <div class="lg:w-1/2">
-                            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Why Choose Vayoo?</h2>
-                            <p class="text-gray-400 text-lg mb-8 leading-relaxed">
-                                Current solutions offered by big MNCs are expensive and cater mostly to the upper class. We are changing that by bringing premium quality to everyone.
-                            </p>
-                            
-                            <div class="space-y-6">
-                                <div class="flex">
-                                    <div class="flex-shrink-0 mt-1">
-                                        <div class="w-10 h-10 rounded-full bg-fuchsia-500/20 flex items-center justify-center border border-fuchsia-500/30">
-                                            <i class="fa-solid fa-shield-halved text-fuchsia-400"></i>
-                                        </div>
-                                    </div>
-                                    <div class="ml-4">
-                                        <h4 class="text-lg font-bold text-white">HEPA H13 Filter</h4>
-                                        <p class="mt-1 text-gray-400">Medical-grade filter capable of capturing 99.95% of airborne particles as small as 0.3 microns.</p>
-                                    </div>
-                                </div>
-                                <div class="flex">
-                                    <div class="flex-shrink-0 mt-1">
-                                        <div class="w-10 h-10 rounded-full bg-fuchsia-500/20 flex items-center justify-center border border-fuchsia-500/30">
-                                            <i class="fa-solid fa-wind text-fuchsia-400"></i>
-                                        </div>
-                                    </div>
-                                    <div class="ml-4">
-                                        <h4 class="text-lg font-bold text-white">PM2.5 Clearance</h4>
-                                        <p class="mt-1 text-gray-400">Clears up to 99.8% of PM2.5 pollutants effectively protecting your lungs.</p>
-                                    </div>
-                                </div>
-                                <div class="flex">
-                                    <div class="flex-shrink-0 mt-1">
-                                        <div class="w-10 h-10 rounded-full bg-fuchsia-500/20 flex items-center justify-center border border-fuchsia-500/30">
-                                            <i class="fa-solid fa-bolt text-fuchsia-400"></i>
-                                        </div>
-                                    </div>
-                                    <div class="ml-4">
-                                        <h4 class="text-lg font-bold text-white">Unmatched Pricing</h4>
-                                        <p class="mt-1 text-gray-400">Starting from ₹1,800. Quality air shouldn't be a luxury.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="lg:w-1/2 relative">
-                            <div class="absolute inset-0 bg-gradient-to-r from-fuchsia-600/20 to-indigo-600/20 rounded-full filter blur-[80px]"></div>
-                            <img src="assets/hero.png" alt="Vayoo Air Purifiers Collection" class="relative z-10 rounded-3xl border border-purple-900/50 shadow-2xl w-full object-cover">
-                        </div>
-                    </div>
-                </div>
-            </section>
+<footer class="site">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="brand" href="#/" style="margin-bottom:16px">
+          <img class="lw" src="assets/derived/logo-white.png" alt="Vayoo" style="height:34px">
+          <img class="ld" src="assets/derived/logo-black.png" alt="Vayoo" style="height:34px">
+        </a>
+        <p class="small muted" style="max-width:36ch">Air-purifying appliances for every space you live in — at a price that does not ask you to choose between health and household budget.</p>
+        <div class="socials">
+          <a href="https://www.instagram.com/vayoo.store" target="_blank" rel="noopener" aria-label="Vayoo on Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/company/vayoo-store" target="_blank" rel="noopener" aria-label="Vayoo on LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9.5h4v11H3v-11zm7 0h3.8v1.5h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76v5.69h-4v-5.05c0-1.2-.02-2.75-1.75-2.75-1.75 0-2.02 1.3-2.02 2.66v5.14h-4v-11z"/></svg>
+          </a>
         </div>
-
-        <!-- PRODUCTS PAGE -->
-        <div id="products" class="page-section hidden pt-12 pb-24">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-16 pt-10">
-                    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Our Air Purifiers</h1>
-                    <p class="text-xl text-gray-400 max-w-2xl mx-auto">
-                        Purify the air around you anywhere. Our range ensures you breathe the purest air, whether driving, working, or sleeping.
-                    </p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    <!-- Product 1: C10 -->
-                    <div class="bg-[#0F051C] border border-purple-900/40 rounded-3xl overflow-hidden flex flex-col group hover:border-fuchsia-500/50 transition-all duration-300 shadow-xl">
-                        <div class="relative h-72 bg-gradient-to-br from-[#1A0B2E] to-[#0A0214] flex items-center justify-center overflow-hidden">
-                            <div class="absolute w-3/4 h-3/4 bg-fuchsia-500/10 rounded-full filter blur-2xl shadow-[0_0_40px_rgba(217,70,239,0.4)]"></div>
-                            <img src="assets/c10.png" alt="Vayoo C-10" class="relative z-10 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute top-4 left-4 z-20 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1 rounded-full flex items-center">
-                                <i class="fa-solid fa-car text-fuchsia-400 mr-2 text-xs"></i>
-                                <span class="text-xs text-gray-200 font-medium">50-70 sq.ft.</span>
-                            </div>
-                        </div>
-                        <div class="p-8 flex flex-col flex-grow">
-                            <div class="flex justify-between items-start mb-2">
-                                <div>
-                                    <h3 class="text-2xl font-bold text-white">Vayoo C-10</h3>
-                                    <p class="text-fuchsia-400 font-medium">Portable Car Air Purifier</p>
-                                </div>
-                                <div class="text-right">
-                                    <span class="text-xs text-gray-500 block">Price</span>
-                                    <span class="text-2xl font-bold text-white">₹1,800</span>
-                                </div>
-                            </div>
-                            <div class="mt-6 flex-grow">
-                                <h4 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Key Features</h4>
-                                <ul class="space-y-2">
-                                    <li class="flex items-center text-gray-300 text-sm"><div class="w-1.5 h-1.5 rounded-full bg-fuchsia-500 mr-3"></div>Aesthetic RGB Mood Lights</li>
-                                    <li class="flex items-center text-gray-300 text-sm"><div class="w-1.5 h-1.5 rounded-full bg-fuchsia-500 mr-3"></div>Vertical Wind Circulation</li>
-                                    <li class="flex items-center text-gray-300 text-sm"><div class="w-1.5 h-1.5 rounded-full bg-fuchsia-500 mr-3"></div>HEPA H-13 Filter</li>
-                                    <li class="flex items-center text-gray-300 text-sm"><div class="w-1.5 h-1.5 rounded-full bg-fuchsia-500 mr-3"></div>Low Noise</li>
-                                </ul>
-                            </div>
-                            <div class="mt-8 pt-6 border-t border-purple-900/30">
-                                <button disabled class="w-full py-4 rounded-xl font-bold tracking-wide border-2 border-purple-800 text-purple-300 opacity-60 cursor-not-allowed flex items-center justify-center uppercase">Available Soon</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 2: D10 -->
-                    <div class="bg-[#0F051C] border border-purple-900/40 rounded-3xl overflow-hidden flex flex-col group hover:border-fuchsia-500/50 transition-all duration-300 shadow-xl">
-                        <div class="relative h-72 bg-gradient-to-br from-[#1A0B2E] to-[#0A0214] flex items-center justify-center overflow-hidden">
-                            <div class="absolute w-3/4 h-3/4 bg-sky-500/10 rounded-full filter blur-2xl shadow-[0_0_40px_rgba(56,189,248,0.4)]"></div>
-                            <img src="assets/d10.png" alt="Vayoo D-10" class="relative z-10 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute top-4 left-4 z-20 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1 rounded-full flex items-center">
-                                <i class="fa-solid fa-desktop text-sky-400 mr-2 text-xs"></i>
-                                <span class="text-xs text-gray-200 font-medium">80-125 sq.ft.</span>
-                            </div>
-                        </div>
-                        <div class="p-8 flex flex-col flex-grow">
-                            <div class="flex justify-between items-start mb-2">
-                                <div>
-                                    <h3 class="text-2xl font-bold text-white">Vayoo D-10</h3>
-                                    <p class="text-sky-400 font-medium">Compact Desk Air Purifier</p>
-                                </div>
-                                <div class="text-right">
-                                    <span class="text-xs text-gray-500 block">Price</span>
-                                    <span class="text-2xl font-bold text-white">₹3,000</span>
-                                </div>
-                            </div>
-                            <div class="mt-6 flex-grow">
-                                <h4 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Key Features</h4>
-                                <ul class="space-y-2">
-                                    <li class="flex items-center text-gray-300 text-sm"><div class="w-1.5 h-1.5 rounded-full bg-sky-500 mr-3"></div>RGB Lights</li>
-                                    <li class="flex items-center text-gray-300 text-sm"><div class="w-1.5 h-1.5 rounded-full bg-sky-500 mr-3"></div>Low-Noise Operation</li>
-                                    <li class="flex items-center text-gray-300 text-sm"><div class="w-1.5 h-1.5 rounded-full bg-sky-500 mr-3"></div>HEPA H-13 Filter</li>
-                                    <li class="flex items-center text-gray-300 text-sm"><div class="w-1.5 h-1.5 rounded-full bg-sky-500 mr-3"></div>Perfect for Workstations</li>
-                                </ul>
-                            </div>
-                            <div class="mt-8 pt-6 border-t border-purple-900/30">
-                                <button disabled class="w-full py-4 rounded-xl font-bold tracking-wide border-2 border-purple-800 text-purple-300 opacity-60 cursor-not-allowed flex items-center justify-center uppercase">Available Soon</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 3: R10 -->
-                    <div class="bg-[#0F051C] border border-purple-900/40 rounded-3xl overflow-hidden flex flex-col group hover:border-fuchsia-500/50 transition-all duration-300 shadow-xl">
-                        <div class="relative h-72 bg-gradient-to-br from-[#1A0B2E] to-[#0A0214] flex items-center justify-center overflow-hidden">
-                            <div class="absolute w-3/4 h-3/4 bg-purple-500/10 rounded-full filter blur-2xl shadow-[0_0_40px_rgba(168,85,247,0.4)]"></div>
-                            <img src="assets/r10.png" alt="Vayoo R-10" class="relative z-10 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute top-4 left-4 z-20 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1 rounded-full flex items-center">
-                                <i class="fa-solid fa-home text-purple-400 mr-2 text-xs"></i>
-                                <span class="text-xs text-gray-200 font-medium">350-400 sq.ft.</span>
-                            </div>
-                        </div>
-                        <div class="p-8 flex flex-col flex-grow">
-                            <div class="flex justify-between items-start mb-2">
-                                <div>
-                                    <h3 class="text-2xl font-bold text-white">Vayoo R-10</h3>
-                                    <p class="text-purple-400 font-medium">Premium Room Air Purifier</p>
-                                </div>
-                                <div class="text-right">
-                                    <span class="text-xs text-gray-500 block">Price</span>
-                                    <span class="text-2xl font-bold text-white">₹6,500</span>
-                                </div>
-                            </div>
-                            <div class="mt-6 flex-grow">
-                                <h4 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Key Features</h4>
-                                <ul class="space-y-2">
-                                    <li class="flex items-center text-gray-300 text-sm"><div class="w-1.5 h-1.5 rounded-full bg-purple-500 mr-3"></div>3-Modes</li>
-                                    <li class="flex items-center text-gray-300 text-sm"><div class="w-1.5 h-1.5 rounded-full bg-purple-500 mr-3"></div>AQI-Meter Display</li>
-                                    <li class="flex items-center text-gray-300 text-sm"><div class="w-1.5 h-1.5 rounded-full bg-purple-500 mr-3"></div>Low-Noise</li>
-                                    <li class="flex items-center text-gray-300 text-sm"><div class="w-1.5 h-1.5 rounded-full bg-purple-500 mr-3"></div>HEPA H-13 Filter</li>
-                                </ul>
-                            </div>
-                            <div class="mt-8 pt-6 border-t border-purple-900/30">
-                                <button disabled class="w-full py-4 rounded-xl font-bold tracking-wide border-2 border-purple-800 text-purple-300 opacity-60 cursor-not-allowed flex items-center justify-center uppercase">Available Soon</button>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+      </div>
+      <div>
+        <h4>The range</h4>
+        <div class="stack">
+          <a href="#/p/c10">Vayoo C-10 · Car</a>
+          <a href="#/p/d10">Vayoo D-10 · Desk</a>
+          <a href="#/p/r10">Vayoo R-10 · Room</a>
+          <a href="#/compare">Compare all three</a>
+          <a href="#/sizing">Find your fit</a>
         </div>
-
-        <!-- ABOUT PAGE -->
-        <div id="about" class="page-section hidden py-20">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
-                <div class="text-center mb-20">
-                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">The Vayoo Story</h1>
-                    <p class="text-xl text-gray-400 leading-relaxed">
-                        The best time to make a change was yesterday, the second best time is Now!
-                    </p>
-                </div>
-
-                <div class="space-y-16">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div class="bg-[#0F051C] p-8 rounded-2xl border border-purple-900/30">
-                            <h3 class="text-2xl font-bold text-fuchsia-400 mb-4">Our Mission</h3>
-                            <p class="text-gray-300 leading-relaxed">To become India's Number One Clean-Tech Appliances brand and help India become more clean and fresh.</p>
-                        </div>
-                        <div class="bg-[#0F051C] p-8 rounded-2xl border border-purple-900/30">
-                            <h3 class="text-2xl font-bold text-cyan-400 mb-4">Our Vision</h3>
-                            <p class="text-gray-300 leading-relaxed">To enable India the birth-right of Pure Air to breathe, creating a better tomorrow for the future generation.</p>
-                        </div>
-                    </div>
-
-                    <div class="relative p-10 bg-gradient-to-br from-purple-900/20 to-[#0F051C] rounded-3xl border border-fuchsia-500/20 overflow-hidden">
-                        <div class="absolute top-0 right-0 w-64 h-64 bg-fuchsia-600/10 rounded-full filter blur-3xl"></div>
-                        <h2 class="text-3xl font-bold text-white mb-6">What are we solving & for Whom?</h2>
-                        <p class="text-lg text-gray-300 mb-6 leading-relaxed">We are solving the crisis of unbreathable air in metro cities of India. For the mass majority of Youth, Elderly and Children, who can't afford expensive purifiers, but deserve fresh air just as much as anyone.</p>
-                        <h2 class="text-3xl font-bold text-white mt-10 mb-6">Why Now & Why Us?</h2>
-                        <p class="text-lg text-gray-300 mb-6 leading-relaxed">Now more than ever we need fresh air especially for vulnerable groups. We are the perfect team for building this. Coming from cities where AQI was never a concern, the founding team faced this issue first when for work they had to shift to Delhi NCR.</p>
-                        <h2 class="text-3xl font-bold text-white mt-10 mb-6">Our USP</h2>
-                        <p class="text-lg text-gray-300 leading-relaxed">Being the brand that is there for the masses, affordable for the masses and no compromise on quality, because not just you, but everyone deserves to "Breathe Better".</p>
-                    </div>
-
-                    <div>
-                        <h2 class="text-3xl font-bold text-center text-white mb-10">Meet the Team</h2>
-                        <p class="text-center text-gray-400 mb-12 max-w-2xl mx-auto">Our team comprises of our combined experiences in D2C businesses, Marketing, Finance and Startups. Other than our founders, we have a team of young enthusiasts running day-to-day operations.</p>
-                        
-                        <div class="flex flex-col md:flex-row gap-10 justify-center">
-                            <!-- Founder 1 -->
-                            <div class="w-full md:w-[350px] group">
-                                <div class="h-full flex flex-col bg-[#0F051C] overflow-hidden rounded-3xl border-2 border-purple-900/50 shadow-2xl group-hover:border-fuchsia-500/50 transition-colors p-8">
-                                    <div class="flex justify-between items-start mb-6">
-                                        <div>
-                                            <h3 class="text-2xl font-bold text-white mb-1">Praful Chauhan</h3>
-                                            <p class="text-fuchsia-400 text-sm">Co-Founder</p>
-                                        </div>
-                                        <a href="https://www.linkedin.com/in/praful-chauhan-18037816a/" target="_blank" class="inline-block text-gray-400 hover:text-[#0077b5] transition-colors"><i class="fa-brands fa-linkedin text-3xl"></i></a>
-                                    </div>
-                                    <div class="text-gray-300 text-sm flex-grow space-y-3">
-                                        <p class="font-semibold text-white mb-2">Relevant Experience:</p>
-                                        <ul class="list-disc pl-4 space-y-2">
-                                            <li>Extensive background in Marketing and building modern D2C businesses.</li>
-                                            <li>Proven track record in driving early-stage startup growth and brand awareness.</li>
-                                            <li>Passionate about delivering high-quality, affordable clean-tech appliances to the Indian masses.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Founder 2 -->
-                            <div class="w-full md:w-[350px] group">
-                                <div class="h-full flex flex-col bg-[#0F051C] overflow-hidden rounded-3xl border-2 border-purple-900/50 shadow-2xl group-hover:border-fuchsia-500/50 transition-colors p-8">
-                                    <div class="flex justify-between items-start mb-6">
-                                        <div>
-                                            <h3 class="text-2xl font-bold text-white mb-1">Abhinav Verma</h3>
-                                            <p class="text-fuchsia-400 text-sm">Co-Founder</p>
-                                        </div>
-                                        <a href="https://www.linkedin.com/in/iabhinavv" target="_blank" class="inline-block text-gray-400 hover:text-[#0077b5] transition-colors"><i class="fa-brands fa-linkedin text-3xl"></i></a>
-                                    </div>
-                                    <div class="text-gray-300 text-sm flex-grow space-y-3">
-                                        <p class="font-semibold text-white mb-2">Relevant Experience:</p>
-                                        <ul class="list-disc pl-4 space-y-2">
-                                            <li>Core expertise in Finance, operations, and scaling consumer-focused startups.</li>
-                                            <li>Experienced in establishing lean supply chains for accessible pricing strategies.</li>
-                                            <li>Committed to revolutionizing air quality in India for vulnerable communities.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <div class="stack">
+          <a href="#/about">Our story</a>
+          <a href="#/technology">How HEPA H13 works</a>
+          <a href="#/investors">Investor relations</a>
+          <a href="#/contact">Contact &amp; support</a>
+          <a href="#/notify">Launch updates</a>
         </div>
-
-        <!-- CONTACT PAGE -->
-        <div id="contact" class="page-section hidden py-20">
-            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
-                <div class="text-center mb-16">
-                    <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">Get in Touch</h1>
-                    <p class="text-xl text-gray-400 max-w-2xl mx-auto">Have questions about our products, need support, or want to partner with us? We'd love to hear from you.</p>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                    <div class="lg:col-span-1 space-y-6">
-                        <div class="bg-[#0F051C] p-8 rounded-3xl border border-purple-900/50 shadow-2xl hover:border-fuchsia-500/30 transition-colors">
-                            <div class="w-12 h-12 bg-fuchsia-500/20 rounded-xl flex items-center justify-center mb-6">
-                                <i class="fa-solid fa-envelope text-fuchsia-400 text-xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-white mb-2">Email Us</h3>
-                            <p class="text-gray-400 mb-4 text-sm">Our team will get back to you within 24 hours.</p>
-                            <a href="mailto:abhinav@vayoo.store" class="text-fuchsia-400 hover:text-fuchsia-300 font-medium break-all">abhinav@vayoo.store</a>
-                        </div>
-                        <div class="bg-[#0F051C] p-8 rounded-3xl border border-purple-900/50 shadow-2xl hover:border-fuchsia-500/30 transition-colors">
-                            <div class="w-12 h-12 bg-fuchsia-500/20 rounded-xl flex items-center justify-center mb-6">
-                                <i class="fa-solid fa-phone text-fuchsia-400 text-xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-white mb-2">Call Us</h3>
-                            <p class="text-gray-400 mb-4 text-sm">Mon-Fri from 9am to 6pm IST.</p>
-                            <a href="tel:+917009979996" class="text-fuchsia-400 hover:text-fuchsia-300 font-medium">+91 7009979996</a>
-                        </div>
-                    </div>
-
-                    <div class="lg:col-span-2 bg-[#0F051C] p-8 md:p-10 rounded-3xl border border-purple-900/50 shadow-2xl">
-                        <h2 class="text-2xl font-bold text-white mb-8">Send us a message</h2>
-                        <form class="space-y-6" onsubmit="event.preventDefault();">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-400 mb-2">First Name</label>
-                                    <input type="text" class="w-full bg-[#150826] border border-purple-900/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 transition-all" placeholder="John">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-400 mb-2">Last Name</label>
-                                    <input type="text" class="w-full bg-[#150826] border border-purple-900/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 transition-all" placeholder="Doe">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-400 mb-2">Email Address</label>
-                                <input type="email" class="w-full bg-[#150826] border border-purple-900/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 transition-all" placeholder="john@example.com">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-400 mb-2">Reason for Inquiry</label>
-                                <select class="w-full bg-[#150826] border border-purple-900/50 rounded-lg px-4 py-3 text-gray-300 focus:outline-none focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 transition-all appearance-none">
-                                    <option>General Support</option>
-                                    <option>Product Information</option>
-                                    <option>Bulk Order/Partnership</option>
-                                    <option>Press/Media</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-400 mb-2">Message</label>
-                                <textarea rows="4" class="w-full bg-[#150826] border border-purple-900/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-fuchsia-500 focus:ring-1 focus:ring-fuchsia-500 transition-all" placeholder="How can we help you today?"></textarea>
-                            </div>
-                            <button type="submit" class="w-full py-4 bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white rounded-lg font-bold text-lg hover:from-fuchsia-500 hover:to-purple-500 transition-all shadow-[0_0_20px_rgba(192,38,211,0.3)]">Send Message</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+      </div>
+      <div>
+        <h4>Reach us</h4>
+        <div class="stack">
+          <a href="mailto:abhinav@vayoo.store">abhinav@vayoo.store</a>
+          <a href="tel:+917009979996">+91 70099 79996</a>
+          <span class="small dim">Mon–Fri, 9am–6pm IST</span>
+          <a href="#/legal">Privacy</a>
+          <a href="#/legal#terms">Terms</a>
         </div>
+      </div>
+    </div>
+    <div class="legal">
+      <div>© <span id="yr">2026</span> Vayoo. All rights reserved.</div>
+      <div class="row">
+        <span>Made in India</span>
+        <span>·</span>
+        <span>Breathe Better</span>
+      </div>
+    </div>
+  </div>
+</footer>
 
-        <!-- INVESTOR PAGE -->
-        <div id="forinvestor" class="page-section hidden py-20">
-            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
-                <div class="text-center mb-20 relative">
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-fuchsia-600/20 rounded-full blur-[100px] -z-10"></div>
-                    <div class="inline-flex items-center px-4 py-2 rounded-full border border-fuchsia-500/30 bg-fuchsia-500/10 text-fuchsia-300 text-sm font-medium mb-6">Confidential Investor Relations</div>
-                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">Be a Part of the <span class="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-indigo-400">Revolution</span></h1>
-                    <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">Help India breathe better air. Vayoo is raising a Seed round to put our vision into execution and scale rapidly in an underserved market.</p>
-                </div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
 
-                <div class="bg-gradient-to-br from-[#1A0B2E] to-[#0A0214] p-10 rounded-3xl border border-fuchsia-500/30 mb-16 relative overflow-hidden shadow-2xl">
-                    <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-fuchsia-500/20 rounded-full blur-3xl"></div>
-                    <h3 class="text-sm uppercase tracking-widest text-fuchsia-400 font-semibold mb-4">Investment Ask</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                        <div>
-                            <div class="flex items-baseline gap-2 mb-2">
-                                <span class="text-5xl md:text-6xl font-extrabold text-white">₹50 Lac</span>
-                            </div>
-                            <p class="text-gray-300 text-xl mb-6">Seed Round for 10% equity</p>
-                            <a href="mailto:abhinav@vayoo.store" class="inline-flex px-8 py-4 bg-white text-black rounded-lg font-bold text-lg hover:bg-gray-200 transition-colors">Contact Founders</a>
-                        </div>
-                        <div class="bg-black/40 border border-white/10 p-6 rounded-2xl backdrop-blur-sm relative z-10">
-                            <h4 class="text-white font-bold mb-4 flex items-center"><i class="fa-solid fa-bullseye text-fuchsia-400 mr-2"></i> Goal For Next 2 Years</h4>
-                            <p class="text-gray-300">Achieve revenue of ₹20 Crore while being EBITA positive from the First Quarter through aggressive D2C strategies and E-commerce dominance.</p>
-                        </div>
-                    </div>
-                </div>
+<script>
+/* ============================================================================
+   VAYOO — single-file site
+   Hash router, product catalogue, comparison tray, sizing tool, forms.
+   Every product claim below comes from Vayoo's own material; nothing invented.
+   ============================================================================ */
+(function(){
+'use strict';
 
-                <div class="mb-16">
-                    <h2 class="text-3xl font-bold text-white mb-8 text-center">Market Size & Growth</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-[#0F051C] p-8 rounded-2xl border border-purple-900/30 text-center hover:border-fuchsia-500/50 transition-colors">
-                            <div class="w-14 h-14 bg-fuchsia-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-fuchsia-500/20">
-                                <i class="fa-solid fa-chart-pie text-fuchsia-400 text-2xl"></i>
-                            </div>
-                            <h3 class="text-3xl font-bold text-white mb-2">₹2900 Cr</h3>
-                            <p class="text-fuchsia-400 font-medium mb-2">TAM</p>
-                            <p class="text-gray-500 text-sm">Total Addressable Market (Industrial & Domestic)</p>
-                        </div>
-                        <div class="bg-[#0F051C] p-8 rounded-2xl border border-purple-900/30 text-center hover:border-purple-500/50 transition-colors">
-                            <div class="w-14 h-14 bg-purple-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-purple-500/20">
-                                <i class="fa-solid fa-chart-pie text-purple-400 text-2xl"></i>
-                            </div>
-                            <h3 class="text-3xl font-bold text-white mb-2">₹1800 Cr</h3>
-                            <p class="text-purple-400 font-medium mb-2">SAM</p>
-                            <p class="text-gray-500 text-sm">Serviceable Addressable Market</p>
-                        </div>
-                        <div class="bg-[#0F051C] p-8 rounded-2xl border border-purple-900/30 text-center hover:border-indigo-500/50 transition-colors">
-                            <div class="w-14 h-14 bg-indigo-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-indigo-500/20">
-                                <i class="fa-solid fa-arrow-trend-up text-indigo-400 text-2xl"></i>
-                            </div>
-                            <h3 class="text-3xl font-bold text-white mb-2">₹907 Cr</h3>
-                            <p class="text-indigo-400 font-medium mb-2">SOM</p>
-                            <p class="text-gray-500 text-sm">Serviceable Obtainable Market</p>
-                        </div>
-                    </div>
-                    <div class="text-center mt-8">
-                        <div class="inline-block px-8 py-3 bg-[#150826] rounded-full border border-purple-900/50">
-                            <p class="text-gray-300 text-sm md:text-base">Estimated Industry CAGR of <span class="text-fuchsia-400 font-bold">28.51%</span> by 2030</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+var $  = function(s,c){return (c||document).querySelector(s);};
+var $$ = function(s,c){return [].slice.call((c||document).querySelectorAll(s));};
+var esc = function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});};
+var money = function(n){return '₹'+Number(n).toLocaleString('en-IN');};
+var DOT = '·';
 
-    </main>
+/* ---------------------------------------------------------------- catalogue */
+var PRODUCTS = [
+  {
+    id:'c10', name:'Vayoo C-10', role:'Portable Car Air Purifier', space:'car',
+    price:1800, area:[50,70], accent:'#C42FA6',
+    tagline:'Cabin air, cleaned on the move.',
+    intro:'A commute is one of the most concentrated doses of polluted air most people get all day — windows up, engine exhaust all around, the same air recirculating. The C-10 sits in the cabin and keeps working the whole way.',
+    feats:['Aesthetic RGB mood lights','Vertical wind circulation','HEPA H-13 filter','Low-noise operation'],
+    fits:'Hatchbacks, sedans and cabs, and any small enclosed space of roughly 50–70 sq.ft.',
+    highlight:'Vertical wind circulation',
+    highlightNote:'Air is drawn in and pushed upward through the cabin rather than across it, so it turns over the whole volume instead of one seat.'
+  },
+  {
+    id:'d10', name:'Vayoo D-10', role:'Compact Desk Air Purifier', space:'desk',
+    price:3000, area:[80,125], accent:'#7B3FE4',
+    tagline:'A clean-air bubble around your desk.',
+    intro:'You breathe the air within a metre of your face for eight to ten hours a day. The D-10 is built for that metre — a workstation, an office cabin, a gaming setup — quiet enough that you forget it is running.',
+    feats:['RGB lights','Low-noise operation','HEPA H-13 filter','Built for workstations'],
+    fits:'Workstations, office cabins, study tables and gaming setups of roughly 80–125 sq.ft.',
+    highlight:'Low-noise operation',
+    highlightNote:'Designed to run beside you all day without competing with a call, a lecture or a game.'
+  },
+  {
+    id:'r10', name:'Vayoo R-10', role:'Premium Room Air Purifier', space:'room',
+    price:6500, area:[350,400], accent:'#7DCB29',
+    tagline:'The whole room, and the number to prove it.',
+    intro:'India’s most affordable room air purifier in its class — built for bedrooms, living rooms and nurseries. The on-board AQI meter shows you the air quality in the room, so cleaner air is something you can watch happen rather than take on trust.',
+    feats:['3 fan modes','On-board AQI meter display','Low-noise operation','HEPA H-13 filter'],
+    fits:'Bedrooms, living rooms, nurseries and small offices of roughly 350–400 sq.ft.',
+    highlight:'On-board AQI meter',
+    highlightNote:'A live readout on the unit itself — the difference between hoping the air is better and knowing it is.',
+    badge:'Most popular'
+  }
+];
+var byId = function(id){return PRODUCTS.filter(function(p){return p.id===id;})[0];};
+var IMG  = function(p){return 'assets/derived/'+p.id+'-product.png';};
+var POSTER = function(p){return 'assets/'+p.id+'.png';};
+var SPACE_LABEL = {car:'Car',desk:'Desk & workstation',room:'Room'};
 
-    <!-- FOOTER -->
-    <footer class="bg-[#05010A] border-t border-purple-900/30 pt-16 pb-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
-                <div>
-                    <div class="flex items-center mb-6 cursor-pointer group w-fit" onclick="navigateTo('home')">
-                        <img src="assets/logo.png" alt="Vayoo Logo" class="h-12 w-auto group-hover:opacity-80 transition-opacity">
-                    </div>
-                    <p class="text-gray-400 mb-6 leading-relaxed">
-                        Making pure air accessible for everyone by providing users Air Purifying Appliances for all use cases at the most affordable price-point.
-                    </p>
-                    <div class="flex space-x-4">
-                        <a href="https://www.instagram.com/vayoo.store" target="_blank" class="text-gray-400 hover:text-fuchsia-400 transition-colors"><i class="fa-brands fa-instagram text-2xl"></i></a>
-                        <a href="https://www.linkedin.com/company/vayoo-store" target="_blank" class="text-gray-400 hover:text-fuchsia-400 transition-colors"><i class="fa-brands fa-linkedin text-2xl"></i></a>
-                    </div>
-                </div>
-                
-                <div>
-                    <h3 class="text-white text-lg font-semibold mb-4">Quick Links</h3>
-                    <ul class="space-y-3">
-                        <li><button onclick="navigateTo('products')" class="text-gray-400 hover:text-fuchsia-400 transition-colors">Our Products</button></li>
-                        <li><button onclick="navigateTo('about')" class="text-gray-400 hover:text-fuchsia-400 transition-colors">Our Mission</button></li>
-                        <li><button onclick="navigateTo('forinvestor')" class="text-gray-400 hover:text-fuchsia-400 transition-colors">Investor Relations</button></li>
-                        <li><button onclick="navigateTo('contact')" class="text-gray-400 hover:text-fuchsia-400 transition-colors">Support</button></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-white text-lg font-semibold mb-4">Contact Us</h3>
-                    <ul class="space-y-4">
-                        <li class="flex items-start">
-                            <i class="fa-solid fa-envelope text-fuchsia-500 mr-3 mt-1"></i>
-                            <span class="text-gray-400">abhinav@vayoo.store</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fa-solid fa-phone text-fuchsia-500 mr-3 mt-1"></i>
-                            <span class="text-gray-400">+91 7009979996</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="border-t border-purple-900/30 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-500 text-sm mb-4 md:mb-0">© 2026 Vayoo Store. All rights reserved.</p>
-                <div class="flex space-x-6 text-sm text-gray-500">
-                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
-                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+/* what HEPA H13 captures at 0.3 micron — standard, not model-specific */
+var REMOVES = [
+  ['PM2.5 and PM10','The fine particulate that drives most of India’s air-quality readings.'],
+  ['Smoke and soot','Vehicle exhaust, crop-burning haze, cooking smoke, incense.'],
+  ['Dust and dust mite debris','The everyday load in any Indian home, and a common asthma trigger.'],
+  ['Pollen','Seasonal allergens, at the size range HEPA is graded for.'],
+  ['Pet dander','Skin flakes and hair fragments that stay airborne for hours.'],
+  ['Mould spores','Airborne spores released in damp and monsoon conditions.']
+];
 
-    <!-- NAVIGATION LOGIC -->
-    <script>
-        function navigateTo(pageId) {
-            // Hide all pages
-            const pages = document.querySelectorAll('.page-section');
-            pages.forEach(page => {
-                page.classList.remove('block');
-                page.classList.add('hidden');
-                page.classList.remove('animate-fade-in'); // reset animation
-            });
+/* ---------------------------------------------------------------- state */
+var store = {
+  get:function(k,d){ try{ var v=localStorage.getItem('vayoo.'+k); return v==null?d:JSON.parse(v); }catch(e){ return d; } },
+  set:function(k,v){ try{ localStorage.setItem('vayoo.'+k,JSON.stringify(v)); }catch(e){} }
+};
+var compare = store.get('compare',[]);
 
-            // Show target page
-            const targetPage = document.getElementById(pageId);
-            if(targetPage) {
-                targetPage.classList.remove('hidden');
-                targetPage.classList.add('block');
-                // Force reflow to restart animation
-                void targetPage.offsetWidth; 
-                targetPage.classList.add('animate-fade-in');
-            }
+function toast(msg){
+  var t=document.createElement('div'); t.className='toast';
+  t.innerHTML='<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg><span>'+esc(msg)+'</span>';
+  $('#toasts').appendChild(t);
+  setTimeout(function(){ t.style.transition='opacity .4s,transform .4s'; t.style.opacity='0'; t.style.transform='translateY(10px)';
+    setTimeout(function(){ t.remove(); },420); },2600);
+}
 
-            // Update Nav styling
-            const navBtns = document.querySelectorAll('.nav-btn, .mobile-nav-btn');
-            navBtns.forEach(btn => {
-                if(btn.dataset.target === pageId) {
-                    btn.classList.remove('text-gray-300', 'hover:bg-purple-800/30');
-                    btn.classList.add('text-white', 'bg-purple-900/50');
-                } else {
-                    btn.classList.add('text-gray-300', 'hover:bg-purple-800/30');
-                    btn.classList.remove('text-white', 'bg-purple-900/50');
-                }
-            });
+function toggleCompare(id){
+  var i=compare.indexOf(id);
+  if(i>-1){ compare.splice(i,1); toast(byId(id).name+' removed from compare'); }
+  else{
+    if(compare.length>=3){ toast('Compare holds three at a time'); return; }
+    compare.push(id); toast(byId(id).name+' added to compare');
+  }
+  store.set('compare',compare); paintCompare(); render();
+}
+function paintCompare(){
+  var b=$('#cmpBtn'); $('#cmpN').textContent=compare.length;
+  b.classList.toggle('show',compare.length>0);
+}
 
-            // Scroll to top & Close mobile menu
-            window.scrollTo(0, 0);
-            document.getElementById('mobile-menu').classList.add('hidden');
-            document.getElementById('mobile-icon').classList.replace('fa-xmark', 'fa-bars');
-        }
+/* ---------------------------------------------------------------- icons */
+var ICON = {
+  car:'<path d="M5 17h14M6.5 17v1.5M17.5 17v1.5M4 13l1.6-4.4A2 2 0 0 1 7.5 7h9a2 2 0 0 1 1.9 1.6L20 13v4H4v-4z"/><circle cx="7.5" cy="14.5" r=".9" fill="currentColor"/><circle cx="16.5" cy="14.5" r=".9" fill="currentColor"/>',
+  desk:'<rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M8 20h8M12 16.5V20"/>',
+  room:'<path d="M4 10.5L12 4l8 6.5V20H4v-9.5z"/><path d="M9.5 20v-6h5v6"/>',
+  shield:'<path d="M12 3l7.5 3v5.5c0 4.6-3.1 8.3-7.5 9.5-4.4-1.2-7.5-4.9-7.5-9.5V6L12 3z"/><path d="M8.8 12l2.3 2.3 4.1-4.6"/>',
+  wind:'<path d="M3 8.5h9.5a2.7 2.7 0 1 0-2.7-2.7M3 15.5h13a2.7 2.7 0 1 1-2.7 2.7M3 12h16"/>',
+  bolt:'<path d="M13 2.5L4.5 13.5H11l-1 8 8.5-11H12l1-8z"/>',
+  leaf:'<path d="M20 4C9 4 4.5 9 4.5 15.5c0 2.2 1 3.9 1 3.9M5.5 19.4S9 12 20 4"/><path d="M5.5 19.4c8 1.3 13-3.4 14.5-15.4"/>',
+  factory:'<path d="M3 20h18V9l-6 3.5V9l-6 3.5V4H3v16z"/><path d="M7 16.5h1.5M11.5 16.5H13M16 16.5h1.5"/>',
+  gauge:'<path d="M4.2 17a9 9 0 1 1 15.6 0"/><path d="M12 13.5l4-3.5"/><circle cx="12" cy="14.5" r="1.4" fill="currentColor" stroke="none"/>',
+  heart:'<path d="M12 20s-7.5-4.6-7.5-9.5A4.2 4.2 0 0 1 12 8a4.2 4.2 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"/>',
+  rupee:'<path d="M7 4h10M7 8.5h10M7 20l7.5-7.5a4.2 4.2 0 0 0-3-7H7"/>',
+  chart:'<path d="M4 19V5M4 19h16"/><path d="M8 15l3.5-4.5L15 14l4.5-6"/>',
+  spark:'<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"/>',
+  people:'<circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M16 5.4a3.2 3.2 0 0 1 0 5.2M17.5 14.9c2 .6 3.2 2.4 3.2 4.6"/>',
+  clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.8"/>',
+  mail:'<rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M4 7l8 5.5L20 7"/>',
+  phone:'<path d="M6.5 3.5h3l1.5 4-2 1.5a11 11 0 0 0 5 5l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2C11 18.7 5.3 13 4.5 5.7A2 2 0 0 1 6.5 3.5z"/>'
+};
+function ic(n){ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+ICON[n]+'</svg>'; }
+function check(){ return '<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg>'; }
+function arrow(){ return '<svg class="arw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg>'; }
 
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            const icon = document.getElementById('mobile-icon');
-            
-            if(menu.classList.contains('hidden')) {
-                menu.classList.remove('hidden');
-                icon.classList.replace('fa-bars', 'fa-xmark');
-            } else {
-                menu.classList.add('hidden');
-                icon.classList.replace('fa-xmark', 'fa-bars');
-            }
-        }
-    </script>
+/* ---------------------------------------------------------------- AQI */
+var AQI_BANDS = [
+  [50,'Good','var(--aqi-good)'],[100,'Satisfactory','var(--aqi-ok)'],[200,'Moderate','var(--aqi-mid)'],
+  [300,'Poor','var(--aqi-poor)'],[400,'Very Poor','var(--aqi-vpoor)'],[500,'Severe','var(--aqi-sev)']
+];
+function band(v){ for(var i=0;i<AQI_BANDS.length;i++){ if(v<=AQI_BANDS[i][0]) return AQI_BANDS[i]; } return AQI_BANDS[5]; }
+
+/* ---------------------------------------------------------------- fragments */
+function productCard(p){
+  var inC = compare.indexOf(p.id)>-1;
+  return '<article class="pcard rv" style="--pc:'+p.accent+'">'+
+    '<div class="pcard-art">'+
+      '<span class="badge">'+ic(p.space)+SPACE_LABEL[p.space]+' '+DOT+' '+p.area[0]+'–'+p.area[1]+' sq.ft.</span>'+
+      '<button class="cmp'+(inC?' on':'')+'" data-cmp="'+p.id+'" aria-pressed="'+inC+'">'+(inC?'✓ Comparing':'Compare')+'</button>'+
+      '<a href="#/p/'+p.id+'" aria-label="'+esc(p.name)+'"><img src="'+IMG(p)+'" alt="'+esc(p.name)+' air purifier" loading="lazy"></a>'+
+    '</div>'+
+    '<div class="pcard-body">'+
+      '<div class="pcard-title">'+
+        '<div><a href="#/p/'+p.id+'"><h3>'+esc(p.name)+'</h3></a><div class="role">'+esc(p.role)+'</div></div>'+
+        '<div class="pcard-price"><span class="v tnum">'+money(p.price)+'</span><span class="u">Launch price</span></div>'+
+      '</div>'+
+      '<ul class="pcard-feats">'+p.feats.map(function(f){return '<li>'+esc(f)+'</li>';}).join('')+'</ul>'+
+      '<div class="pcard-cta">'+
+        '<a class="btn btn-p btn-sm" href="#/p/'+p.id+'">View details'+arrow()+'</a>'+
+        '<a class="btn btn-g btn-sm" href="#/notify?p='+p.id+'">Notify me</a>'+
+      '</div>'+
+    '</div></article>';
+}
+
+function ctaBand(){
+  return '<section class="sec"><div class="wrap"><div class="cta-band rv">'+
+    '<span class="tag tag-leaf">Pre-launch</span>'+
+    '<h2 style="margin-top:16px">Be first to breathe better.</h2>'+
+    '<p class="lede">All three models are in final production. Leave your details and we will write to you the day pre-orders open — no marketing blasts in between.</p>'+
+    '<div class="row" style="justify-content:center;margin-top:28px">'+
+      '<a class="btn btn-leaf btn-lg" href="#/notify">Join the launch list'+arrow()+'</a>'+
+      '<a class="btn btn-g btn-lg" href="#/sizing" style="color:#fff;border-color:rgba(255,255,255,.3)">Find my fit</a>'+
+    '</div></div></div></section>';
+}
+
+function sectionHead(label,title,lede,mid){
+  return '<div class="sec-h'+(mid?' mid':'')+' rv"><span class="eyebrow">'+esc(label)+'</span>'+
+    '<h2>'+title+'</h2>'+(lede?'<p class="lede">'+lede+'</p>':'')+'</div>';
+}
+
+/* ============================================================================
+   ROUTES
+   ============================================================================ */
+var ROUTES = {};
+
+/* --------------------------------------------------------------- HOME */
+ROUTES.home = function(){
+  return ''+
+  /* hero */
+  '<section class="hero"><div class="wrap hero-grid">'+
+    '<div>'+
+      '<span class="pill"><span class="dot"></span>Medical-grade <b>HEPA H-13</b> '+DOT+' built for Indian air</span>'+
+      '<h1>Breathe better.<br><span class="gr">Everywhere you are.</span></h1>'+
+      '<p class="lede">Every breath you take should be the cleanest and healthiest one available to your body and mind. Three purifiers — for the car, the desk and the room — at prices that do not treat clean air as a luxury.</p>'+
+      '<div class="hero-cta">'+
+        '<a class="btn btn-p btn-lg" href="#/products">See the range'+arrow()+'</a>'+
+        '<a class="btn btn-s btn-lg" href="#/sizing">Find my purifier</a>'+
+      '</div>'+
+      '<div class="hero-facts">'+
+        '<div><b class="tnum">99.95%</b><span>OF PARTICLES AT 0.3µm</span></div>'+
+        '<div><b class="tnum">99.8%</b><span>OF PM2.5 CLEARED</span></div>'+
+        '<div><b class="tnum">'+money(1800)+'</b><span>STARTING PRICE</span></div>'+
+      '</div>'+
+    '</div>'+
+    '<div>'+aqiPanel()+'</div>'+
+  '</div></section>'+
+
+  /* range */
+  '<section class="sec-tight"><div class="wrap">'+
+    sectionHead('The range','One for the car.<br>One for the desk.<br>One for the room.',
+      'Same medical-grade filtration in all three. What changes is the volume of air each one is built to turn over.')+
+    '<div class="grid g3">'+PRODUCTS.map(productCard).join('')+'</div>'+
+    '<div class="row rv" style="margin-top:26px;justify-content:space-between;gap:16px">'+
+      '<p class="small dim" style="max-width:52ch">Not sure which size fits your space? The sizing tool asks three questions and gives you one answer.</p>'+
+      '<div class="row"><a class="btn btn-s btn-sm" href="#/sizing">Find my fit</a><a class="btn btn-g btn-sm" href="#/compare">Compare all three</a></div>'+
+    '</div>'+
+  '</div></section>'+
+
+  /* problem */
+  '<section class="sec"><div class="wrap">'+
+    sectionHead('Why this matters','The catastrophe we stopped noticing',
+      'Air pollution’s effect cannot be understated. It shortens life expectancy, raises vulnerability to lung and heart disease, and measurably affects cognitive function — and indoors is where most of us spend the day.')+
+    '<div class="grid g3">'+
+      [['car','Household &amp; vehicular','Diesel vehicles are a major source of black carbon. Open waste burning adds dioxins and heavy metals to the air of every neighbourhood that lives near it.'],
+       ['leaf','Agricultural &amp; deforestation','Crop burning, pesticides and fertilisers load the seasonal air. Loss of forest cover strips away the planet’s own purification.'],
+       ['factory','Industrial &amp; construction','Factories, power plants and poor waste disposal push asbestos, chemical residue and construction dust into everyday air.']]
+      .map(function(c){
+        return '<div class="card hov rv"><div class="ico">'+ic(c[0])+'</div><h3>'+c[1]+'</h3>'+
+          '<p class="muted small" style="margin-top:10px">'+c[2]+'</p></div>';
+      }).join('')+
+    '</div>'+
+  '</div></section>'+
+
+  /* filtration */
+  '<section class="sec"><div class="wrap">'+
+    sectionHead('The technology','What a HEPA H-13 filter actually does',
+      'H-13 is the first grade that qualifies as medical-grade. It captures <b>99.95% of airborne particles down to 0.3 microns</b> — the size range that carries most of what damages lungs.',true)+
+    '<div class="rv">'+filterViz()+'</div>'+
+    '<div class="grid g3 rv" style="margin-top:40px">'+
+      [['shield','Graded, not guessed','H-13 is a formal filtration class. The 99.95% figure is a test standard, not a marketing number.'],
+       ['wind','PM2.5, cleared','Up to 99.8% of PM2.5 — the fraction small enough to cross from lung into bloodstream.'],
+       ['gauge','Watch it happen','On the R-10, an on-board AQI meter shows the room’s air quality changing in front of you.']]
+      .map(function(c){ return '<div class="card hov"><div class="ico leaf">'+ic(c[0])+'</div><h3>'+c[1]+'</h3><p class="muted small" style="margin-top:10px">'+c[2]+'</p></div>'; }).join('')+
+    '</div>'+
+    '<div class="row rv" style="margin-top:26px"><a class="btn btn-s" href="#/technology">How the filtration works'+arrow()+'</a></div>'+
+  '</div></section>'+
+
+  /* positioning */
+  '<section class="sec"><div class="wrap split">'+
+    '<div class="rv">'+
+      '<span class="eyebrow">Why Vayoo</span>'+
+      '<h2 style="margin:14px 0 18px">Clean air is a birth-right, not a price bracket.</h2>'+
+      '<p class="lede" style="margin-bottom:26px">The purifiers sold by large multinationals in India are built for, and priced for, the upper end of the market. That leaves out the majority of the people breathing the worst air. We build for them.</p>'+
+      '<ul class="checks">'+
+        [['No compromise on the filter','the same medical-grade H-13 across all three models, at every price point.'],
+         ['A model for every space','a car, a desk and a room are three different problems. We did not solve one and stretch it.'],
+         ['Priced from '+money(1800),'the entry model costs less than a month of medicine for an aggravated asthma season.'],
+         ['Built for who is most exposed','youth, the elderly and children — the groups least able to absorb the cost and most affected by the air.']]
+        .map(function(c){ return '<li><span class="ic">'+check()+'</span><span><b>'+c[0]+'</b> — '+c[1]+'</span></li>'; }).join('')+
+      '</ul>'+
+    '</div>'+
+    '<div class="rv"><div class="card" style="padding:0;overflow:hidden;border-radius:var(--r-xl)">'+
+      '<div style="aspect-ratio:1/1;background:radial-gradient(circle at 50% 60%,#7DCB29 0%,#33065C 55%,#1E0163 100%);position:relative;overflow:hidden">'+
+        flowSVG()+
+        '<img src="'+IMG(byId('r10'))+'" alt="Vayoo R-10 room air purifier" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:44px 40px;z-index:2;filter:drop-shadow(0 30px 44px rgba(0,0,0,.5))">'+
+      '</div>'+
+      '<div style="padding:24px">'+
+        '<div class="row" style="justify-content:space-between"><div><h3>Vayoo R-10</h3><p class="small muted">Premium room air purifier '+DOT+' 350–400 sq.ft.</p></div>'+
+        '<div class="pcard-price"><span class="v tnum">'+money(6500)+'</span><span class="u">Launch price</span></div></div>'+
+        '<a class="btn btn-p btn-block btn-sm" href="#/p/r10" style="margin-top:18px">Explore the R-10'+arrow()+'</a>'+
+      '</div>'+
+    '</div></div>'+
+  '</div></section>'+
+
+  /* mission strip */
+  '<section class="sec-tight"><div class="wrap">'+
+    '<div class="grid g2">'+
+      '<div class="card rv" style="border-color:rgba(196,47,166,.3)"><div class="ico">'+ic('spark')+'</div>'+
+        '<h3>Our mission</h3><p class="muted" style="margin-top:10px">To become India’s number one clean-tech appliances brand, and help India become cleaner and fresher in the process.</p></div>'+
+      '<div class="card rv" style="border-color:rgba(125,203,41,.3)"><div class="ico leaf">'+ic('leaf')+'</div>'+
+        '<h3>Our vision</h3><p class="muted" style="margin-top:10px">To give India the birth-right of pure air to breathe, and build a better tomorrow for the generation after this one.</p></div>'+
+    '</div>'+
+    '<p class="quote rv" style="margin-top:36px;max-width:44ch">The best time to make a change was yesterday. The second best time is now.</p>'+
+  '</div></section>'+
+
+  ctaBand();
+};
+
+/* AQI instrument panel — interactive, illustrative */
+function aqiPanel(){
+  return '<div class="aqi-panel rv" id="aqiPanel">'+
+    flowSVG()+
+    '<div class="aqi-head">'+
+      '<span class="lbl">Air quality index</span>'+
+      '<div class="seg" role="tablist">'+
+        '<button data-aqi="out" class="on" role="tab" aria-selected="true">Outdoors</button>'+
+        '<button data-aqi="in" role="tab" aria-selected="false">With Vayoo</button>'+
+      '</div>'+
+    '</div>'+
+    '<div class="gauge-wrap">'+
+      '<svg class="gauge" viewBox="0 0 240 200" aria-hidden="true">'+
+        '<defs>'+
+          '<linearGradient id="gg" x1="0" y1="1" x2="1" y2="0">'+
+            '<stop offset="0" stop-color="#7DCB29"/><stop offset=".4" stop-color="#F2B12C"/>'+
+            '<stop offset=".75" stop-color="#E5484D"/><stop offset="1" stop-color="#A32330"/>'+
+          '</linearGradient>'+
+        '</defs>'+
+        '<path d="M32 168a100 100 0 1 1 176 0" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="14" stroke-linecap="round"/>'+
+        '<path id="gArc" d="M32 168a100 100 0 1 1 176 0" fill="none" stroke="url(#gg)" stroke-width="14" stroke-linecap="round" stroke-dasharray="330" stroke-dashoffset="330" style="transition:stroke-dashoffset 1.1s cubic-bezier(.22,1,.36,1)"/>'+
+      '</svg>'+
+      '<div class="gauge-val"><span class="v tnum" id="gVal">0</span><span class="u">AQI</span>'+
+        '<div><span class="gauge-band" id="gBand"><i></i><span>—</span></span></div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="aqi-foot">'+
+      '<p id="gMsg">A winter morning in Delhi NCR sits deep in the <b>Very Poor</b> band. Indoors, with the doors shut, the number barely moves — the same air simply recirculates.</p>'+
+      '<p class="aqi-note">Illustrative figures on the CPCB index, shown to explain the bands — not a live reading or a performance guarantee. Actual results depend on room size, sealing and how long the unit runs.</p>'+
+    '</div>'+
+  '</div>';
+}
+function flowSVG(){
+  return '<svg class="flowlines" viewBox="0 0 400 400" preserveAspectRatio="none" aria-hidden="true">'+
+    '<path d="M-20 60 C 120 20, 260 100, 420 50"/>'+
+    '<path d="M-20 130 C 130 90, 250 170, 420 120"/>'+
+    '<path d="M-20 200 C 120 165, 270 240, 420 195"/>'+
+    '<path d="M-20 270 C 140 230, 250 310, 420 260"/>'+
+    '<path d="M-20 340 C 110 300, 280 375, 420 330"/>'+
+    '<path d="M-20 380 C 150 345, 240 400, 420 370"/>'+
+  '</svg>';
+}
+function bootAqi(){
+  var panel=$('#aqiPanel'); if(!panel) return;
+  var STATES={
+    out:{v:312,msg:'A winter morning in Delhi NCR sits deep in the <b>Very Poor</b> band. Indoors, with the doors shut, the number barely moves — the same air simply recirculates.'},
+    'in':{v:24,msg:'Run a correctly sized purifier in a closed room and the same air can settle into the <b>Good</b> band. That is the whole job: turn the volume of the room over, again and again, through an H-13 filter.'}
+  };
+  var cur=0, raf, settle;
+  function set(key){
+    var st=STATES[key], target=st.v, b=band(target);
+    $('#gMsg').innerHTML=st.msg;
+    $('#gArc').setAttribute('stroke-dashoffset', String(330 - (330*Math.min(target,500)/500)));
+    var bandEl=$('#gBand'); bandEl.style.color=b[2];
+    bandEl.innerHTML='<i></i><span>'+b[1]+'</span>';
+    var from=cur, t0=null, dur=900;
+    cancelAnimationFrame(raf); clearTimeout(settle);
+    if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){ cur=target; $('#gVal').textContent=target; return; }
+    raf=requestAnimationFrame(function loop(ts){
+      if(!t0) t0=ts;
+      var k=Math.min(1,(ts-t0)/dur), e=1-Math.pow(1-k,3);
+      cur=Math.round(from+(target-from)*e);
+      $('#gVal').textContent=cur;
+      if(k<1) raf=requestAnimationFrame(loop);
+    });
+    /* requestAnimationFrame is paused while the tab is hidden, which would
+       leave the readout stranded part-way. Land it on the target regardless. */
+    settle=setTimeout(function(){
+      if(cur!==target){ cur=target; cancelAnimationFrame(raf); $('#gVal').textContent=target; }
+    }, dur+120);
+  }
+  $$('[data-aqi]',panel).forEach(function(b){
+    b.addEventListener('click',function(){
+      $$('[data-aqi]',panel).forEach(function(o){o.classList.remove('on');o.setAttribute('aria-selected','false');});
+      b.classList.add('on'); b.setAttribute('aria-selected','true');
+      set(b.dataset.aqi);
+    });
+  });
+  setTimeout(function(){ set('out'); },260);
+}
+
+/* filtration cross-section */
+function filterViz(){
+  return '<svg class="filterviz" viewBox="0 0 720 250" role="img" aria-label="Air passes through a pre-filter and a HEPA H-13 filter and leaves clean">'+
+    '<defs><linearGradient id="fv1" x1="0" y1="0" x2="1" y2="0">'+
+      '<stop offset="0" stop-color="#E5484D" stop-opacity=".55"/><stop offset="1" stop-color="#E5484D" stop-opacity="0"/></linearGradient>'+
+      '<linearGradient id="fv2" x1="0" y1="0" x2="1" y2="0">'+
+      '<stop offset="0" stop-color="#7DCB29" stop-opacity="0"/><stop offset="1" stop-color="#7DCB29" stop-opacity=".6"/></linearGradient>'+
+    '</defs>'+
+    /* dirty side */
+    '<g class="lyr">'+
+      '<rect x="0" y="60" width="230" height="130" fill="url(#fv1)" rx="8"/>'+
+      [[38,88],[70,120],[52,152],[96,75],[112,140],[140,105],[168,160],[186,92],[150,175],[80,178]]
+        .map(function(p,i){return '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="'+(2+(i%3))+'" fill="#E5484D" opacity=".8"/>';}).join('')+
+      '<text x="10" y="42" fill="currentColor" font-size="13" font-weight="600" opacity=".85">Air in</text>'+
+      '<text x="10" y="215" fill="currentColor" font-size="11.5" opacity=".5">PM2.5 '+DOT+' smoke '+DOT+' dust '+DOT+' pollen '+DOT+' dander</text>'+
+    '</g>'+
+    /* pre filter */
+    '<g class="lyr">'+
+      '<rect x="238" y="52" width="52" height="146" rx="10" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="1.5"/>'+
+      [0,1,2,3,4,5,6,7].map(function(i){return '<line x1="'+(246+i*5.4)+'" y1="60" x2="'+(246+i*5.4)+'" y2="190" stroke="currentColor" stroke-opacity=".28" stroke-width="1.6"/>';}).join('')+
+      '<text x="264" y="42" fill="currentColor" font-size="12" font-weight="600" text-anchor="middle" opacity=".85">Pre-filter</text>'+
+      '<text x="264" y="218" fill="currentColor" font-size="11" text-anchor="middle" opacity=".5">Hair, large dust</text>'+
+    '</g>'+
+    /* hepa */
+    '<g class="lyr">'+
+      '<rect x="318" y="40" width="130" height="170" rx="14" fill="rgba(196,47,166,.14)" stroke="#C42FA6" stroke-opacity=".55" stroke-width="1.6"/>'+
+      (function(){var s='';for(var i=0;i<13;i++){var x=326+i*9.4;s+='<path d="M'+x+' 54 l4.7 12 l-4.7 12 l4.7 12 l-4.7 12 l4.7 12 l-4.7 12 l4.7 12 l-4.7 12 l4.7 12" fill="none" stroke="#E15AD0" stroke-opacity=".45" stroke-width="1.3"/>';}return s;})()+
+      '<text x="383" y="28" fill="currentColor" font-size="13.5" font-weight="700" text-anchor="middle">HEPA H-13</text>'+
+      '<text x="383" y="232" fill="currentColor" font-size="11.5" text-anchor="middle" opacity=".6">99.95% at 0.3 microns</text>'+
+    '</g>'+
+    /* clean side */
+    '<g class="lyr">'+
+      '<rect x="478" y="60" width="242" height="130" fill="url(#fv2)" rx="8"/>'+
+      [500,540,580,620,660,700].map(function(x,i){
+        return '<path d="M'+x+' '+(84+(i%3)*30)+' q 14 -9 28 0" fill="none" stroke="#7DCB29" stroke-opacity=".75" stroke-width="1.8" stroke-linecap="round"/>';}).join('')+
+      '<text x="710" y="42" fill="currentColor" font-size="13" font-weight="600" text-anchor="end" opacity=".85">Clean air out</text>'+
+      '<text x="710" y="215" fill="currentColor" font-size="11.5" text-anchor="end" opacity=".5">Up to 99.8% of PM2.5 cleared</text>'+
+    '</g>'+
+  '</svg>';
+}
+
+/* --------------------------------------------------------------- PRODUCTS */
+ROUTES.products = function(q){
+  var space=q.space||'', sort=q.sort||'';
+  var list=PRODUCTS.filter(function(p){ return !space || p.space===space; });
+  if(sort==='plh') list=list.slice().sort(function(a,b){return a.price-b.price;});
+  if(sort==='phl') list=list.slice().sort(function(a,b){return b.price-a.price;});
+  if(sort==='area') list=list.slice().sort(function(a,b){return b.area[1]-a.area[1];});
+
+  return '<div class="wrap"><div class="crumbs"><a href="#/">Home</a><span>/</span>Air purifiers</div></div>'+
+  '<section class="sec-tight"><div class="wrap">'+
+    sectionHead('The range','Three purifiers. One filtration standard.',
+      'Purify the air around you anywhere — driving, working or sleeping. Pick by the space you need to clean; the filter grade does not change between them.')+
+    '<div class="filters rv">'+
+      '<span class="flabel">Space</span>'+
+      '<div class="chips">'+
+        [['','All three'],['car','Car'],['desk','Desk'],['room','Room']].map(function(o){
+          return '<button class="chip'+(space===o[0]?' on':'')+'" data-f="space" data-v="'+o[0]+'">'+o[1]+'</button>';
+        }).join('')+
+      '</div>'+
+      '<span class="sp" style="flex:1"></span>'+
+      '<span class="flabel">Sort</span>'+
+      '<select class="sel" data-f="sort">'+
+        [['','Recommended'],['plh','Price: low to high'],['phl','Price: high to low'],['area','Largest coverage']]
+        .map(function(o){return '<option value="'+o[0]+'"'+(sort===o[0]?' selected':'')+'>'+o[1]+'</option>';}).join('')+
+      '</select>'+
+    '</div>'+
+    (list.length
+      ? '<div class="grid g3">'+list.map(productCard).join('')+'</div>'
+      : '<div class="card center" style="padding:56px"><h3>Nothing in that filter</h3><p class="muted small" style="margin-top:8px">Clear the filter to see all three models.</p></div>')+
+
+    '<div class="card rv" style="margin-top:34px">'+
+      '<div class="split" style="gap:30px;align-items:center">'+
+        '<div><h3>Sizing is the whole game</h3>'+
+        '<p class="muted small" style="margin-top:10px">A purifier rated below your room size will run flat out and still never turn the air over. One rated well above it is money spent on capacity you cannot use. The coverage figure on each model is the honest number to match against — measure the room, then pick.</p></div>'+
+        '<div class="row" style="justify-content:flex-end"><a class="btn btn-p" href="#/sizing">Find my fit'+arrow()+'</a><a class="btn btn-g" href="#/compare">Compare specs</a></div>'+
+      '</div>'+
+    '</div>'+
+  '</div></section>'+ ctaBand();
+};
+
+/* --------------------------------------------------------------- PDP */
+var pdpState={view:0,tab:'overview'};
+ROUTES.product = function(q,parts){
+  var p=byId(parts[1]); if(!p) return ROUTES.notfound();
+  var inC=compare.indexOf(p.id)>-1;
+  var views=[{src:IMG(p),cls:'',cap:'The '+p.name},{src:POSTER(p),cls:'full',cap:'Feature overview'}];
+  var v=views[pdpState.view]||views[0];
+
+  return '<div class="wrap"><div class="crumbs"><a href="#/">Home</a><span>/</span><a href="#/products">Air purifiers</a><span>/</span>'+esc(p.name)+'</div>'+
+  '<div class="pdp" style="--pc:'+p.accent+'">'+
+    '<div class="gal">'+
+      '<div class="gal-main">'+flowSVG()+'<img class="'+v.cls+'" src="'+v.src+'" alt="'+esc(v.cap)+'" style="position:relative;z-index:2"></div>'+
+      '<div class="thumbs">'+views.map(function(o,i){
+        return '<button data-view="'+i+'" class="'+(pdpState.view===i?'on':'')+'" aria-label="'+esc(o.cap)+'"><img class="'+o.cls+'" src="'+o.src+'" alt=""></button>';
+      }).join('')+'</div>'+
+    '</div>'+
+
+    '<div class="buy">'+
+      '<div>'+
+        (p.badge?'<span class="tag tag-leaf" style="margin-bottom:12px">'+esc(p.badge)+'</span>':'<span class="tag tag-acc" style="margin-bottom:12px">Launching soon</span>')+
+        '<h1>'+esc(p.name)+'</h1>'+
+        '<p class="lede" style="margin-top:10px">'+esc(p.tagline)+'</p>'+
+      '</div>'+
+      '<div class="price-row"><span class="v tnum">'+money(p.price)+'</span>'+
+        '<span class="small dim">Launch price '+DOT+' '+esc(p.role)+'</span></div>'+
+      '<div class="spec-strip">'+
+        '<div><b class="tnum">'+p.area[0]+'–'+p.area[1]+'</b><span>sq.ft. coverage</span></div>'+
+        '<div><b>H-13</b><span>HEPA grade</span></div>'+
+        '<div><b class="tnum">99.95%</b><span>at 0.3 microns</span></div>'+
+      '</div>'+
+      '<p class="muted">'+esc(p.intro)+'</p>'+
+      '<ul class="checks">'+p.feats.map(function(f){
+        return '<li><span class="ic">'+check()+'</span><span>'+esc(f)+'</span></li>';}).join('')+'</ul>'+
+      '<div class="row" style="gap:10px">'+
+        '<a class="btn btn-p btn-lg" href="#/notify?p='+p.id+'" style="flex:2">Notify me at launch</a>'+
+        '<button class="btn btn-s btn-lg" data-cmp="'+p.id+'" style="flex:1">'+(inC?'✓ Comparing':'Compare')+'</button>'+
+      '</div>'+
+      '<p class="xs dim" style="margin-top:-8px">Not yet on sale. Joining the list places no order and takes no payment — it opens a mail to abhinav@vayoo.store with your details.</p>'+
+      '<div class="card" style="background:var(--surface-2);padding:20px">'+
+        '<span class="eyebrow">Suits</span><p class="small" style="margin-top:10px">'+esc(p.fits)+'</p>'+
+      '</div>'+
+    '</div>'+
+  '</div>'+
+
+  /* tabs */
+  '<div class="tabs" role="tablist">'+
+    [['overview','Overview'],['removes','What it removes'],['specs','Specifications'],['care','Filter &amp; care'],['support','Support']]
+      .map(function(t){return '<button data-tab="'+t[0]+'" class="'+(pdpState.tab===t[0]?'on':'')+'" role="tab">'+t[1]+'</button>';}).join('')+
+  '</div><div class="tabpane">'+pdpTab(p)+'</div>'+
+  '</div>'+
+
+  '<section class="sec"><div class="wrap">'+
+    sectionHead('Also consider','The other two in the range','')+
+    '<div class="grid g3">'+PRODUCTS.filter(function(o){return o.id!==p.id;}).map(productCard).join('')+
+    '<div class="card hov rv" style="display:grid;place-content:center;text-align:center;gap:14px">'+
+      '<div class="ico" style="margin:0 auto">'+ic('chart')+'</div>'+
+      '<h3>See all three side by side</h3>'+
+      '<p class="small muted">Coverage, price and features in one table.</p>'+
+      '<a class="btn btn-s btn-sm" href="#/compare" style="justify-self:center">Open comparison</a>'+
+    '</div>'+
+    '</div>'+
+  '</div></section>';
+};
+
+function pdpTab(p){
+  var t=pdpState.tab;
+  if(t==='overview'){
+    return '<div class="split" style="align-items:start;gap:40px">'+
+      '<div><h3>'+esc(p.highlight)+'</h3><p class="muted" style="margin-top:12px">'+esc(p.highlightNote)+'</p>'+
+      '<h3 style="margin-top:30px">Why this model exists</h3><p class="muted" style="margin-top:12px">'+esc(p.intro)+'</p></div>'+
+      '<div class="card" style="background:var(--surface-2)"><h4 style="margin-bottom:16px">In the box you get</h4>'+
+        '<ul class="checks">'+
+          ['The '+p.name+' unit','One HEPA H-13 filter, fitted','Power cable','User guide and warranty card']
+          .map(function(x){return '<li><span class="ic">'+check()+'</span><span>'+esc(x)+'</span></li>';}).join('')+
+        '</ul>'+
+        '<p class="xs dim" style="margin-top:18px">Final box contents are confirmed at launch. Join the list and we will send the full specification sheet the day it is published.</p>'+
+      '</div></div>';
+  }
+  if(t==='removes'){
+    return '<p class="lede" style="margin-bottom:26px">An H-13 filter is graded to capture 99.95% of particles at 0.3 microns — the hardest size to trap. Everything below is at or above that size range.</p>'+
+      '<div class="grid g3">'+REMOVES.map(function(r){
+        return '<div class="card"><h4>'+esc(r[0])+'</h4><p class="small muted" style="margin-top:8px">'+esc(r[1])+'</p></div>';
+      }).join('')+'</div>'+
+      '<p class="xs dim" style="margin-top:22px">Particle filtration only. A HEPA filter is not a gas filter — it does not claim to remove odour molecules, VOCs or carbon monoxide, and neither do we.</p>';
+  }
+  if(t==='specs'){
+    return '<div class="split" style="gap:40px;align-items:start"><dl class="dl">'+
+      [['Model',p.name],['Category',p.role],['Recommended coverage',p.area[0]+'–'+p.area[1]+' sq.ft.'],
+       ['Filter grade','HEPA H-13 (medical grade)'],['Filtration efficiency','99.95% at 0.3 microns'],
+       ['PM2.5 clearance','Up to 99.8%'],['Noise','Low-noise operation'],['Launch price',money(p.price)]]
+      .map(function(r){return '<div><dt>'+esc(r[0])+'</dt><dd>'+esc(r[1])+'</dd></div>';}).join('')+
+      '</dl>'+
+      '<div class="card" style="background:var(--surface-2)"><h4>Features</h4><ul class="checks" style="margin-top:14px">'+
+        p.feats.map(function(f){return '<li><span class="ic">'+check()+'</span><span>'+esc(f)+'</span></li>';}).join('')+
+      '</ul>'+
+      '<p class="xs dim" style="margin-top:18px">Rated CADR, decibel figures, power draw and dimensions are published with the full specification sheet at launch. We would rather leave a row blank than fill it with a number we have not measured.</p></div></div>';
+  }
+  if(t==='care'){
+    return '<div class="split" style="gap:40px;align-items:start">'+
+      '<div><h3>Living with the filter</h3>'+
+      '<p class="muted" style="margin-top:12px">A HEPA filter works by holding what it catches. That means it fills up, and a full filter moves less air. How fast depends entirely on what you are asking it to clean — a car in Delhi traffic loads a filter far faster than a bedroom in a coastal town.</p>'+
+      '<p class="muted" style="margin-top:14px">The pre-filter layer catches hair and larger dust and can be cleaned. The H-13 layer itself is a replacement part, never a washable one: washing a HEPA filter destroys the fibre structure that does the filtering.</p></div>'+
+      '<div class="card" style="background:var(--surface-2)"><h4>Care in short</h4><ul class="checks" style="margin-top:14px">'+
+        [['Vacuum the outer intake','monthly, or whenever you can see dust settling on it.'],
+         ['Never wash the H-13 filter','replace it. Water ruins the fibre matrix.'],
+         ['Keep the intake clear','a few inches of space around the unit on all sides.'],
+         ['Run it with doors shut','a purifier cannot clean a room that is being refilled from outside.']]
+        .map(function(c){return '<li><span class="ic">'+check()+'</span><span><b>'+c[0]+'</b> — '+c[1]+'</span></li>';}).join('')+
+      '</ul>'+
+      '<p class="xs dim" style="margin-top:18px">Replacement filter pricing and service intervals are confirmed at launch.</p></div></div>';
+  }
+  return '<div class="split" style="gap:40px;align-items:start">'+
+    '<div><h3>Support, before and after you buy</h3>'+
+    '<p class="muted" style="margin-top:12px">We are a small team and you will be talking to people who work on the product, not a script. Warranty terms, service turnaround and replacement-filter supply are being finalised alongside production and will be published in full before the first unit ships.</p>'+
+    '<div class="row" style="margin-top:24px"><a class="btn btn-p" href="#/contact">Talk to us'+arrow()+'</a>'+
+    '<a class="btn btn-g" href="#/notify?p='+p.id+'">Get launch updates</a></div></div>'+
+    '<div class="card" style="background:var(--surface-2)"><h4>Reach us directly</h4>'+
+    '<div class="stack" style="margin-top:16px">'+
+      '<a href="mailto:abhinav@vayoo.store" class="row" style="gap:10px"><span class="ico" style="width:34px;height:34px;margin:0;border-radius:10px">'+ic('mail')+'</span>abhinav@vayoo.store</a>'+
+      '<a href="tel:+917009979996" class="row" style="gap:10px"><span class="ico" style="width:34px;height:34px;margin:0;border-radius:10px">'+ic('phone')+'</span>+91 70099 79996</a>'+
+    '</div><p class="xs dim" style="margin-top:16px">Monday to Friday, 9am to 6pm IST.</p></div></div>';
+}
+
+/* --------------------------------------------------------------- COMPARE */
+ROUTES.compare = function(){
+  var list = compare.length ? compare.map(byId).filter(Boolean) : PRODUCTS;
+  var rows=[
+    ['Best for',function(p){return SPACE_LABEL[p.space];}],
+    ['Coverage',function(p){return p.area[0]+'–'+p.area[1]+' sq.ft.';}],
+    ['Launch price',function(p){return '<b class="tnum">'+money(p.price)+'</b>';}],
+    ['Filter grade',function(){return 'HEPA H-13';}],
+    ['Efficiency at 0.3µm',function(){return '99.95%';}],
+    ['PM2.5 clearance',function(){return 'Up to 99.8%';}],
+    ['RGB lighting',function(p){return p.feats.join(' ').indexOf('RGB')>-1?yes():no();}],
+    ['AQI meter display',function(p){return p.feats.join(' ').indexOf('AQI')>-1?yes():no();}],
+    ['Multiple fan modes',function(p){return p.feats.join(' ').indexOf('modes')>-1?yes():no();}],
+    ['Low-noise operation',function(){return yes();}],
+    ['',function(p){return '<a class="btn btn-p btn-sm" href="#/p/'+p.id+'">View'+arrow()+'</a>';}]
+  ];
+  function yes(){return '<span style="color:var(--leaf);font-weight:600">✓ Yes</span>';}
+  function no(){return '<span class="dim">—</span>';}
+
+  return '<div class="wrap"><div class="crumbs"><a href="#/">Home</a><span>/</span>Compare</div></div>'+
+  '<section class="sec-tight"><div class="wrap">'+
+    sectionHead('Side by side', compare.length? 'Your comparison' : 'All three, compared',
+      compare.length? 'Showing the '+compare.length+' model'+(compare.length>1?'s':'')+' you selected. Add or remove from any product card.'
+        : 'Nothing selected yet, so all three are shown. Tick <b>Compare</b> on any product card to narrow this down.')+
+    '<div class="tbl-scroll rv"><table class="cmp">'+
+      '<thead><tr><th></th>'+list.map(function(p){
+        return '<th style="--pc:'+p.accent+'"><a class="ph" href="#/p/'+p.id+'">'+
+          '<img src="'+IMG(p)+'" alt=""><span><b>'+esc(p.name)+'</b><span>'+esc(p.role)+'</span></span></a></th>';
+      }).join('')+'</tr></thead><tbody>'+
+      rows.map(function(r){
+        return '<tr><th>'+r[0]+'</th>'+list.map(function(p){return '<td>'+r[1](p)+'</td>';}).join('')+'</tr>';
+      }).join('')+
+      '</tbody></table></div>'+
+    (compare.length?'<div class="row rv" style="margin-top:20px"><button class="btn btn-g btn-sm" id="cmpClear">Clear comparison</button>'+
+      '<a class="btn btn-g btn-sm" href="#/products">Back to the range</a></div>':'')+
+    '<p class="xs dim rv" style="margin-top:22px">Rated CADR, noise in decibels, power consumption and dimensions are published with the full specification sheets at launch.</p>'+
+  '</div></section>'+ ctaBand();
+};
+
+/* --------------------------------------------------------------- SIZING */
+var sizing={space:null,area:180};
+ROUTES.sizing = function(){
+  var rec=recommend();
+  return '<div class="wrap"><div class="crumbs"><a href="#/">Home</a><span>/</span>Find your fit</div></div>'+
+  '<section class="sec-tight"><div class="wrap" style="max-width:900px">'+
+    sectionHead('Find your fit','Which Vayoo is right for your space?',
+      'Two questions. The answer is whichever model is rated to actually turn over the volume of air you are asking it to clean.',true)+
+    '<div class="tool rv">'+
+      '<div class="tool-head"><span class="eyebrow">Step 1</span><h3 style="margin-top:10px">Where does it need to work?</h3></div>'+
+      '<div class="tool-body">'+
+        '<div class="opts">'+
+          [['car','In the car','Cabin of a hatchback, sedan or cab'],
+           ['desk','At a desk','Workstation, office cabin or gaming setup'],
+           ['room','In a room','Bedroom, living room, nursery or small office']]
+          .map(function(o){
+            return '<button class="opt'+(sizing.space===o[0]?' on':'')+'" data-space="'+o[0]+'"><b>'+o[1]+'</b><span>'+o[2]+'</span></button>';
+          }).join('')+
+        '</div>'+
+
+        (sizing.space==='room'||sizing.space==='desk' ?
+          '<div class="rangebox">'+
+            '<div class="row" style="justify-content:space-between">'+
+              '<div><span class="eyebrow">Step 2</span><h3 style="margin-top:8px">How big is the space?</h3></div>'+
+              '<div class="center"><b class="tnum" style="font-size:1.7rem;letter-spacing:-.03em">'+sizing.area+'</b>'+
+              '<div class="xs dim">sq. ft.</div></div>'+
+            '</div>'+
+            '<input type="range" id="areaR" min="40" max="500" step="10" value="'+sizing.area+'" style="--p:'+((sizing.area-40)/460*100)+'%" aria-label="Room area in square feet">'+
+            '<div class="row" style="justify-content:space-between"><span class="xs dim">40 sq.ft.</span><span class="xs dim">500 sq.ft.</span></div>'+
+            '<p class="xs dim">Length × breadth of the room in feet. A standard 10×12 bedroom is 120 sq.ft.; a 14×16 living room is 224 sq.ft.</p>'+
+          '</div>' : '')+
+
+        (rec ? sizingResult(rec) : '<p class="small dim">Pick a space above to see the recommendation.</p>')+
+      '</div>'+
+    '</div>'+
+    '<div class="grid g3 rv" style="margin-top:30px">'+
+      [['clock','Give it time to work','A purifier does not clean a room instantly. It cleans by turning the room’s air over repeatedly — which is why matching the model to the space matters more than any single number.'],
+       ['room','Shut the door','An open window undoes the work as fast as the filter does it. The rated coverage assumes a closed space.'],
+       ['heart','Size up, not down','If your room sits between two models, take the larger. An oversized purifier runs slower and quieter; an undersized one runs flat out and still falls short.']]
+      .map(function(c){return '<div class="card"><div class="ico leaf">'+ic(c[0])+'</div><h4>'+c[1]+'</h4><p class="small muted" style="margin-top:9px">'+c[2]+'</p></div>';}).join('')+
+    '</div>'+
+  '</div></section>';
+};
+function recommend(){
+  if(!sizing.space) return null;
+  if(sizing.space==='car') return {p:byId('c10'),why:'The C-10 is the model built for a vehicle cabin — roughly 50 to 70 sq.ft. of enclosed space, with vertical wind circulation to turn the whole cabin over rather than one seat.'};
+  var a=sizing.area;
+  if(a<=70) return {p:byId('c10'),why:'At '+a+' sq.ft. the C-10 is enough. It is rated for 50–70 sq.ft., which covers a space this size comfortably.'};
+  if(a<=125) return {p:byId('d10'),why:'At '+a+' sq.ft. the D-10 is the right fit — rated for 80–125 sq.ft., quiet enough to sit beside you all day.'};
+  if(a<=400) return {p:byId('r10'),why:'At '+a+' sq.ft. you need the R-10. It is rated for 350–400 sq.ft. and carries the on-board AQI meter, so you can see the room change.'};
+  return {p:byId('r10'),over:true,why:'At '+a+' sq.ft. you are past the rated coverage of a single R-10 (350–400 sq.ft.). Two units, or one per zone, is the honest answer — talk to us and we will tell you what will actually work rather than sell you one and hope.'};
+}
+function sizingResult(rec){
+  var p=rec.p;
+  return '<div class="result" style="--pc:'+p.accent+'">'+
+    '<span class="eyebrow">'+(rec.over?'Our honest answer':'Our recommendation')+'</span>'+
+    '<div class="result-top">'+
+      '<img src="'+IMG(p)+'" alt="'+esc(p.name)+'">'+
+      '<div style="flex:1;min-width:200px">'+
+        '<h3>'+esc(p.name)+'</h3>'+
+        '<p class="small muted">'+esc(p.role)+' '+DOT+' '+p.area[0]+'–'+p.area[1]+' sq.ft. '+DOT+' <b class="tnum">'+money(p.price)+'</b></p>'+
+      '</div>'+
+    '</div>'+
+    '<p class="small">'+esc(rec.why)+'</p>'+
+    '<div class="row"><a class="btn btn-p btn-sm" href="#/p/'+p.id+'">See the '+esc(p.name)+arrow()+'</a>'+
+    (rec.over?'<a class="btn btn-s btn-sm" href="#/contact">Ask us about larger spaces</a>':
+      '<a class="btn btn-g btn-sm" href="#/notify?p='+p.id+'">Notify me at launch</a>')+'</div>'+
+  '</div>';
+}
+
+/* --------------------------------------------------------------- TECHNOLOGY */
+ROUTES.technology = function(){
+  return '<div class="wrap"><div class="crumbs"><a href="#/">Home</a><span>/</span>Technology</div></div>'+
+  '<section class="sec-tight"><div class="wrap">'+
+    sectionHead('Technology','Medical-grade filtration, explained without the marketing',
+      'There is a lot of noise in this category. Here is the part that is actually measurable, and the part we deliberately do not claim.',true)+
+    '<div class="rv" style="margin-bottom:50px">'+filterViz()+'</div>'+
+
+    '<div class="split" style="margin-bottom:56px">'+
+      '<div class="rv"><h2>What "H-13" means</h2>'+
+      '<p class="lede" style="margin-top:16px">HEPA filters are graded on a formal scale. H-13 is the first grade classed as medical-grade, and it is defined by a test: it must capture <b>99.95% of particles at 0.3 microns</b>.</p>'+
+      '<p class="muted" style="margin-top:16px">0.3 microns is not chosen because it is the smallest particle — it is chosen because it is the <i>hardest</i> one to catch. Larger particles are trapped by simple interception; much smaller ones move erratically enough that they collide with the fibres anyway. The 0.3 micron range slips through both mechanisms most easily, so grading a filter there grades it at its worst case.</p>'+
+      '<p class="muted" style="margin-top:16px">This is why we quote it. A filter that holds 99.95% at its weakest point does better than that everywhere else.</p></div>'+
+      '<div class="rv"><div class="card" style="background:var(--surface-2)">'+
+        '<h4 style="margin-bottom:18px">The scale of the thing</h4>'+
+        '<div class="dl">'+
+          [['A human hair','≈ 70 microns'],['Fine beach sand','≈ 90 microns'],['Pollen','10–100 microns'],
+           ['PM10 dust','≤ 10 microns'],['PM2.5','≤ 2.5 microns'],['HEPA H-13 test size','0.3 microns']]
+          .map(function(r){return '<div><dt>'+r[0]+'</dt><dd class="tnum">'+r[1]+'</dd></div>';}).join('')+
+        '</div>'+
+        '<p class="xs dim" style="margin-top:16px">PM2.5 is the fraction small enough to pass from the lung into the bloodstream. It is the number India’s AQI is mostly driven by, and the one an H-13 filter is built for.</p>'+
+      '</div></div>'+
+    '</div>'+
+
+    '<div class="grid g3">'+
+      [['shield','Every model, same grade','The C-10 at '+money(1800)+' uses the same H-13 grade as the R-10 at '+money(6500)+'. The price difference is airflow and coverage, never filtration quality.'],
+       ['wind','Coverage is the real spec','Filtration grade tells you what a filter catches. Coverage tells you how much air it can catch it in. Both matter; only one changes between our models.'],
+       ['gauge','Measured, not implied','The R-10 shows the room’s AQI on the unit. We would rather you watch the number than believe a claim.']]
+      .map(function(c){return '<div class="card hov rv"><div class="ico">'+ic(c[0])+'</div><h3>'+c[1]+'</h3><p class="muted small" style="margin-top:10px">'+c[2]+'</p></div>';}).join('')+
+    '</div>'+
+
+    '<div class="card rv" style="margin-top:30px;border-color:rgba(125,203,41,.3)">'+
+      '<div class="ico leaf">'+ic('leaf')+'</div>'+
+      '<h3>What we do not claim</h3>'+
+      '<p class="muted" style="margin-top:12px;max-width:70ch">A HEPA filter is a particle filter. It does not remove odour molecules, volatile organic compounds or carbon monoxide — those need a gas-phase medium such as activated carbon, and no amount of HEPA grading changes that. It does not sterilise a room, and it cannot clean air that keeps being replaced through an open window. Anyone telling you otherwise is selling you a story rather than a filter.</p>'+
+    '</div>'+
+  '</div></section>'+ ctaBand();
+};
+
+/* --------------------------------------------------------------- ABOUT */
+ROUTES.about = function(){
+  return '<div class="wrap"><div class="crumbs"><a href="#/">Home</a><span>/</span>About</div></div>'+
+  '<section class="sec-tight"><div class="wrap">'+
+    '<div class="sec-h mid rv" style="max-width:56ch"><span class="eyebrow">Our story</span>'+
+      '<h1 style="margin:16px 0 18px">Clean air, for the people breathing the worst of it.</h1>'+
+      '<p class="lede">The best time to make a change was yesterday. The second best time is now.</p></div>'+
+
+    '<div class="grid g2 rv" style="margin-bottom:44px">'+
+      '<div class="card" style="border-color:rgba(196,47,166,.3)"><div class="ico">'+ic('spark')+'</div>'+
+        '<h3>Our mission</h3><p class="muted" style="margin-top:10px">To become India’s number one clean-tech appliances brand, and help India become cleaner and fresher in the process.</p></div>'+
+      '<div class="card" style="border-color:rgba(125,203,41,.3)"><div class="ico leaf">'+ic('leaf')+'</div>'+
+        '<h3>Our vision</h3><p class="muted" style="margin-top:10px">To give India the birth-right of pure air to breathe, and build a better tomorrow for the generation after this one.</p></div>'+
+    '</div>'+
+
+    '<div class="grid g2" style="gap:clamp(16px,2.5vw,22px)">'+
+      [['people','What we are solving, and for whom','We are solving the crisis of unbreathable air in India’s metros — for the mass majority of youth, elderly and children who cannot afford an expensive purifier but deserve fresh air exactly as much as anyone who can.'],
+       ['clock','Why now, and why us','Now more than ever, vulnerable groups need clean air. And we came to this from the inside: the founding team grew up in cities where AQI was never a word anyone used, and met the problem head-on when work moved them to Delhi NCR.'],
+       ['rupee','Our USP','Being the brand that is there for the masses — affordable, with no compromise on quality. Because not just you, but everyone deserves to breathe better.'],
+       ['heart','How we build','Lean supply chains, a small team, and a refusal to publish a specification we have not measured. If a number is not on this site yet, it is because we do not have it confirmed — not because it is inconvenient.']]
+      .map(function(c){return '<div class="card hov rv"><div class="ico">'+ic(c[0])+'</div><h3>'+c[1]+'</h3><p class="muted" style="margin-top:12px">'+c[2]+'</p></div>';}).join('')+
+    '</div>'+
+  '</div></section>'+
+
+  '<section class="sec-tight"><div class="wrap">'+
+    sectionHead('The team','Two founders, and a team of young enthusiasts',
+      'Our team brings together experience in D2C businesses, marketing, finance and startups. Beyond the founders, a team of young enthusiasts runs day-to-day operations.')+
+    '<div class="grid g2">'+
+      [{n:'Praful Chauhan',r:'Co-Founder',i:'PC',li:'https://www.linkedin.com/in/praful-chauhan-18037816a/',
+        b:['Extensive background in marketing and building modern D2C businesses.',
+           'Proven track record in driving early-stage startup growth and brand awareness.',
+           'Passionate about delivering high-quality, affordable clean-tech appliances to the Indian masses.']},
+       {n:'Abhinav Verma',r:'Co-Founder',i:'AV',li:'https://www.linkedin.com/in/iabhinavv',
+        b:['Core expertise in finance, operations and scaling consumer-focused startups.',
+           'Experienced in establishing lean supply chains for accessible pricing strategies.',
+           'Committed to revolutionising air quality in India for vulnerable communities.']}]
+      .map(function(f){
+        return '<div class="card hov rv founder">'+
+          '<div class="founder-top">'+
+            '<div class="row" style="gap:14px"><div class="avatar">'+f.i+'</div>'+
+            '<div><h3>'+f.n+'</h3><p class="small" style="color:var(--accent-tx)">'+f.r+'</p></div></div>'+
+            '<a class="li-link" href="'+f.li+'" target="_blank" rel="noopener" aria-label="'+f.n+' on LinkedIn">'+
+            '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9.5h4v11H3v-11zm7 0h3.8v1.5h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76v5.69h-4v-5.05c0-1.2-.02-2.75-1.75-2.75-1.75 0-2.02 1.3-2.02 2.66v5.14h-4v-11z"/></svg></a>'+
+          '</div>'+
+          '<ul class="checks">'+f.b.map(function(x){return '<li><span class="ic">'+check()+'</span><span>'+x+'</span></li>';}).join('')+'</ul>'+
+        '</div>';
+      }).join('')+
+    '</div>'+
+  '</div></section>'+ ctaBand();
+};
+
+/* --------------------------------------------------------------- NOTIFY */
+ROUTES.notify = function(q){
+  var pre=q.p?byId(q.p):null;
+  return '<div class="wrap"><div class="crumbs"><a href="#/">Home</a><span>/</span>Launch list</div></div>'+
+  '<section class="sec-tight"><div class="wrap" style="max-width:960px">'+
+    '<div class="sec-h mid rv" style="max-width:54ch"><span class="eyebrow">Pre-launch</span>'+
+      '<h1 style="margin:16px 0 16px;font-size:clamp(2rem,4.6vw,3.1rem)">Tell us where to write.</h1>'+
+      '<p class="lede">All three models are in final production. Leave your details and we will write once — the day pre-orders open — with pricing, the full specification sheet and how to order.</p></div>'+
+    '<div class="split" style="align-items:start;gap:clamp(24px,4vw,44px)">'+
+      '<div class="card rv">'+
+        '<form class="form" id="notifyForm" novalidate>'+
+          '<div class="f2">'+
+            '<div class="field"><label for="n_name">Your name <span class="req">*</span></label>'+
+            '<input id="n_name" name="Name" placeholder="Who we should write to"><span class="err">Please tell us your name</span></div>'+
+            '<div class="field"><label for="n_city">City</label><input id="n_city" name="City" placeholder="Delhi NCR"></div>'+
+          '</div>'+
+          '<div class="f2">'+
+            '<div class="field"><label for="n_email">Email <span class="req">*</span></label>'+
+            '<input id="n_email" name="Email" type="email" placeholder="you@example.com"><span class="err">Please enter a valid email</span></div>'+
+            '<div class="field"><label for="n_phone">Phone</label><input id="n_phone" name="Phone" inputmode="numeric" maxlength="10" placeholder="10-digit mobile"></div>'+
+          '</div>'+
+          '<div class="field"><label for="n_model">Which model are you waiting for?</label>'+
+            '<select id="n_model" name="Model">'+
+              '<option value="Any / not sure yet"'+(!pre?' selected':'')+'>Any — tell me about all three</option>'+
+              PRODUCTS.map(function(p){
+                return '<option value="'+esc(p.name)+'"'+(pre&&pre.id===p.id?' selected':'')+'>'+esc(p.name)+' '+DOT+' '+esc(p.role)+'</option>';
+              }).join('')+
+            '</select></div>'+
+          '<div class="field"><label for="n_note">Anything you want us to know</label>'+
+            '<textarea id="n_note" name="Note" rows="3" placeholder="Room size, how many units, a question about the filter — anything."></textarea></div>'+
+          '<button type="submit" class="btn btn-p btn-lg btn-block">Join the launch list'+arrow()+'</button>'+
+          '<p class="xs dim">This opens a pre-filled email from your own mail app to abhinav@vayoo.store. Nothing is sent until you press send there, and nothing is stored on this site beyond your browser.</p>'+
+        '</form>'+
+      '</div>'+
+      '<div class="rv" style="display:grid;gap:16px">'+
+        (pre?'<div class="card" style="--pc:'+pre.accent+';padding:0;overflow:hidden">'+
+          '<div style="aspect-ratio:16/10;background:radial-gradient(circle at 50% 62%,var(--pc),#1E0163);position:relative;overflow:hidden">'+
+          '<img src="'+IMG(pre)+'" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:20px;filter:drop-shadow(0 20px 26px rgba(0,0,0,.45))"></div>'+
+          '<div style="padding:20px"><h3>'+esc(pre.name)+'</h3><p class="small muted">'+esc(pre.role)+' '+DOT+' '+money(pre.price)+'</p></div></div>':'')+
+        '<div class="card" style="background:var(--surface-2)"><h4 style="margin-bottom:14px">What you get, and what you will not</h4>'+
+        '<ul class="checks">'+
+          [['One email at launch','with pricing, full specifications and the order link.'],
+           ['Nothing in between','no drip campaign, no newsletter you did not ask for.'],
+           ['No payment, no commitment','joining the list is not an order.'],
+           ['Your data stays yours','we do not sell or share it. Ask us to delete it and we will.']]
+          .map(function(c){return '<li><span class="ic">'+check()+'</span><span><b>'+c[0]+'</b> — '+c[1]+'</span></li>';}).join('')+
+        '</ul></div>'+
+      '</div>'+
+    '</div>'+
+  '</div></section>';
+};
+
+/* --------------------------------------------------------------- CONTACT */
+ROUTES.contact = function(){
+  return '<div class="wrap"><div class="crumbs"><a href="#/">Home</a><span>/</span>Contact</div></div>'+
+  '<section class="sec-tight"><div class="wrap">'+
+    sectionHead('Contact','Get in touch',
+      'Questions about the products, support, bulk orders or partnerships — it comes to the founders, not a queue.',true)+
+    '<div class="split" style="align-items:start;gap:clamp(24px,4vw,44px)">'+
+      '<div style="display:grid;gap:16px">'+
+        '<a class="card hov rv" href="mailto:abhinav@vayoo.store"><div class="ico">'+ic('mail')+'</div>'+
+          '<h3>Email us</h3><p class="small muted" style="margin:8px 0 12px">We reply within 24 hours on working days.</p>'+
+          '<b style="color:var(--accent-tx)">abhinav@vayoo.store</b></a>'+
+        '<a class="card hov rv" href="tel:+917009979996"><div class="ico">'+ic('phone')+'</div>'+
+          '<h3>Call us</h3><p class="small muted" style="margin:8px 0 12px">Monday to Friday, 9am to 6pm IST.</p>'+
+          '<b style="color:var(--accent-tx)">+91 70099 79996</b></a>'+
+        '<div class="card rv"><h4 style="margin-bottom:12px">Follow along</h4>'+
+          '<p class="small muted" style="margin-bottom:14px">Product updates and launch news land here first.</p>'+
+          '<div class="row"><a class="btn btn-g btn-sm" href="https://www.instagram.com/vayoo.store" target="_blank" rel="noopener">Instagram</a>'+
+          '<a class="btn btn-g btn-sm" href="https://www.linkedin.com/company/vayoo-store" target="_blank" rel="noopener">LinkedIn</a></div></div>'+
+      '</div>'+
+      '<div class="card rv">'+
+        '<h3 style="margin-bottom:20px">Send us a message</h3>'+
+        '<form class="form" id="contactForm" novalidate>'+
+          '<div class="f2">'+
+            '<div class="field"><label for="c_name">Name <span class="req">*</span></label>'+
+            '<input id="c_name" name="Name" placeholder="Your name"><span class="err">Please tell us your name</span></div>'+
+            '<div class="field"><label for="c_phone">Phone</label><input id="c_phone" name="Phone" inputmode="numeric" maxlength="10" placeholder="10-digit mobile"></div>'+
+          '</div>'+
+          '<div class="field"><label for="c_email">Email <span class="req">*</span></label>'+
+          '<input id="c_email" name="Email" type="email" placeholder="you@example.com"><span class="err">Please enter a valid email</span></div>'+
+          '<div class="field"><label for="c_reason">Reason for getting in touch</label>'+
+            '<select id="c_reason" name="Reason">'+
+              ['General support','Product information','Bulk order or partnership','Press or media','Investor relations']
+              .map(function(o){return '<option>'+o+'</option>';}).join('')+
+            '</select></div>'+
+          '<div class="field"><label for="c_msg">Message <span class="req">*</span></label>'+
+          '<textarea id="c_msg" name="Message" rows="5" placeholder="How can we help?"></textarea><span class="err">Please write a short message</span></div>'+
+          '<button type="submit" class="btn btn-p btn-lg btn-block">Send message'+arrow()+'</button>'+
+          '<p class="xs dim">This opens a pre-filled email from your own mail app to abhinav@vayoo.store. Nothing leaves your device until you press send there.</p>'+
+        '</form>'+
+      '</div>'+
+    '</div>'+
+  '</div></section>';
+};
+
+/* --------------------------------------------------------------- INVESTORS */
+ROUTES.investors = function(){
+  var mk=[['TAM',2900,'Total addressable market, industrial and domestic'],
+          ['SAM',1800,'Serviceable addressable market'],
+          ['SOM',907,'Serviceable obtainable market']];
+  var max=2900;
+  return '<div class="wrap"><div class="crumbs"><a href="#/">Home</a><span>/</span>Investor relations</div></div>'+
+  '<section class="sec-tight"><div class="wrap">'+
+    '<div class="sec-h mid rv" style="max-width:58ch"><span class="tag tag-acc">Investor relations</span>'+
+      '<h1 style="margin:18px 0 16px">Be part of the change in how India breathes.</h1>'+
+      '<p class="lede">Vayoo is raising a seed round to put the vision into execution and scale into a market that is large, growing fast, and almost entirely priced out of reach of the people worst affected.</p></div>'+
+
+    '<div class="cta-band rv" style="text-align:left;margin-bottom:40px">'+
+      '<div class="split" style="align-items:center">'+
+        '<div>'+
+          '<span class="eyebrow" style="color:rgba(255,255,255,.7)">The ask</span>'+
+          '<div style="font-size:clamp(2.4rem,6vw,3.6rem);font-weight:650;letter-spacing:-.04em;margin:12px 0 6px" class="tnum">₹50 Lac</div>'+
+          '<p style="font-size:1.1rem;color:rgba(255,255,255,.86)">Seed round for 10% equity</p>'+
+          '<a class="btn btn-leaf btn-lg" href="mailto:abhinav@vayoo.store?subject=Vayoo%20%E2%80%94%20Investor%20enquiry" style="margin-top:24px">Contact the founders'+arrow()+'</a>'+
+        '</div>'+
+        '<div style="background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.16);border-radius:var(--r-lg);padding:26px;backdrop-filter:blur(8px)">'+
+          '<h4 style="display:flex;gap:9px;align-items:center;margin-bottom:12px">'+
+          '<span style="width:26px;height:26px;display:grid;place-items:center;color:#7DCB29">'+ic('bolt')+'</span>Goal for the next two years</h4>'+
+          '<p style="color:rgba(255,255,255,.86)">Reach ₹20 crore in revenue while staying EBITDA-positive from the first quarter, through aggressive D2C and e-commerce execution.</p>'+
+        '</div>'+
+      '</div>'+
+    '</div>'+
+
+    sectionHead('Market','A large market, growing fast, badly served at the bottom',
+      'The Indian air purifier market is expanding at an estimated <b>28.51% CAGR through 2030</b> — and almost all of that supply is priced for the top of the pyramid.')+
+    '<div class="card rv" style="margin-bottom:26px">'+
+      '<div style="display:grid;gap:22px">'+
+        mk.map(function(m){
+          return '<div>'+
+            '<div class="row" style="justify-content:space-between;margin-bottom:9px">'+
+              '<div class="row" style="gap:10px"><b style="font-size:1.02rem">'+m[0]+'</b><span class="small dim">'+m[2]+'</span></div>'+
+              '<b class="tnum" style="font-size:1.15rem">₹'+m[1]+' Cr</b>'+
+            '</div>'+
+            '<div style="height:12px;border-radius:100px;background:var(--surface-2);overflow:hidden">'+
+              '<div style="height:100%;width:'+(m[1]/max*100).toFixed(1)+'%;border-radius:100px;background:var(--grad-cta)"></div>'+
+            '</div>'+
+          '</div>';
+        }).join('')+
+      '</div>'+
+    '</div>'+
+
+    '<div class="grid g3 rv" style="margin-bottom:30px">'+
+      [['28.51%','Industry CAGR','The estimated growth rate of the Indian air purifier industry through 2030.'],
+       [money(1800),'Entry price','The segment we are building for is the one nobody is currently pricing for.'],
+       ['3','Form factors','Car, desk and room — one brand covering every space a customer moves through in a day.']]
+      .map(function(c){return '<div class="stat"><div class="v tnum">'+c[0]+'</div><div class="k">'+c[1]+'</div><div class="d">'+c[2]+'</div></div>';}).join('')+
+    '</div>'+
+
+    '<div class="card rv"><h3>Why this team</h3>'+
+      '<p class="muted" style="margin-top:12px;max-width:74ch">Our combined experience spans D2C businesses, marketing, finance and startups. We came to this problem as customers first — the founding team grew up in cities where AQI was never a concern and met it directly when work moved them to Delhi NCR. Beyond the founders, a team of young enthusiasts runs day-to-day operations.</p>'+
+      '<div class="row" style="margin-top:22px"><a class="btn btn-s" href="#/about">Read the full story'+arrow()+'</a>'+
+      '<a class="btn btn-g" href="mailto:abhinav@vayoo.store?subject=Vayoo%20%E2%80%94%20Investor%20enquiry">Request the deck</a></div>'+
+    '</div>'+
+    '<p class="xs dim rv" style="margin-top:24px;max-width:74ch">Figures on this page are Vayoo’s own estimates and projections prepared for fundraising discussions. They are forward-looking, not guarantees, and should be read alongside the full materials available on request.</p>'+
+  '</div></section>';
+};
+
+/* --------------------------------------------------------------- LEGAL */
+ROUTES.legal = function(){
+  return '<div class="wrap"><div class="crumbs"><a href="#/">Home</a><span>/</span>Privacy &amp; terms</div></div>'+
+  '<section class="sec-tight"><div class="wrap" style="max-width:780px">'+
+    sectionHead('Legal','Privacy and terms','Plain language, because there is not much to hide behind at this stage.')+
+    '<div class="card rv" style="margin-bottom:18px" id="privacy">'+
+      '<h3>Privacy</h3>'+
+      '<p class="muted" style="margin-top:12px">This site does not run analytics, advertising trackers or third-party scripts. Nothing you type into a form on this site is transmitted from this page — the forms compose an email in your own mail application, which you choose to send or not.</p>'+
+      '<p class="muted" style="margin-top:12px">Your preferences (colour theme, comparison selection) are stored in your own browser and never leave it. Clearing your browser data removes them.</p>'+
+      '<p class="muted" style="margin-top:12px">If you do write to us, we use your details only to reply and, where relevant, to fulfil an order. We do not sell personal data. To access or delete anything you have sent us, write to <a href="mailto:abhinav@vayoo.store" style="color:var(--accent-tx)">abhinav@vayoo.store</a>.</p>'+
+    '</div>'+
+    '<div class="card rv" id="terms">'+
+      '<h3>Terms</h3>'+
+      '<p class="muted" style="margin-top:12px">Vayoo products are not yet on sale. Nothing on this site is an offer of sale, and no payment is taken here. Prices shown are intended launch prices and may change before products go on sale.</p>'+
+      '<p class="muted" style="margin-top:12px">Product specifications shown are those confirmed at the time of writing. Full specification sheets, warranty terms and service details are published before the first unit ships. Air quality figures shown on this site are illustrative and used to explain the index bands — they are not live readings or performance guarantees.</p>'+
+      '<p class="muted" style="margin-top:12px">Questions about any of this: <a href="mailto:abhinav@vayoo.store" style="color:var(--accent-tx)">abhinav@vayoo.store</a> or +91 70099 79996.</p>'+
+    '</div>'+
+  '</div></section>';
+};
+
+ROUTES.notfound = function(){
+  return '<section class="sec"><div class="wrap center" style="padding:60px 0">'+
+    '<h1>That page moved on.</h1>'+
+    '<p class="lede" style="margin:16px auto 30px">Nothing at this address. The range is the best place to start.</p>'+
+    '<div class="row" style="justify-content:center"><a class="btn btn-p btn-lg" href="#/products">See the range'+arrow()+'</a>'+
+    '<a class="btn btn-g btn-lg" href="#/">Home</a></div>'+
+  '</div></section>';
+};
+
+/* ============================================================================
+   ROUTER
+   ============================================================================ */
+var META = {
+  home:['Vayoo — Breathe Better | HEPA H13 air purifiers for car, desk and room','Medical-grade HEPA H13 air purifiers for the car, the desk and the room — from ₹1,800.'],
+  products:['Air purifiers — the Vayoo range','Three HEPA H13 air purifiers: C-10 for the car, D-10 for the desk, R-10 for the room.'],
+  compare:['Compare Vayoo air purifiers','Coverage, price and features for the C-10, D-10 and R-10 side by side.'],
+  sizing:['Find your fit — Vayoo','Answer two questions and get the Vayoo purifier rated for your space.'],
+  technology:['Technology — HEPA H13 filtration explained','What H13 means, what it captures at 0.3 microns, and what a HEPA filter cannot do.'],
+  about:['About Vayoo — our mission and team','Clean air as a birth-right, not a price bracket. The Vayoo story, mission and founders.'],
+  contact:['Contact Vayoo','Product questions, support, bulk orders and partnerships.'],
+  notify:['Join the Vayoo launch list','Be the first to know when Vayoo pre-orders open.'],
+  investors:['Investor relations — Vayoo','Vayoo is raising a seed round to scale affordable clean-air appliances across India.'],
+  legal:['Privacy and terms — Vayoo','How this site handles your data, and the terms that apply before launch.'],
+  notfound:['Page not found — Vayoo','']
+};
+
+function parseHash(){
+  var h=(location.hash||'#/').replace(/^#\/?/,'');
+  var qi=h.indexOf('?'), qs='', q={};
+  if(qi>-1){ qs=h.slice(qi+1); h=h.slice(0,qi); }
+  qs.split('&').forEach(function(kv){ if(!kv)return; var a=kv.split('='); q[decodeURIComponent(a[0])]=decodeURIComponent(a[1]||''); });
+  return {parts:h.split('/').filter(Boolean), q:q};
+}
+function setQ(k,v){
+  var r=parseHash(); if(v==null||v==='') delete r.q[k]; else r.q[k]=v;
+  var qs=Object.keys(r.q).map(function(k2){return encodeURIComponent(k2)+'='+encodeURIComponent(r.q[k2]);}).join('&');
+  location.hash='#/'+r.parts.join('/')+(qs?'?'+qs:'');
+}
+
+var lastKey='';
+function render(){
+  var r=parseHash(), parts=r.parts, key, html;
+  var map={'':'home',products:'products',compare:'compare',sizing:'sizing',technology:'technology',
+           about:'about',contact:'contact',notify:'notify',investors:'investors',legal:'legal'};
+  if(parts[0]==='p'){ key='product'; html=ROUTES.product(r.q,parts); }
+  else { key=map[parts[0]||'']||'notfound'; html=ROUTES[key](r.q,parts); }
+
+  var view=$('#view'); view.innerHTML=html;
+
+  /* meta */
+  var pk = key==='product' ? null : key;
+  var m = pk? META[pk] : (function(){ var p=byId(parts[1]); return p?[p.name+' — '+p.role+' | Vayoo',p.tagline+' '+p.area[0]+'–'+p.area[1]+' sq.ft. HEPA H-13. '+money(p.price)+'.']:META.notfound; })();
+  document.title=m[0];
+  var md=document.querySelector('meta[name=description]'); if(md) md.setAttribute('content',m[1]);
+
+  /* nav active state */
+  $$('.mainnav a').forEach(function(a){
+    var t=a.dataset.r;
+    a.classList.toggle('on', t===key || (key==='product'&&t==='products') || (key==='compare'&&t==='products'));
+  });
+
+  /* scroll behaviour */
+  if(lastKey!==location.hash){ window.scrollTo(0,0); }
+  lastKey=location.hash;
+
+  bindView();
+  observeReveal();
+  if(key==='home') bootAqi();
+}
+
+/* --------------------------------------------------------------- bindings */
+function bindView(){
+  var view=$('#view');
+
+  /* compare toggles */
+  $$('[data-cmp]',view).forEach(function(b){
+    b.addEventListener('click',function(e){ e.preventDefault(); toggleCompare(b.dataset.cmp); });
+  });
+  var cc=$('#cmpClear',view);
+  if(cc) cc.addEventListener('click',function(){ compare=[]; store.set('compare',compare); paintCompare(); render(); toast('Comparison cleared'); });
+
+  /* product filters */
+  $$('[data-f]',view).forEach(function(el){
+    if(el.tagName==='SELECT') el.addEventListener('change',function(){ setQ(el.dataset.f, el.value); });
+    else el.addEventListener('click',function(){ setQ(el.dataset.f, el.dataset.v); });
+  });
+
+  /* pdp gallery + tabs */
+  $$('[data-view]',view).forEach(function(b){
+    b.addEventListener('click',function(){ pdpState.view=+b.dataset.view; render(); });
+  });
+  $$('[data-tab]',view).forEach(function(b){
+    b.addEventListener('click',function(){
+      pdpState.tab=b.dataset.tab;
+      $$('[data-tab]',view).forEach(function(o){o.classList.toggle('on',o===b);});
+      $('.tabpane',view).innerHTML=pdpTab(byId(parseHash().parts[1]));
+    });
+  });
+
+  /* sizing tool */
+  $$('[data-space]',view).forEach(function(b){
+    b.addEventListener('click',function(){ sizing.space=b.dataset.space; render(); });
+  });
+  var ar=$('#areaR',view);
+  if(ar){
+    ar.addEventListener('input',function(){
+      sizing.area=+ar.value;
+      ar.style.setProperty('--p',((sizing.area-40)/460*100)+'%');
+      var lbl=ar.closest('.rangebox').querySelector('.tnum'); if(lbl) lbl.textContent=sizing.area;
+      var res=view.querySelector('.result');
+      var rec=recommend();
+      if(res&&rec){ res.outerHTML=sizingResult(rec); }
+      else if(rec){ ar.closest('.tool-body').insertAdjacentHTML('beforeend',sizingResult(rec)); }
+    });
+    ar.addEventListener('change',function(){ observeReveal(); });
+  }
+
+  /* forms */
+  bindForm($('#notifyForm',view), 'Vayoo launch list', 'You are on the list — finish by sending the email that just opened.');
+  bindForm($('#contactForm',view), 'Vayoo enquiry', 'Your message is ready — press send in the mail window that opened.');
+}
+
+function bindForm(form, subject, okMsg){
+  if(!form) return;
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var ok=true, data=[];
+    $$('.field',form).forEach(function(f){ f.classList.remove('bad'); });
+    $$('input,select,textarea',form).forEach(function(el){
+      var req=el.parentNode.querySelector('.req');
+      var val=(el.value||'').trim();
+      if(req && !val){ el.parentNode.classList.add('bad'); ok=false; }
+      if(el.type==='email' && val && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val)){ el.parentNode.classList.add('bad'); ok=false; }
+      if(val) data.push((el.name||el.id)+': '+val);
+    });
+    if(!ok){ toast('Check the highlighted fields'); $('.bad input,.bad textarea,.bad select',form).focus(); return; }
+    var body=data.join('\n')+'\n\n— sent from vayoo.store';
+    window.location.href='mailto:abhinav@vayoo.store?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+    toast(okMsg);
+    form.reset();
+  });
+}
+
+/* --------------------------------------------------------------- reveal */
+var io;
+function observeReveal(){
+  if(!('IntersectionObserver' in window)){ $$('.rv').forEach(function(e){e.classList.add('in');}); return; }
+  if(io) io.disconnect();
+  io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  },{rootMargin:'0px 0px -8% 0px',threshold:.06});
+  $$('.rv').forEach(function(e){ io.observe(e); });
+}
+
+/* --------------------------------------------------------------- chrome */
+function initTheme(){
+  var saved=store.get('theme',null);
+  if(saved) document.documentElement.setAttribute('data-theme',saved);
+  $('#themeBtn').addEventListener('click',function(){
+    var next=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',next);
+    document.querySelector('meta[name=theme-color]').setAttribute('content',next==='dark'?'#07011C':'#FBF9FF');
+    store.set('theme',next);
+  });
+}
+function initNav(){
+  var mnav=$('#mnav'), btn=$('#menuBtn');
+  function open(v){
+    mnav.classList.toggle('open',v);
+    mnav.setAttribute('aria-hidden',String(!v));
+    btn.setAttribute('aria-expanded',String(v));
+    document.body.style.overflow=v?'hidden':'';
+  }
+  btn.addEventListener('click',function(){ open(true); });
+  $('#mnavClose').addEventListener('click',function(){ open(false); });
+  $$('#mnav a').forEach(function(a){ a.addEventListener('click',function(){ open(false); }); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') open(false); });
+  /* rotating to landscape or widening past the breakpoint would otherwise
+     leave the drawer covering the page with body scroll still locked */
+  window.addEventListener('resize',function(){
+    if(window.innerWidth>1000 && mnav.classList.contains('open')) open(false);
+  });
+  $('#cmpBtn').addEventListener('click',function(){ location.hash='#/compare'; });
+
+  var hdr=$('#hdr');
+  var onScroll=function(){ hdr.classList.toggle('stuck', window.scrollY>8); };
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+}
+
+/* --------------------------------------------------------------- boot */
+$('#yr').textContent=new Date().getFullYear();
+initTheme();
+initNav();
+paintCompare();
+window.addEventListener('hashchange',render);
+render();
+
+/* structured data for search engines */
+var ld={"@context":"https://schema.org","@type":"Organization","name":"Vayoo","url":"https://vayoo.store",
+  "email":"abhinav@vayoo.store","telephone":"+91-7009979996","slogan":"Breathe Better",
+  "sameAs":["https://www.instagram.com/vayoo.store","https://www.linkedin.com/company/vayoo-store"],
+  "makesOffer":PRODUCTS.map(function(p){
+    return {"@type":"Offer","itemOffered":{"@type":"Product","name":p.name,"category":p.role,
+      "description":p.tagline},"price":p.price,"priceCurrency":"INR","availability":"https://schema.org/PreOrder"};
+  })};
+var s=document.createElement('script'); s.type='application/ld+json';
+s.textContent=JSON.stringify(ld); document.head.appendChild(s);
+
+})();
+</script>
 </body>
 </html>
