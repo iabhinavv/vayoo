@@ -666,7 +666,6 @@ html[data-theme="light"] .ico.leaf svg{stroke:#2C7C1E}
         <div class="stack">
           <a href="#/about">Our story</a>
           <a href="#/technology">How HEPA H13 works</a>
-          <a href="#/investors">Investor relations</a>
           <a href="#/contact">Contact &amp; support</a>
           <a href="#/notify">Launch updates</a>
         </div>
@@ -679,6 +678,7 @@ html[data-theme="light"] .ico.leaf svg{stroke:#2C7C1E}
           <span class="small dim">Mon–Fri, 9am–6pm IST</span>
           <a href="#/legal">Privacy</a>
           <a href="#/legal#terms">Terms</a>
+          <a href="#/for-investors">For investors</a>
         </div>
       </div>
     </div>
@@ -1427,31 +1427,7 @@ ROUTES.about = function(){
     '</div>'+
   '</div></section>'+
 
-  '<section class="sec-tight"><div class="wrap">'+
-    sectionHead('The team','Two founders, and a team of young enthusiasts',
-      'Our team brings together experience in D2C businesses, marketing, finance and startups. Beyond the founders, a team of young enthusiasts runs day-to-day operations.')+
-    '<div class="grid g2">'+
-      [{n:'Praful Chauhan',r:'Co-Founder',i:'PC',li:'https://www.linkedin.com/in/praful-chauhan-18037816a/',
-        b:['Extensive background in marketing and building modern D2C businesses.',
-           'Proven track record in driving early-stage startup growth and brand awareness.',
-           'Passionate about delivering high-quality, affordable clean-tech appliances to the Indian masses.']},
-       {n:'Abhinav Verma',r:'Co-Founder',i:'AV',li:'https://www.linkedin.com/in/iabhinavv',
-        b:['Core expertise in finance, operations and scaling consumer-focused startups.',
-           'Experienced in establishing lean supply chains for accessible pricing strategies.',
-           'Committed to revolutionising air quality in India for vulnerable communities.']}]
-      .map(function(f){
-        return '<div class="card hov rv founder">'+
-          '<div class="founder-top">'+
-            '<div class="row" style="gap:14px"><div class="avatar">'+f.i+'</div>'+
-            '<div><h3>'+f.n+'</h3><p class="small" style="color:var(--accent-tx)">'+f.r+'</p></div></div>'+
-            '<a class="li-link" href="'+f.li+'" target="_blank" rel="noopener" aria-label="'+f.n+' on LinkedIn">'+
-            '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9.5h4v11H3v-11zm7 0h3.8v1.5h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76v5.69h-4v-5.05c0-1.2-.02-2.75-1.75-2.75-1.75 0-2.02 1.3-2.02 2.66v5.14h-4v-11z"/></svg></a>'+
-          '</div>'+
-          '<ul class="checks">'+f.b.map(function(x){return '<li><span class="ic">'+check()+'</span><span>'+x+'</span></li>';}).join('')+'</ul>'+
-        '</div>';
-      }).join('')+
-    '</div>'+
-  '</div></section>'+ ctaBand();
+ ctaBand();
 };
 
 /* --------------------------------------------------------------- NOTIFY */
@@ -1463,30 +1439,8 @@ ROUTES.notify = function(q){
       '<h1 style="margin:16px 0 16px;font-size:clamp(2rem,4.6vw,3.1rem)">Tell us where to write.</h1>'+
       '<p class="lede">All three models are in final production. Leave your details and we will write once — the day pre-orders open — with pricing, the full specification sheet and how to order.</p></div>'+
     '<div class="split" style="align-items:start;gap:clamp(24px,4vw,44px)">'+
-      '<div class="card rv">'+
-        '<form class="form" id="notifyForm" novalidate>'+
-          '<div class="f2">'+
-            '<div class="field"><label for="n_name">Your name <span class="req">*</span></label>'+
-            '<input id="n_name" name="Name" placeholder="Who we should write to"><span class="err">Please tell us your name</span></div>'+
-            '<div class="field"><label for="n_city">City</label><input id="n_city" name="City" placeholder="Delhi NCR"></div>'+
-          '</div>'+
-          '<div class="f2">'+
-            '<div class="field"><label for="n_email">Email <span class="req">*</span></label>'+
-            '<input id="n_email" name="Email" type="email" placeholder="you@example.com"><span class="err">Please enter a valid email</span></div>'+
-            '<div class="field"><label for="n_phone">Phone</label><input id="n_phone" name="Phone" inputmode="numeric" maxlength="10" placeholder="10-digit mobile"></div>'+
-          '</div>'+
-          '<div class="field"><label for="n_model">Which model are you waiting for?</label>'+
-            '<select id="n_model" name="Model">'+
-              '<option value="Any / not sure yet"'+(!pre?' selected':'')+'>Any — tell me about all three</option>'+
-              PRODUCTS.map(function(p){
-                return '<option value="'+esc(p.name)+'"'+(pre&&pre.id===p.id?' selected':'')+'>'+esc(p.name)+' '+DOT+' '+esc(p.role)+'</option>';
-              }).join('')+
-            '</select></div>'+
-          '<div class="field"><label for="n_note">Anything you want us to know</label>'+
-            '<textarea id="n_note" name="Note" rows="3" placeholder="Room size, how many units, a question about the filter — anything."></textarea></div>'+
-          '<button type="submit" class="btn btn-p btn-lg btn-block">Join the launch list'+arrow()+'</button>'+
-          '<p class="xs dim">This opens a pre-filled email from your own mail app to abhinav@vayoo.store. Nothing is sent until you press send there, and nothing is stored on this site beyond your browser.</p>'+
-        '</form>'+
+      '<div class="card rv" style="padding:0;overflow:hidden;background:#fff">'+
+        '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSespDmvGhLIowHJU-HN2L1urQNjpe9_Mu_uBD-mF2-ebmoYPA/viewform?embedded=true" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>'+
       '</div>'+
       '<div class="rv" style="display:grid;gap:16px">'+
         (pre?'<div class="card" style="--pc:'+pre.accent+';padding:0;overflow:hidden">'+
@@ -1612,6 +1566,36 @@ ROUTES.investors = function(){
   '</div></section>';
 };
 
+/* --------------------------------------------------------------- FOR INVESTORS */
+ROUTES['for-investors'] = function(){
+  return '<div class="wrap"><div class="crumbs"><a href="#/">Home</a><span>/</span>For Investors</div></div>'+
+  '<section class="sec-tight"><div class="wrap">'+
+    sectionHead('The team','Two founders, and a team of young enthusiasts',
+      'Our team brings together experience in D2C businesses, marketing, finance and startups. Beyond the founders, a team of young enthusiasts runs day-to-day operations.')+
+    '<div class="grid g2">'+
+      [{n:'Praful Chauhan',r:'Co-Founder',i:'PC',li:'https://www.linkedin.com/in/praful-chauhan-18037816a/',
+        b:['Extensive background in marketing and building modern D2C businesses.',
+           'Proven track record in driving early-stage startup growth and brand awareness.',
+           'Passionate about delivering high-quality, affordable clean-tech appliances to the Indian masses.']},
+       {n:'Abhinav Verma',r:'Co-Founder',i:'AV',li:'https://www.linkedin.com/in/iabhinavv',
+        b:['Core expertise in finance, operations and scaling consumer-focused startups.',
+           'Experienced in establishing lean supply chains for accessible pricing strategies.',
+           'Committed to revolutionising air quality in India for vulnerable communities.']}]
+      .map(function(f){
+        return '<div class="card hov rv founder">'+
+          '<div class="founder-top">'+
+            '<div class="row" style="gap:14px"><div class="avatar">'+f.i+'</div>'+
+            '<div><h3>'+f.n+'</h3><p class="small" style="color:var(--accent-tx)">'+f.r+'</p></div></div>'+
+            '<a class="li-link" href="'+f.li+'" target="_blank" rel="noopener" aria-label="'+f.n+' on LinkedIn">'+
+            '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9.5h4v11H3v-11zm7 0h3.8v1.5h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76v5.69h-4v-5.05c0-1.2-.02-2.75-1.75-2.75-1.75 0-2.02 1.3-2.02 2.66v5.14h-4v-11z"/></svg></a>'+
+          '</div>'+
+          '<ul class="checks">'+f.b.map(function(x){return '<li><span class="ic">'+check()+'</span><span>'+x+'</span></li>';}).join('')+'</ul>'+
+        '</div>';
+      }).join('')+
+    '</div>'+
+  '</div></section>';
+};
+
 /* --------------------------------------------------------------- LEGAL */
 ROUTES.legal = function(){
   return '<div class="wrap"><div class="crumbs"><a href="#/">Home</a><span>/</span>Privacy &amp; terms</div></div>'+
@@ -1654,6 +1638,7 @@ var META = {
   contact:['Contact Vayoo','Product questions, support, bulk orders and partnerships.'],
   notify:['Join the Vayoo launch list','Be the first to know when Vayoo pre-orders open.'],
   investors:['Investor relations — Vayoo','Vayoo is raising a seed round to scale affordable clean-air appliances across India.'],
+  'for-investors':['For investors — Vayoo', 'Meet the founding team.'],
   legal:['Privacy and terms — Vayoo','How this site handles your data, and the terms that apply before launch.'],
   notfound:['Page not found — Vayoo','']
 };
@@ -1675,7 +1660,7 @@ var lastKey='';
 function render(){
   var r=parseHash(), parts=r.parts, key, html;
   var map={'':'home',products:'products',compare:'compare',sizing:'sizing',technology:'technology',
-           about:'about',contact:'contact',notify:'notify',investors:'investors',legal:'legal'};
+           about:'about',contact:'contact',notify:'notify',investors:'investors','for-investors':'for-investors',legal:'legal'};
   if(parts[0]==='p'){ key='product'; html=ROUTES.product(r.q,parts); }
   else { key=map[parts[0]||'']||'notfound'; html=ROUTES[key](r.q,parts); }
 
