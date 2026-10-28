@@ -334,3 +334,49 @@ CCPA guidance is that a disclaimer must be in the same language and font as the
 claim it qualifies, and cannot contradict it. The AQI panel's caveat is currently
 set smaller and dimmer than the figure it qualifies. It is honest, but if you run
 that panel as ad creative, raise the disclaimer to the same prominence.
+
+---
+
+## 10. City AQI lookup (added 28 Oct 2026)
+
+The hero gauge is now driven by a real city dataset with a "Check my city" search.
+
+**Data:** `build/aqidata.py` — 369 Indian cities across 17 states, US AQI,
+captured 28 Oct 2026 ~05:12 IST from aqi.in's live state tables. 294 are above
+the 100 threshold, 75 below, so both outcomes are reachable.
+
+**To update:** edit the numbers in `CITIES`, change `CAPTURED`, run
+`python3 build/build.py`. The site re-derives the worst city, the search index
+and the datalist automatically. Nothing else to touch.
+
+**Three outcomes:**
+| Input | Result |
+|---|---|
+| City above AQI 100 | Gauge switches to that city; Outdoors / With Vayoo before-and-after |
+| City at or below 100 | "Your city's current AQI is under the unhealthy levels, you probably don't need an air purifier" + buy-to-test CTA |
+| City not in the data | "We do not have a reading for X" + the same CTA; dial blanks rather than showing the previous city's number |
+
+Default view is the most polluted city in the dataset.
+
+**Scale changed to US AQI.** The data source publishes US AQI, which breaks at
+different numbers from CPCB (US 101–150 is "Unhealthy for Sensitive Groups";
+CPCB 101–200 is a single "Moderate" band). The gauge labels and the old "CPCB
+index" wording were changed to match the data rather than leave the two mixed.
+
+**Honesty guards, do not remove:**
+- The figure is labelled a dated snapshot with a source link, not a live feed
+- It says plainly that Indian air swings by season and these are indicative
+- The "with Vayoo" number stays a fixed illustration of the Good band — it is
+  deliberately **not** computed per city, because what a purifier achieves
+  depends on the room, not the city. A per-city "after" would be a performance
+  claim and would need test evidence under the CCPA advertising guidelines.
+- An unknown city gets "we have no reading", never "your air is fine"
+
+**One value was excluded:** Patti, Punjab read 291 against a next-highest of 195.
+That gap looks like a sensor spike, and it would have become the headline default.
+Add it back in `aqidata.py` if you want the raw feed.
+
+**The smaller option:** a live API (WAQI/aqi.in both offer one) replaces this
+whole file, is never stale, covers every city, and removes the refresh entirely.
+Roughly the same amount of code. Worth doing if you ever want to stop editing
+numbers by hand.

@@ -9,6 +9,21 @@ Google tag so the deny state is respected even once gtag loads.
 from legalconf import LEGAL
 
 CSS = """
+/* ---------- AQI city search ---------- */
+.aqi-search{position:relative;z-index:2;display:flex;gap:8px;margin:14px 0 2px}
+.aqi-search input{flex:1;min-width:0;padding:11px 14px;border-radius:100px;
+  border:1px solid rgba(255,255,255,.22);background:rgba(0,0,0,.3);color:#F5F0FF;
+  font-size:.9rem;transition:border-color .25s var(--ease)}
+.aqi-search input::placeholder{color:rgba(245,240,255,.5)}
+.aqi-search input:focus{outline:0;border-color:var(--leaf);
+  box-shadow:0 0 0 3px rgba(125,203,41,.18)}
+.aqi-search input::-webkit-search-cancel-button{filter:invert(1) opacity(.5)}
+.aqi-search .btn{flex:none}
+.aqi-city{position:relative;z-index:2;margin-top:10px;font-size:.78rem;
+  color:rgba(245,240,255,.72);min-height:1.2em}
+.aqi-city b{color:#fff;font-weight:600}
+#gCta{margin-top:14px}
+#gCta .btn{width:100%}
 /* ---------- cookie consent (added by build/consent.py) ---------- */
 .cc-scrim{position:fixed;inset:0;z-index:95;background:rgba(5,1,16,.55);
   backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:none}

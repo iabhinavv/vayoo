@@ -56,24 +56,58 @@ function reveal(){
 }
 reveal();
 
-/* ---- AQI gauge (home) ---- */
-var AQI_BANDS=[[50,'Good','var(--aqi-good)'],[100,'Satisfactory','var(--aqi-ok)'],
-  [200,'Moderate','var(--aqi-mid)'],[300,'Poor','var(--aqi-poor)'],
-  [400,'Very Poor','var(--aqi-vpoor)'],[500,'Severe','var(--aqi-sev)']];
+/* ---- AQI gauge + city lookup (home) ---- */
+/* US AQI bands: the dataset is US AQI, which breaks at different numbers from
+   the CPCB scale. Do not relabel these without also changing the data. */
+var AQI_BANDS=[[50,'Good','var(--aqi-good)'],[100,'Moderate','var(--aqi-ok)'],
+  [150,'Unhealthy for Sensitive Groups','var(--aqi-poor)'],
+  [200,'Unhealthy','var(--aqi-vpoor)'],[300,'Very Unhealthy','var(--aqi-sev)'],
+  [500,'Hazardous','var(--aqi-sev)']];
 function band(v){for(var i=0;i<AQI_BANDS.length;i++){if(v<=AQI_BANDS[i][0])return AQI_BANDS[i];}return AQI_BANDS[5];}
 (function(){
   var panel=$('#aqiPanel'); if(!panel) return;
-  var STATES={
-    out:{v:312,msg:'A winter morning in Delhi NCR sits deep in the <b>Very Poor</b> band. Indoors, with the doors shut, the number barely moves &mdash; the same air simply recirculates.'},
-    'in':{v:33,msg:'This is where the <b>Good</b> band sits on the same dial. A purifier&rsquo;s job is to keep turning a closed room&rsquo;s air through an H-13 filter &mdash; but where your own number lands depends on the room, how well it is sealed and how long the unit runs. We are not promising you this reading.'}
-  };
-  var cur=0,raf,settle;
-  function set(key){
-    var st=STATES[key],target=st.v,b=band(target);
-    $('#gMsg').innerHTML=st.msg;
-    /* pathLength=500 normalises the arc to the AQI scale, so the dash can never wrap */
-    $('#gArc').setAttribute('stroke-dashoffset',String(500-Math.min(target,500)));
+  var CITIES=[["Abohar","Punjab",175],["Adilabad","Telangana",99],["Adoni","Andhra Pradesh",94],["Agra","Uttar Pradesh",158],["Ahilyanagar","Maharashtra",77],["Ahmedabad","Gujarat",114],["Ajmer","Rajasthan",111],["Akola","Maharashtra",136],["Aligarh","Uttar Pradesh",153],["Allahabad","Uttar Pradesh",168],["Alwar","Rajasthan",152],["Amaravati","Andhra Pradesh",104],["Ambala","Haryana",134],["Ambernath","Maharashtra",137],["Amethi","Uttar Pradesh",154],["Amravati","Maharashtra",79],["Amritsar","Punjab",123],["Amroha","Uttar Pradesh",121],["Anakapalle","Andhra Pradesh",48],["Anand","Gujarat",121],["Anantapur","Andhra Pradesh",101],["Ankleshwar","Gujarat",92],["Araria","Bihar",115],["Arrah","Bihar",155],["Asansol","West Bengal",129],["Aurangabad","Bihar",142],["Aurangabad","Maharashtra",150],["Avadi","Tamil Nadu",112],["Ayodhya","Uttar Pradesh",137],["Azamgarh","Uttar Pradesh",174],["Badlapur","Maharashtra",132],["Bagalkote","Karnataka",83],["Baghpat","Uttar Pradesh",129],["Bahadurgarh","Haryana",154],["Baharampur","West Bengal",139],["Bahraich","Uttar Pradesh",131],["Ballari","Karnataka",98],["Balurghat","West Bengal",118],["Banda","Uttar Pradesh",141],["Bangaon","West Bengal",141],["Bankura","West Bengal",131],["Baran","Rajasthan",151],["Barasat","West Bengal",108],["Barddhaman","West Bengal",136],["Bareilly","Uttar Pradesh",154],["Barnala","Punjab",119],["Barrackpore","West Bengal",126],["Basirhat","West Bengal",106],["Bathinda","Punjab",145],["Begusarai","Bihar",190],["Belagavi","Karnataka",88],["Bengaluru","Karnataka",138],["Berhampore","West Bengal",143],["Bettiah","Bihar",158],["Bhagalpur","Bihar",165],["Bharatpur","Rajasthan",144],["Bharuch","Gujarat",96],["Bhatpara","West Bengal",133],["Bhavnagar","Gujarat",85],["Bhilwara","Rajasthan",109],["Bhimavaram","Andhra Pradesh",92],["Bhiwadi","Rajasthan",147],["Bhiwandi","Maharashtra",144],["Bhiwani","Haryana",136],["Bhojpur","Bihar",195],["Bhopal","Madhya Pradesh",144],["Bhuj","Gujarat",117],["Bhusawal","Maharashtra",141],["Bidar","Karnataka",103],["Bihar Sharif","Bihar",160],["Bijnor","Uttar Pradesh",86],["Bikaner","Rajasthan",100],["Budaun","Uttar Pradesh",156],["Bulandshahr","Uttar Pradesh",152],["Burhanpur","Madhya Pradesh",162],["Buxar","Bihar",159],["Chandannagar","West Bengal",128],["Chandigarh","Chandigarh",121],["Chandrapur","Maharashtra",88],["Chapra","Bihar",140],["Charkhi Dadri","Haryana",133],["Chengalpattu","Tamil Nadu",103],["Chennai","Tamil Nadu",110],["Chhatarpur","Madhya Pradesh",152],["Chhindwara","Madhya Pradesh",187],["Chikkaballapur","Karnataka",93],["Chikkamagaluru","Karnataka",99],["Chinsurah","West Bengal",145],["Chirala","Andhra Pradesh",100],["Chittaurgarh","Rajasthan",112],["Chittoor","Andhra Pradesh",88],["Churu","Rajasthan",133],["Coimbatore","Tamil Nadu",137],["Cuddalore","Tamil Nadu",125],["Cuddapah","Andhra Pradesh",111],["Dahod","Gujarat",88],["Daman","Gujarat",103],["Damoh","Madhya Pradesh",139],["Danapur","Bihar",132],["Darbhanga","Bihar",145],["Darjeeling","West Bengal",70],["Dausa","Rajasthan",105],["Davangere","Karnataka",97],["Dewas","Madhya Pradesh",144],["Dhar","Madhya Pradesh",137],["Dharmavaram","Andhra Pradesh",102],["Dharuhera","Haryana",153],["Dhule","Maharashtra",138],["Dindigul","Tamil Nadu",122],["Dombivli","Maharashtra",144],["Dum Dum","West Bengal",108],["Durgapur","West Bengal",133],["Dwarka","Gujarat",115],["Eluru","Andhra Pradesh",98],["English Bazar","West Bengal",125],["Erode","Tamil Nadu",129],["Etawah","Uttar Pradesh",158],["Faizabad","Uttar Pradesh",132],["Faridabad","Haryana",157],["Faridkot","Punjab",153],["Fatehabad","Haryana",114],["Fatehgarh Sahib","Punjab",111],["Fatehpur","Uttar Pradesh",138],["Fatehpur Sikri","Uttar Pradesh",156],["Firozabad","Uttar Pradesh",155],["Gandhidham","Gujarat",124],["Gandhinagar","Gujarat",110],["Gautam Buddha Nagar","Uttar Pradesh",152],["Gaya","Bihar",160],["Ghaziabad","Uttar Pradesh",142],["Ghazipur","Uttar Pradesh",159],["Godhra","Gujarat",93],["Gorakhpur","Uttar Pradesh",110],["Greater Noida","Uttar Pradesh",152],["Gulbarga","Karnataka",96],["Guna","Madhya Pradesh",159],["Guntur","Andhra Pradesh",91],["Gurdaspur","Punjab",118],["Gurgaon","Haryana",157],["Gwalior","Madhya Pradesh",161],["Hajipur","Bihar",158],["Haldia","West Bengal",94],["Hanamkonda","Telangana",105],["Hapur","Uttar Pradesh",129],["Hassan","Karnataka",100],["Hathras","Uttar Pradesh",157],["Haveri","Karnataka",93],["Himatnagar","Gujarat",122],["Hindupur","Andhra Pradesh",95],["Hisar","Haryana",128],["Hooghly","West Bengal",134],["Hoshiarpur","Punjab",103],["Hospet","Karnataka",97],["Hosur","Tamil Nadu",116],["Howrah","West Bengal",123],["Hubballi","Karnataka",84],["Hyderabad","Telangana",111],["Ichalkaranji","Maharashtra",104],["Indore","Madhya Pradesh",138],["Jabalpur","Madhya Pradesh",115],["Jagadhri","Haryana",98],["Jagtial","Telangana",107],["Jaipur","Rajasthan",111],["Jaisalmer","Rajasthan",101],["Jalandhar","Punjab",126],["Jalgaon","Maharashtra",154],["Jalpaiguri","West Bengal",71],["Jamnagar","Gujarat",122],["Jaunpur","Uttar Pradesh",167],["Jhajjar","Haryana",140],["Jhansi","Uttar Pradesh",158],["Jhargram","West Bengal",181],["Jind","Haryana",128],["Jodhpur","Rajasthan",100],["Kairana","Uttar Pradesh",125],["Kaithal","Haryana",124],["Kakinada","Andhra Pradesh",45],["Kalaburagi","Karnataka",96],["Kalyan","Maharashtra",147],["Kalyani","West Bengal",134],["Kamareddy","Telangana",107],["Kancheepuram","Tamil Nadu",102],["Kanpur","Uttar Pradesh",126],["Karimnagar","Telangana",109],["Karnal","Haryana",118],["Karur","Tamil Nadu",126],["Katihar","Bihar",158],["Katni","Madhya Pradesh",132],["Khajuraho","Madhya Pradesh",152],["Khambhat","Gujarat",112],["Khammam","Telangana",106],["Kharagpur","West Bengal",148],["Kharar","Punjab",132],["Kharghar","Maharashtra",129],["Khargone","Madhya Pradesh",147],["Khurja","Uttar Pradesh",150],["Kishanganj","Bihar",102],["Kodaikanal","Tamil Nadu",139],["Kolar","Karnataka",96],["Kolhapur","Maharashtra",100],["Kolkata","West Bengal",115],["Koppal","Karnataka",90],["Kota","Rajasthan",144],["Krishnanagar","West Bengal",128],["Kurnool","Andhra Pradesh",102],["Kurukshetra","Haryana",126],["Latur","Maharashtra",111],["Lucknow","Uttar Pradesh",132],["Ludhiana","Punjab",124],["Machilipatnam","Andhra Pradesh",99],["Madanapalle","Andhra Pradesh",92],["Madikeri","Karnataka",122],["Madurai","Tamil Nadu",129],["Mahbubnagar","Telangana",114],["Maihar","Madhya Pradesh",152],["Malaut","Punjab",146],["Malegaon","Maharashtra",128],["Mandsaur","Madhya Pradesh",117],["Mandya","Karnataka",95],["Manesar","Haryana",137],["Mangaluru","Karnataka",140],["Manipal","Karnataka",142],["Mathura","Uttar Pradesh",154],["Medinipur","West Bengal",106],["Meerut","Uttar Pradesh",121],["Mehsana","Gujarat",121],["Mewat","Haryana",151],["Mira Bhayandar","Maharashtra",132],["Mirzapur","Uttar Pradesh",170],["Modinagar","Uttar Pradesh",151],["Mohali","Punjab",104],["Moradabad","Uttar Pradesh",143],["Morena","Madhya Pradesh",163],["Motihari","Bihar",150],["Mount Abu","Rajasthan",119],["Mumbai","Maharashtra",139],["Mundra","Gujarat",116],["Munger","Bihar",177],["Muzaffarnagar","Uttar Pradesh",124],["Muzaffarpur","Bihar",134],["Mysuru","Karnataka",89],["Nabadwip","West Bengal",133],["Nagercoil","Tamil Nadu",142],["Nagpur","Maharashtra",110],["Naihati","West Bengal",135],["Nala Sopara","Maharashtra",132],["Nalgonda","Telangana",124],["Nanded","Maharashtra",113],["Nandyal","Andhra Pradesh",100],["Narasaraopet","Andhra Pradesh",104],["Narnaul","Haryana",152],["Nashik","Maharashtra",125],["Navi Mumbai","Maharashtra",131],["Navsari","Gujarat",99],["Neemuch","Madhya Pradesh",121],["Nellore","Andhra Pradesh",110],["New Delhi","Delhi",154],["Nizamabad","Telangana",112],["Noida","Uttar Pradesh",161],["Ongole","Andhra Pradesh",111],["Ooty","Tamil Nadu",124],["Osmanabad","Maharashtra",95],["Palghar","Maharashtra",128],["Pali","Rajasthan",98],["Palwal","Haryana",152],["Panchgani","Maharashtra",90],["Panchkula","Haryana",139],["Panihati","West Bengal",122],["Panipat","Haryana",150],["Panvel","Maharashtra",124],["Parbhani","Maharashtra",109],["Pathankot","Punjab",85],["Patiala","Punjab",119],["Patna","Bihar",156],["Pilibhit","Uttar Pradesh",92],["Pimpri Chinchwad","Maharashtra",97],["Pithampur","Madhya Pradesh",151],["Porbandar","Gujarat",111],["Prayagraj","Uttar Pradesh",185],["Proddatur","Andhra Pradesh",106],["Pune","Maharashtra",87],["Purnea","Bihar",121],["Pushkar","Rajasthan",104],["Raichur","Karnataka",100],["Raigad","Maharashtra",146],["Raiganj","West Bengal",114],["Rajamahendravaram","Andhra Pradesh",88],["Rajapalaiyam","Tamil Nadu",140],["Rajgir","Bihar",168],["Rajkot","Gujarat",114],["Ramagundam","Telangana",95],["Ramanagara","Karnataka",97],["Ramanathapuram","Tamil Nadu",134],["Rameswaram","Tamil Nadu",118],["Rampur","Uttar Pradesh",150],["Raniganj","West Bengal",135],["Ratlam","Madhya Pradesh",116],["Rewa","Madhya Pradesh",150],["Rewari","Haryana",150],["Rohtak","Haryana",145],["Rudrapur","Uttarakhand",159],["Rupnagar","Punjab",112],["Sagar","Madhya Pradesh",140],["Saharanpur","Uttar Pradesh",117],["Saharsa","Bihar",155],["Salem","Tamil Nadu",119],["Samastipur","Bihar",161],["Sambhal","Uttar Pradesh",130],["Sangareddy","Telangana",109],["Sangli","Maharashtra",84],["Sasaram","Bihar",174],["Satara","Maharashtra",85],["Satna","Madhya Pradesh",152],["Secunderabad","Telangana",117],["Serampore","West Bengal",112],["Shahjahanpur","Uttar Pradesh",128],["Shamli","Uttar Pradesh",99],["Shantipur","West Bengal",133],["Shivamogga","Karnataka",103],["Sikar","Rajasthan",114],["Siliguri","West Bengal",71],["Singrauli","Madhya Pradesh",153],["Sirsa","Haryana",125],["Sitapur","Uttar Pradesh",121],["Siwan","Bihar",154],["Solapur","Maharashtra",89],["Sonbhadra","Uttar Pradesh",114],["Sonipat","Haryana",147],["Sri Ganganagar","Rajasthan",182],["Srikakulam","Andhra Pradesh",57],["Srinagar","Jammu and Kashmir",154],["Surat","Gujarat",89],["Suryapet","Telangana",114],["Tenali","Andhra Pradesh",104],["Thane","Maharashtra",142],["Thanjavur","Tamil Nadu",111],["Thoothukudi","Tamil Nadu",144],["Tiruchirappalli","Tamil Nadu",123],["Tirupati","Andhra Pradesh",86],["Tiruppur","Tamil Nadu",128],["Tiruvallur","Tamil Nadu",83],["Tiruvannamalai","Tamil Nadu",109],["Tonk","Rajasthan",106],["Tumakuru","Karnataka",96],["Tuticorin","Tamil Nadu",139],["Udaipur","Rajasthan",117],["Udupi","Karnataka",145],["Ujjain","Madhya Pradesh",142],["Ulhasnagar","Maharashtra",142],["Uluberiya","West Bengal",104],["Vadodara","Gujarat",94],["Valparai","Tamil Nadu",134],["Valsad","Gujarat",117],["Vapi","Gujarat",103],["Varanasi","Uttar Pradesh",166],["Vasai Virar","Maharashtra",130],["Vellore","Tamil Nadu",85],["Vidisha","Madhya Pradesh",147],["Vijayapura","Karnataka",90],["Vijayawada","Andhra Pradesh",98],["Vikarabad","Telangana",101],["Visakhapatnam","Andhra Pradesh",53],["Vizianagaram","Andhra Pradesh",54],["Vrindavan","Uttar Pradesh",158],["Warangal","Telangana",105],["Yadgiri","Karnataka",100],["Yamuna Nagar","Haryana",109],["Yavatmal","Maharashtra",98],["Zirakpur","Punjab",137]], THRESHOLD=100, CLEAN_AQI=33;
+  var ROOT=(function(){
+    var l=document.querySelector('link[rel=stylesheet][href*="vayoo.css"]');
+    return l?l.getAttribute('href').replace('assets/vayoo.css',''):'';
+  })();
+  var index={}; CITIES.forEach(function(c){ index[c[0].toLowerCase()]=c; });
+
+  var dl=$('#cityList');
+  if(dl) dl.innerHTML=CITIES.map(function(c){
+    return '<option value="'+c[0]+'">'+c[1]+'</option>';}).join('');
+
+  var worst=CITIES.reduce(function(a,b){return b[2]>a[2]?b:a;});
+  var current=worst, mode='out', cur=0, raf, settle;
+
+  function esc(t){return String(t).replace(/[&<>"]/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+  function paintGauge(v){
+    var b=band(v);
+    $('#gArc').setAttribute('stroke-dashoffset',String(500-Math.min(v,500)));
     var be=$('#gBand'); be.style.color=b[2]; be.innerHTML='<i></i><span>'+b[1]+'</span>';
+    count(v);
+    return b;
+  }
+
+  function render(){
+    var dirty=current[2], target=(mode==='in')?CLEAN_AQI:dirty;
+    var b=paintGauge(target);
+    $('#aqiCity').innerHTML='<b>'+esc(current[0])+'</b>, '+esc(current[1])+
+      (current===worst?' &middot; most polluted in our data':'');
+    $('#gMsg').innerHTML = (mode==='in')
+      ? 'This is where the <b>Good</b> band sits on the same dial. A purifier keeps turning a '+
+        'closed room&rsquo;s air through an H-13 filter &mdash; but where your own number lands '+
+        'depends on the room, how well it is sealed and how long it runs. We are not promising '+
+        'you this reading.'
+      : '<b>'+esc(current[0])+'</b> read <b>'+dirty+'</b> on the US AQI scale &mdash; '+
+        b[1].toLowerCase()+'. Indoors with the doors shut that number barely moves: the same '+
+        'air simply recirculates.';
+    $('#gCta').innerHTML='';
+  }
+
+  function count(target){
     var from=cur,t0=null,dur=900;
     cancelAnimationFrame(raf); clearTimeout(settle);
     if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){
@@ -90,14 +124,62 @@ function band(v){for(var i=0;i<AQI_BANDS.length;i++){if(v<=AQI_BANDS[i][0])retur
       if(cur!==target){cur=target;cancelAnimationFrame(raf);$('#gVal').textContent=target;}
     },dur+120);
   }
+
+  function buyCta(){
+    return '<a class="btn btn-leaf btn-sm" href="'+ROOT+'air-purifiers/">'+
+           'Still in doubt? Buy one to test and future-proof your home</a>';
+  }
+  function setSeg(k){
+    mode=k;
+    $$('[data-aqi]',panel).forEach(function(o){
+      var on=o.dataset.aqi===k;
+      o.classList.toggle('on',on); o.setAttribute('aria-selected',String(on));});
+  }
+  function cleanVerdict(city){
+    current=city; setSeg('out');
+    paintGauge(city[2]);
+    $('#aqiCity').innerHTML='<b>'+esc(city[0])+'</b>, '+esc(city[1]);
+    $('#gMsg').innerHTML='<b>'+esc(city[0])+'</b> read <b>'+city[2]+'</b>. Your city&rsquo;s '+
+      'current AQI is under the unhealthy levels, so you probably don&rsquo;t need an air '+
+      'purifier.';
+    $('#gCta').innerHTML=buyCta();
+  }
+  function unknownVerdict(q){
+    /* blank the dial: leaving the previous city's number up would read as a
+       figure for the city just typed */
+    $('#gArc').setAttribute('stroke-dashoffset','500');
+    $('#gBand').innerHTML='<i></i><span>no data</span>';
+    $('#gBand').style.color='var(--tx-3)';
+    count(0);
+    $('#aqiCity').innerHTML='';
+    $('#gMsg').innerHTML='We do not have a reading for &ldquo;'+esc(q)+'&rdquo; in this '+
+      'snapshot. That is a gap in our data, not a verdict on your air &mdash; check a live '+
+      'source for your city before deciding.';
+    $('#gCta').innerHTML=buyCta();
+  }
+
   $$('[data-aqi]',panel).forEach(function(b){
-    b.addEventListener('click',function(){
-      $$('[data-aqi]',panel).forEach(function(o){o.classList.remove('on');o.setAttribute('aria-selected','false');});
-      b.classList.add('on');b.setAttribute('aria-selected','true');
-      set(b.dataset.aqi);
-    });
+    b.addEventListener('click',function(){ setSeg(b.dataset.aqi); render(); });
   });
-  setTimeout(function(){set('out');},260);
+
+  var form=$('#aqiSearch');
+  if(form) form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var q=($('#cityIn').value||'').trim();
+    if(!q) return;
+    var key=q.toLowerCase(), hit=index[key];
+    if(!hit){            /* forgiving: prefix first, then substring */
+      var keys=Object.keys(index);
+      var m=keys.filter(function(n){return n.indexOf(key)===0;});
+      if(!m.length) m=keys.filter(function(n){return n.indexOf(key)>-1;});
+      if(m.length) hit=index[m.sort()[0]];
+    }
+    if(!hit){ unknownVerdict(q); return; }
+    if(hit[2]>THRESHOLD){ current=hit; setSeg('out'); render(); }
+    else { cleanVerdict(hit); }
+  });
+
+  setTimeout(render,260);
 })();
 
 /* ---- sizing tool (find-your-fit) ---- */
@@ -109,12 +191,12 @@ function band(v){for(var i=0;i<AQI_BANDS.length;i++){if(v<=AQI_BANDS[i][0])retur
 
   function recommend(){
     if(!state.space) return null;
-    if(state.space==='car') return {p:byId('c10'),why:'The C-10 is the model built for a vehicle cabin \u2014 roughly 50 to 70 sq.ft. of enclosed space, with vertical wind circulation to turn the whole cabin over rather than one seat.'};
+    if(state.space==='car') return {p:byId('c10'),why:'The C-10 is the model built for a vehicle cabin \\u2014 roughly 50 to 70 sq.ft. of enclosed space, with vertical wind circulation to turn the whole cabin over rather than one seat.'};
     var a=state.area;
-    if(a<=70)  return {p:byId('c10'),why:'At '+a+' sq.ft. the C-10 is enough. It is rated for 50\u201370 sq.ft., which covers a space this size comfortably.'};
-    if(a<=125) return {p:byId('d10'),why:'At '+a+' sq.ft. the D-10 is the right fit \u2014 rated for 80\u2013125 sq.ft., and quiet enough to sit beside you all day.'};
-    if(a<=400) return {p:byId('r10'),why:'At '+a+' sq.ft. you need the R-10. It is rated for 350\u2013400 sq.ft. and carries the on-board AQI meter, so you can watch the room change.'};
-    return {p:byId('r10'),over:true,why:'At '+a+' sq.ft. you are past the rated coverage of a single R-10 (350\u2013400 sq.ft.). Two units, or one per zone, is the honest answer \u2014 tell us the layout and we will say what will actually work rather than sell you one and hope.'};
+    if(a<=70)  return {p:byId('c10'),why:'At '+a+' sq.ft. the C-10 is enough. It is rated for 50\\u201370 sq.ft., which covers a space this size comfortably.'};
+    if(a<=125) return {p:byId('d10'),why:'At '+a+' sq.ft. the D-10 is the right fit \\u2014 rated for 80\\u2013125 sq.ft., and quiet enough to sit beside you all day.'};
+    if(a<=400) return {p:byId('r10'),why:'At '+a+' sq.ft. you need the R-10. It is rated for 350\\u2013400 sq.ft. and carries the on-board AQI meter, so you can watch the room change.'};
+    return {p:byId('r10'),over:true,why:'At '+a+' sq.ft. you are past the rated coverage of a single R-10 (350\\u2013400 sq.ft.). Two units, or one per zone, is the honest answer \\u2014 tell us the layout and we will say what will actually work rather than sell you one and hope.'};
   }
   function paint(){
     var rec=recommend();
@@ -126,7 +208,7 @@ function band(v){for(var i=0;i<AQI_BANDS.length;i++){if(v<=AQI_BANDS[i][0])retur
       '<div class="result-top">'+
         '<img src="'+ROOT+'assets/derived/'+p.id+'-product.png" alt="'+p.name+'" width="78" height="100">'+
         '<div style="flex:1;min-width:200px"><h3>'+p.name+'</h3>'+
-        '<p class="small muted">'+p.role+' \u00b7 '+p.area[0]+'\u2013'+p.area[1]+' sq.ft. \u00b7 <b class="tnum">'+p.priceText+'</b></p></div>'+
+        '<p class="small muted">'+p.role+' \\u00b7 '+p.area[0]+'\\u2013'+p.area[1]+' sq.ft. \\u00b7 <b class="tnum">'+p.priceText+'</b></p></div>'+
       '</div>'+
       '<p class="small">'+rec.why+'</p>'+
       '<div class="row"><a class="btn btn-p btn-sm" href="'+ROOT+'air-purifiers/'+p.slug+'/">See the '+p.name+'</a>'+

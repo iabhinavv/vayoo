@@ -15,6 +15,8 @@ from datetime import date
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import pages as P
+import aqidata as AQ
+import sitejs
 import legal as L
 import consent
 from legalconf import unfilled
@@ -442,6 +444,23 @@ def main():
                    '</div></div></section>')
     with open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8") as f:
         f.write(render(nf))
+
+    # site JS, with product and city data injected so they cannot drift
+    js = sitejs.TEMPLATE
+    js = js.replace("__PRODUCTS__", json.dumps(
+        [dict(id=p["id"], slug=p["slug"], name=p["name"], role=p["role"],
+              price=p["price"], priceText=money(p["price"]), area=list(p["area"]),
+              accent=p["accent"]) for p in PRODUCTS],
+        ensure_ascii=False, separators=(",", ":")))
+    js = js.replace("__CITIES__", json.dumps(
+        [[c, st, a] for c, st, a in sorted(AQ.CITIES)],
+        ensure_ascii=False, separators=(",", ":")))
+    js = js.replace("__THRESHOLD__", str(AQ.AQI_THRESHOLD))
+    with open(os.path.join(ROOT, "assets", "vayoo.js"), "w", encoding="utf-8") as f:
+        f.write(js)
+    over = sum(1 for c in AQ.CITIES if c[2] > AQ.AQI_THRESHOLD)
+    print("  assets/vayoo.js          %d cities (%d above AQI %d), captured %s"
+          % (len(AQ.CITIES), over, AQ.AQI_THRESHOLD, AQ.CAPTURED))
 
     # consent script (gated tags) and its styles
     with open(os.path.join(ROOT, "assets", "vayoo-consent.js"), "w", encoding="utf-8") as f:

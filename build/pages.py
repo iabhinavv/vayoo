@@ -29,6 +29,7 @@ def flow_svg():
 
 
 def aqi_panel():
+    import aqidata as A
     return (
     '<div class="aqi-panel rv" id="aqiPanel">' + flow_svg() +
     '<div class="aqi-head"><span class="lbl">Air quality index</span>'
@@ -36,6 +37,13 @@ def aqi_panel():
     '<button data-aqi="out" class="on" role="tab" aria-selected="true">Outdoors</button>'
     '<button data-aqi="in" role="tab" aria-selected="false">With Vayoo</button>'
     '</div></div>'
+    '<form class="aqi-search" id="aqiSearch" role="search" autocomplete="off">'
+    '<input id="cityIn" type="search" placeholder="Check my city" '
+    'aria-label="Check my city" list="cityList" spellcheck="false">'
+    '<datalist id="cityList"></datalist>'
+    '<button type="submit" class="btn btn-leaf btn-sm">Check</button>'
+    '</form>'
+    '<p class="aqi-city" id="aqiCity"></p>'
     '<div class="gauge-wrap">'
     '<svg class="gauge" viewBox="0 0 240 200" aria-hidden="true">'
     '<defs><linearGradient id="gg" x1="0" y1="1" x2="1" y2="0">'
@@ -51,11 +59,13 @@ def aqi_panel():
     '<div class="gauge-val"><span class="v tnum" id="gVal">0</span><span class="u">AQI</span>'
     '<div><span class="gauge-band" id="gBand"><i></i><span>&mdash;</span></span></div></div>'
     '</div>'
-    '<div class="aqi-foot"><p id="gMsg">A winter morning in Delhi NCR sits deep in the '
-    '<b>Very Poor</b> band. Indoors, with the doors shut, the number barely moves &mdash; '
-    'the same air simply recirculates.</p>'
-    '<p class="aqi-note">Illustrative figures on the CPCB index, shown to explain the bands. '
-    'Not a live reading, and not a performance claim for any Vayoo model.</p></div></div>')
+    '<div class="aqi-foot"><p id="gMsg"></p><div id="gCta"></div>'
+    '<p class="aqi-note">Outdoor figures are a snapshot of US AQI readings taken on '
+    + A.CAPTURED + ', from <a href="' + A.SOURCE_URL + '" target="_blank" rel="noopener '
+    'nofollow">' + A.SOURCE_NAME + '</a> &mdash; not a live feed. Indian air swings hard by '
+    'season, so treat these as indicative rather than today&rsquo;s number. The &ldquo;with '
+    'Vayoo&rdquo; figure illustrates the Good band and is not a performance claim for any '
+    'Vayoo model.</p></div></div>')
 
 
 # =============================================================================
