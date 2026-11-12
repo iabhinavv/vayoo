@@ -325,8 +325,34 @@ def terms(d=1):
         "decline an order &mdash; for example where stock has run out, the delivery address is "
         "outside our service area, or we suspect fraud &mdash; and we will refund any payment "
         "taken.")
-        + _p("You may cancel before dispatch for a full refund. Delivery timelines, charges and "
-             "serviceable areas will be published before the first sale and shown at checkout.")))
+        + _p("You may cancel any time before dispatch for a full refund. Once a unit has been "
+             "handed to the courier, cancellation becomes a return under clause 8.")
+        + _p("<b>Dispatch and delivery.</b>")
+        + _table(["", "What applies"],
+                 [["Dispatch", "Within " + val("dispatch_window") + " working days of a "
+                   "confirmed order"],
+                  ["Delivery", val("delivery_window") + " working days from dispatch, depending "
+                   "on your location"],
+                  ["Charge", val("shipping_charge")],
+                  ["Courier", val("courier_partners")],
+                  ["Serviceable areas", val("serviceable_areas")],
+                  ["Tracking", "A tracking link is emailed on dispatch"]])
+        + _p("Timelines are working days, exclude public holidays, and are estimates rather than "
+             "guarantees. We will tell you if an order is going to run materially late and you "
+             "may cancel for a full refund at that point.")
+        + _p("<b>Delivery attempts and address errors.</b> Our courier will attempt delivery up "
+             "to three times. If delivery fails because the address was wrong or incomplete, or "
+             "nobody was available across all attempts, the unit returns to us and we refund the "
+             "price paid less the actual outbound and return shipping cost. Please check the "
+             "address before confirming the order.")
+        + _p("<b>Damage or loss in transit.</b> Risk stays with us until the unit reaches you. "
+             "If it arrives damaged, or the outer packaging is visibly tampered with, refuse the "
+             "delivery where you can and tell us within <b>48 hours</b> with photographs. We "
+             "will replace it or refund it in full, including shipping, at no cost to you. "
+             "Reported after 48 hours we will still look at it, but we may not be able to claim "
+             "against the courier.")
+        + _p("<b>Wrong or missing items.</b> Tell us within 7 days of delivery and we will send "
+             "the correct item and arrange pickup of anything sent in error, at our cost.")))
 
     b.append(_s(8, "Returns, refunds and the Watch-It-Work Guarantee", _p(
         "<b>The Watch-It-Work Guarantee.</b> Shut the room, run the Vayoo R-10 for one hour and "

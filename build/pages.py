@@ -37,7 +37,7 @@ def aqi_panel():
     '<button data-aqi="out" class="on" role="tab" aria-selected="true">Outdoors</button>'
     '<button data-aqi="in" role="tab" aria-selected="false">With Vayoo</button>'
     '</div></div>'
-    '<form class="aqi-search" id="aqiSearch" role="search" autocomplete="off">'
+    '<form class="aqi-search" id="aqiSearch" role="search" autocomplete="off" onsubmit="return false">'
     '<input id="cityIn" type="search" placeholder="Check my city" '
     'aria-label="Check my city" list="cityList" spellcheck="false">'
     '<datalist id="cityList"></datalist>'
@@ -63,7 +63,7 @@ def aqi_panel():
     '<p class="aqi-note">Outdoor figures are a snapshot of US AQI readings taken on '
     + A.CAPTURED + ', from <a href="' + A.SOURCE_URL + '" target="_blank" rel="noopener '
     'nofollow">' + A.SOURCE_NAME + '</a> &mdash; not a live feed. Indian air swings hard by '
-    'season, so treat these as indicative rather than today&rsquo;s number. The &ldquo;with '
+    'season, so treat these as indicative rather than today&rsquo;s number. The index formally tops out at 500; readings above that are the source&rsquo;s own extrapolation during severe episodes. The &ldquo;with '
     'Vayoo&rdquo; figure illustrates the Good band and is not a performance claim for any '
     'Vayoo model.</p></div></div>')
 

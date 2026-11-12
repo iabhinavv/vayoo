@@ -33,6 +33,13 @@ LEGAL = {
     "dpo_name":  PH + ": name of the person answering data-protection queries",
     "dpo_email": "privacy@vayoo.store",
 
+    # --- shipping (Consumer Protection (E-Commerce) Rules 2020, r.4(3)) ---
+    "dispatch_window":   PH + ": working days from order to dispatch, e.g. 2-3",
+    "delivery_window":   PH + ": working days from dispatch to delivery, e.g. 4-7",
+    "shipping_charge":   PH + ": delivery charge and any free-delivery threshold",
+    "courier_partners":  PH + ": courier partners you will name at checkout",
+    "serviceable_areas": PH + ": serviceable area, e.g. all India except specified PIN codes",
+
     "country_of_origin": PH + ": country of origin of the units as per Legal Metrology rules",
     "effective_date": "27 October 2026",
 

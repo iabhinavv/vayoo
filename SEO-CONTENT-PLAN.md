@@ -341,9 +341,22 @@ that panel as ad creative, raise the disclaimer to the same prominence.
 
 The hero gauge is now driven by a real city dataset with a "Check my city" search.
 
-**Data:** `build/aqidata.py` — 369 Indian cities across 17 states, US AQI,
-captured 28 Oct 2026 ~05:12 IST from aqi.in's live state tables. 294 are above
-the 100 threshold, 75 below, so both outcomes are reachable.
+**Data:** `build/aqidata.py` — 354 Indian cities across 14 states, US AQI,
+refreshed 12 Nov 2026 from aqi.in's live state tables.
+
+> **Refreshed 12 Nov 2026.** The 28 Oct snapshot had gone badly wrong: Ghaziabad
+> 142→699, Aligarh 153→821, Noida 161→626, New Delhi 154→674. The site was
+> understating Delhi NCR by 3–5× for two weeks. Fifteen cities no longer in the
+> feed were dropped rather than left on stale numbers.
+>
+> **All 354 cities are now above the 100 threshold**, so the "you probably don't
+> need a purifier" branch is dormant until air improves in spring. It still works
+> — verified by temporarily raising the threshold so Mumbai (148) routed to it.
+>
+> Values above 500 are kept exactly as the source publishes them. The index
+> formally tops out at 500; aqi.in extrapolates past it in severe episodes
+> (Barnala 892). Rewriting their number to 500 would contradict the source we
+> cite and link, so the panel note explains the extrapolation instead.
 
 **To update:** edit the numbers in `CITIES`, change `CAPTURED`, run
 `python3 build/build.py`. The site re-derives the worst city, the search index
@@ -353,7 +366,7 @@ and the datalist automatically. Nothing else to touch.
 | Input | Result |
 |---|---|
 | City above AQI 100 | Gauge switches to that city; Outdoors / With Vayoo before-and-after |
-| City at or below 100 | "Your city's current AQI is under the unhealthy levels, you probably don't need an air purifier" + buy-to-test CTA |
+| City at or below 100 (none at present) | "Your city's current AQI is under the unhealthy levels, you probably don't need an air purifier" + buy-to-test CTA |
 | City not in the data | "We do not have a reading for X" + the same CTA; dial blanks rather than showing the previous city's number |
 
 Default view is the most polluted city in the dataset.
@@ -380,3 +393,21 @@ Add it back in `aqidata.py` if you want the raw feed.
 whole file, is never stale, covers every city, and removes the refresh entirely.
 Roughly the same amount of code. Worth doing if you ever want to stop editing
 numbers by hand.
+
+
+---
+
+## 11. Shipping terms (added 12 Nov 2026)
+
+Folded into `/terms/` clause 7 rather than a separate page — the clause already
+covered orders and delivery, and the E-Commerce Rules want this information
+disclosed, not on its own URL.
+
+Covers: dispatch and delivery windows, charge, courier, serviceable areas,
+tracking, failed delivery and address errors, damage or loss in transit (risk
+stays with Vayoo until delivery; 48-hour reporting window with photographs), and
+wrong or missing items.
+
+Five new placeholders in `build/legalconf.py`, rendering as red markers until
+filled: `dispatch_window`, `delivery_window`, `shipping_charge`,
+`courier_partners`, `serviceable_areas`. Fourteen placeholders outstanding in all.
